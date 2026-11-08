@@ -218,7 +218,7 @@
             "name": "Late Jobs",
             "expression": "CALCULATE(COUNTROWS(JOBS), JOBS[delivery] = \"late\")",
             "formatString": "0",
-            "description": "Completed jobs handed over after their planned end date. Jobs still open are not late yet."
+            "description": "Completed jobs handed over more than 7 days after their planned end date. Fixit's contracts give the client a week's grace before the late-completion discount applies, so a job handed over within that week counts as on time. Jobs still open are not late yet."
           }
         ],
         "partitions": [
@@ -229,7 +229,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,        CASE WHEN p.actual_end_date > p.planned_end_date THEN 'late' ELSE 'on_time' END AS delivery FROM fixit.site.projects p WHERE p.status = 'complete'\")",
+                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,        CASE WHEN date_diff('day', p.planned_end_date, p.actual_end_date) > 7 THEN 'late' ELSE 'on_time' END AS delivery FROM fixit.site.projects p WHERE p.status = 'complete'\")",
                 "in",
                 "    Source"
               ]
