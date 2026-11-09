@@ -19,6 +19,6 @@ Everything lives in `box-office/` (read `box-office/README.md` first). Nothing l
    agent with the Atlan analytics plugin, as `box-office/README.md` shows.
 4. **Questions.** Answer questions about the box office with `python box-office/q.py` only
    (read-only). State the definition you used in one line under each answer. Do not show
-   customer names, email addresses, phone numbers or dates of birth.
+   customer names, email addresses, phone numbers, dates of birth or card details.
 
 Rules: read-only SQL; keep each reply to a status line and one next action.

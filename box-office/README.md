@@ -7,10 +7,12 @@ steps: start from the dashboard, generate metrics and evals, run your agent, and
 ## The firm
 
 TicketMonster sells tickets for six venues in Port Mallory and Little Hampden, from a 60-seat
-basement club to a 1,000-capacity field by the river. Sixteen acts play 44 shows between July
-2025 and December 2026: The Grumpy Moose sell out the arena twice, Kevin From Accounting gets
-postponed, and Velvet Thunder's singer loses their voice three days before the gig. Fans buy
-online, in the app or at the box office, and some of them resell. The data runs to 31 October 2026.
+basement club to a 1,000-capacity field by the river. Sixteen acts play 45 shows between July
+2025 and December 2026: The Grumpy Moose sell out the arena so fast they add a third night, it
+rains on their field show, Kevin From Accounting gets postponed, and Velvet Thunder's singer loses
+their voice three days before the gig. Fans buy online, in the app or at the box office, some of
+them resell, and the gates scan everyone who walks in. Somebody keeps buying eight at a time. The
+data runs to 31 October 2026.
 
 ## Set up (2 minutes)
 
@@ -57,14 +59,16 @@ Build an eval set for these metrics, run a baseline with a fresh agent per quest
 |---|---|---|
 | `tix.venues` | 7 | a venue |
 | `tix.artists` | 17 | an act |
-| `tix.events` | 45 | a show |
+| `tix.events` | 46 | a show, and the weather for the outdoor ones |
 | `tix.fee_schedule` | 16 | a fee rule, with when it applies and who keeps it |
-| `tix.customers` | 2,409 | a TicketMonster account |
-| `tix.orders` | 6,548 | one checkout: primary, resale or box office |
-| `tix.tickets` | 14,439 | one ticket in an order |
-| `tix.refunds` | 492 | money paid back on an order |
-| `query.history` | 709 | one statement run on the SQL warehouse, August to October 2026 |
-| `atlan.query_shapes` | 57 | one distinct finished SELECT, with its run and user counts |
+| `tix.customers` | 2,418 | a TicketMonster account |
+| `tix.orders` | 6,911 | one checkout: primary, resale or box office |
+| `tix.payments` | 6,783 | how an order was paid: method, card and device |
+| `tix.tickets` | 15,327 | one ticket in an order |
+| `tix.refunds` | 509 | money paid back on an order |
+| `tix.scans` | 10,760 | one barcode scanned at a venue gate, and whether it got in |
+| `query.history` | 756 | one statement run on the SQL warehouse, August to October 2026 |
+| `atlan.query_shapes` | 68 | one distinct finished SELECT, with its run and user counts |
 
 The dashboard, *Box Office Pulse*, has four tiles (gross sales, fees as a share of what fans
 paid, net fee revenue and sell-through) and three charts. Its three data sources are custom
@@ -72,13 +76,14 @@ SQL on a Databricks SQL warehouse.
 
 The query history is laid out the way Databricks keeps `system.query.history`: one row per
 statement, with who ran it, from which tool, whether it finished, and how long it took. Finance,
-the press office, marketing, venue operations, data engineering and the dashboard's own
-refreshes all appear. `history/query_history.jsonl` is the export; `q.py` loads it as
+the press office, marketing, venue operations, trust and safety, data engineering and the
+dashboard's own refreshes all appear. `history/query_history.jsonl` is the export; `q.py` loads it as
 `query.history` and groups it as `atlan.query_shapes`, the way the Atlan plugin's one-time admin
 view does.
 
-`customers` holds names, email addresses, phone numbers and dates of birth. They are made up
-(every address is on an `example` domain and every number is a 555-01xx fiction number), but
-treat them the way you would treat the real thing.
+`customers` holds names, email addresses, phone numbers and dates of birth, and `payments` holds
+card details and device IDs. They are made up (every address is on an `example` domain, every
+number is a 555-01xx fiction number, and card fingerprints are random), but treat them the way
+you would treat the real thing.
 
 The SQL in the history and the workbook is written so it runs on SQLite.

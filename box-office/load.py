@@ -1,8 +1,8 @@
 """Build the box office's SQLite database from its CSVs: python box-office/load.py  (standard library only).
 
-Writes box-office/tix.sqlite with the eight tix tables. Column types are inferred from the CSVs:
+Writes box-office/tix.sqlite with the ten tix tables. Column types are inferred from the CSVs:
 whole numbers become INTEGER, other numbers REAL, everything else (dates and timestamps included)
-TEXT. Identifier columns (`*_id`) stay TEXT. The query history stays in history/query_history.jsonl;
+TEXT. Identifier columns (`*_id`) and card details stay TEXT. The query history stays in history/query_history.jsonl;
 q.py loads it on each run.
 """
 import csv
@@ -11,11 +11,12 @@ import sqlite3
 
 HERE = pathlib.Path(__file__).resolve().parent
 DB = HERE / "tix.sqlite"  # the file name is the schema name: tix.events, tix.orders, ...
-TABLES = ("venues", "artists", "events", "fee_schedule", "customers", "orders", "tickets", "refunds")
+TABLES = ("venues", "artists", "events", "fee_schedule", "customers", "orders", "tickets", "refunds",
+          "scans", "payments")
 
 
 def column_type(name, values) -> str:
-    if name.endswith("_id"):
+    if name.endswith("_id") or name in ("card_last4", "card_fingerprint"):
         return "TEXT"
     for kind, cast in (("INTEGER", int), ("REAL", float)):
         try:

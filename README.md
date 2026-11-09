@@ -37,7 +37,7 @@ No warehouse connected yet? Two made-up firms let you try the week-one steps on 
 
 - The [builder's yard](yard/): a small building firm with five tables, a Power BI dashboard and
   a Snowflake-style query history. Paste: `Set up the builder's yard and show me its dashboard`.
-- The [box office](box-office/): a ticketing firm with eight tables, a Tableau dashboard and a
+- The [box office](box-office/): a ticketing firm with ten tables, a Tableau dashboard and a
   Databricks-style query history, with more to untangle. Paste:
   `Set up the box office and show me its dashboard`.
 
