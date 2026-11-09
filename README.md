@@ -41,6 +41,8 @@ No warehouse connected yet? Two made-up firms let you try the week-one steps on 
   Databricks-style query history, with more to untangle. Paste:
   `Set up the box office and show me its dashboard`.
 
+To look round either firm first, take its [tour](https://atlanai.github.io/analytics-agent-accelerator/).
+
 ## What the agent does
 
 | Step | What happens |

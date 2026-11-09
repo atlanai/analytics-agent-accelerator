@@ -1,6 +1,7 @@
 # The builder's yard
 
-A small, made-up building firm to practise on before you build on your own data. You take the
+A small, made-up building firm to practise on before you build on your own data. Take the
+[yard tour](https://atlanai.github.io/analytics-agent-accelerator/yard-tour/) first for a look round. You take the
 same steps as week one: start from a dashboard, generate metrics and evals, run your agent, and
 see the score.
 
@@ -36,7 +37,7 @@ Power BI account is needed. With the Atlan Analytics plugin installed, in Claude
 app chat:
 
 ```text
-Use Atlan Analytics to set up this repository so I can ask questions about its data:
+Use Atlan Analytics to set up the yard folder of this repository so I can ask questions about its data:
 https://github.com/atlanai/analytics-agent-accelerator
 ```
 

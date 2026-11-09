@@ -1,6 +1,6 @@
 ---
 name: box-office
-description: Sets up the accelerator's second practice estate, the box office (TicketMonster, a made-up ticketing firm), on the participant's laptop - builds its SQLite database from CSV, shows the Tableau dashboard it starts from, and answers questions on it read-only. Use when the user asks to set up or try the box office, TicketMonster, the ticketing practice data, or the Tableau or Databricks practice estate.
+description: Sets up the accelerator's second practice estate, the box office (Gatewhistle, a made-up ticketing firm), on the participant's laptop - builds its SQLite database from CSV, shows the Tableau dashboard it starts from, and answers questions on it read-only. Use when the user asks to set up or try the box office, Gatewhistle, the ticketing practice data, or the Tableau or Databricks practice estate.
 compatibility: Any coding agent with a shell and Python 3.10+. Uses the built-in sqlite3 module; installs nothing.
 ---
 

@@ -3,10 +3,12 @@
 A second made-up company to practise on, with more going on than the builder's yard: a ticketing
 firm, a Tableau dashboard, and a Databricks-style query history. You take the same week-one
 steps: start from the dashboard, generate metrics and evals, run your agent, and see the score.
+Take the [box office tour](https://atlanai.github.io/analytics-agent-accelerator/box-office-tour/)
+first for a look round.
 
 ## The firm
 
-TicketMonster sells tickets for six venues in Port Mallory and Little Hampden, from a 60-seat
+Gatewhistle sells tickets for six venues in Port Mallory and Little Hampden, from a 60-seat
 basement club to a 1,000-capacity field by the river. Sixteen acts play 45 shows between July
 2025 and December 2026: The Grumpy Moose sell out the arena so fast they add a third night, it
 rains on their field show, Kevin From Accounting gets postponed, and Velvet Thunder's singer loses
@@ -43,7 +45,7 @@ https://github.com/atlanai/analytics-agent-accelerator
 ```
 
 The plugin finds the workbook, the CSVs and the query history, loads the data into SQLite,
-previews the metrics and SQL, and asks where to publish them. For the week-one score, ask next:
+previews the metrics and SQL, and asks where to publish them. It installs nothing. For the week-one score, ask next:
 
 ```text
 Build an eval set for these metrics, run a baseline with a fresh agent per question, and show me the score.
@@ -61,7 +63,7 @@ Build an eval set for these metrics, run a baseline with a fresh agent per quest
 | `tix.artists` | 17 | an act |
 | `tix.events` | 46 | a show, and the weather for the outdoor ones |
 | `tix.fee_schedule` | 16 | a fee rule, with when it applies and who keeps it |
-| `tix.customers` | 2,418 | a TicketMonster account |
+| `tix.customers` | 2,418 | a Gatewhistle account |
 | `tix.orders` | 6,911 | one checkout: primary, resale or box office |
 | `tix.payments` | 6,783 | how an order was paid: method, card and device |
 | `tix.tickets` | 15,327 | one ticket in an order |
