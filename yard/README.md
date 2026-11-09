@@ -44,8 +44,15 @@ The plugin finds the yard's report, CSVs and query history, loads the data into 
 the metrics and SQL, and asks where to publish them. It installs nothing, in Claude Code or a
 Claude app chat.
 
-The plugin turns the dashboard's four tiles into metrics, writes eval questions, registers your
-agent and runs a baseline.
+It turns the dashboard's four tiles and the query history into metrics and saved SQL. For the
+week-one score, ask next:
+
+```text
+Build an eval set for these metrics, run a baseline with a fresh agent per question, and show me the score.
+```
+
+It writes eval questions and keeps their answers on your laptop, registers your agent, and runs
+the baseline. On the yard that takes about 20 minutes.
 
 ## The question to finish on
 
