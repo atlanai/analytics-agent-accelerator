@@ -60,9 +60,9 @@ Build an eval set for these metrics, run a baseline with a fresh agent per quest
 | `tix.events` | 45 | a show |
 | `tix.fee_schedule` | 16 | a fee rule, with when it applies and who keeps it |
 | `tix.customers` | 2,409 | a TicketMonster account |
-| `tix.orders` | 6,506 | one checkout: primary, resale or box office |
-| `tix.tickets` | 14,391 | one ticket in an order |
-| `tix.refunds` | 491 | money paid back on an order |
+| `tix.orders` | 6,548 | one checkout: primary, resale or box office |
+| `tix.tickets` | 14,439 | one ticket in an order |
+| `tix.refunds` | 492 | money paid back on an order |
 | `query.history` | 709 | one statement run on the SQL warehouse, August to October 2026 |
 | `atlan.query_shapes` | 57 | one distinct finished SELECT, with its run and user counts |
 
