@@ -33,7 +33,6 @@
           {
             "name": "Gross Margin",
             "expression": "SUM(JOB_LEDGER[amount_gbp])",
-            "dataType": "double",
             "formatString": "\u00a3#,##0",
             "description": "Contract value less labour (rework included) and delivered materials, cancelled jobs excluded."
           }
@@ -102,7 +101,6 @@
           {
             "name": "Rework Cost",
             "expression": "CALCULATE(SUM(WORK_COST[cost_gbp]), WORK_COST[task_type] = \"rework\")",
-            "dataType": "double",
             "formatString": "\u00a3#,##0",
             "description": "Labour spent putting things right after a snag, at each crew member's or machine's hourly rate. Never billed."
           }
@@ -166,7 +164,6 @@
           {
             "name": "Material Waste",
             "expression": "SUM(DELIVERED_MATERIALS[wasted_value_gbp])",
-            "dataType": "double",
             "formatString": "\u00a3#,##0",
             "description": "Value of delivered material that ended up in a skip. Cancelled orders were never delivered, so never wasted."
           }
@@ -220,9 +217,8 @@
           {
             "name": "Late Jobs",
             "expression": "CALCULATE(COUNTROWS(JOBS), JOBS[delivery] = \"late\")",
-            "dataType": "int64",
             "formatString": "0",
-            "description": "Completed jobs handed over after their planned end date. Jobs still open are not late yet."
+            "description": "Completed jobs handed over more than 7 days after their planned end date. Fixit's contracts give the client a week's grace before the late-completion discount applies, so a job handed over within that week counts as on time. Jobs still open are not late yet."
           }
         ],
         "partitions": [
@@ -233,7 +229,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,        CASE WHEN p.actual_end_date > p.planned_end_date THEN 'late' ELSE 'on_time' END AS delivery FROM site.projects p WHERE p.status = 'complete'\")",
+                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,        CASE WHEN CAST(julianday(p.actual_end_date) - julianday(p.planned_end_date) AS INTEGER) > 7 THEN 'late' ELSE 'on_time' END AS delivery FROM site.projects p WHERE p.status = 'complete'\")",
                 "in",
                 "    Source"
               ]

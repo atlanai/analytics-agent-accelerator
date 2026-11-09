@@ -79,4 +79,4 @@ The query history is laid out the way Snowflake keeps it. `account_usage.query_h
 row per run with Snowflake's column names, and `account_usage.query_shapes` groups it the way the
 Atlan plugin's one-time admin view does. `q.py` builds both from `history/querylog.jsonl`: the
 110 queries the yard's analysts ran, with how often and by how many people. The SQL in the
-history and the dashboard runs unchanged on SQLite and DuckDB.
+history and the dashboard is written for SQLite.

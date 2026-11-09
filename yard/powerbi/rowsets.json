@@ -91,7 +91,7 @@
   ]
  },
  "JOBS": {
-  "sql": "SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,\n       CASE WHEN p.actual_end_date > p.planned_end_date THEN 'late' ELSE 'on_time' END AS delivery\nFROM site.projects p WHERE p.status = 'complete'",
+  "sql": "SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,\n       CASE WHEN CAST(julianday(p.actual_end_date) - julianday(p.planned_end_date) AS INTEGER) > 7 THEN 'late' ELSE 'on_time' END AS delivery\nFROM site.projects p WHERE p.status = 'complete'",
   "columns": [
    [
     "project_id",
