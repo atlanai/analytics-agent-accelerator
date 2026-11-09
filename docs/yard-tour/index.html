@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Fixit & Co. Yard Tour</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Work+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one light app shell. A slim site header with four tabs; each tab is one screen. Two tabs are faithful light-mode mock-ups of a warehouse worksheet and a BI report so participants recognise them. Single light theme on purpose. */
+:root{
+  color-scheme:light;
+  --page:#F4F5F1; --card:#FFFFFF; --ink:#1D2023; --muted:#5F656B; --line:#D9DCD4;
+  --hivis:#FFD21F; --cone:#D9480F; --ok:#2B7A4B; --steel:#2F6DB5;
+  --sf-blue:#1A6CE7; --sf-nav:#F7F8FA; --sf-line:#E3E7EC; --sf-ink:#1E252F; --sf-muted:#5D6A7A; --sf-sel:#E8F0FD; --sf-hover:#F1F4F8;
+  --pb-yellow:#F2C811; --pb-bg:#E9E9E9; --pb-chrome:#F3F2F1; --pb-line:#E1DFDD; --pb-ink:#252423; --pb-muted:#605E5C; --pb-data:#118DFF; --pb-sel:#FFF6CC;
+  --display:"Saira Stencil One","Arial Black",Impact,sans-serif;
+  --body:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --sf-font:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --pb-font:"Segoe UI","Inter",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+:focus-visible{outline:2px solid var(--sf-blue);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* site header + tabs */
+.hz{height:6px;background:repeating-linear-gradient(-45deg,var(--hivis) 0 12px,var(--ink) 12px 24px)}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--card)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:4px 24px;padding-block:10px 0}
+.brand{display:flex;align-items:baseline;gap:12px;padding-bottom:10px}
+.brand b{font-family:var(--display);font-weight:400;font-size:1.6rem;line-height:1}
+.brand span{font-size:.8rem;color:var(--muted)}
+nav.tabs{display:flex;gap:2px;overflow-x:auto}
+nav.tabs button{padding:10px 14px 11px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:7px}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--hivis)}
+nav.tabs svg{flex:none}
+main .wrap{padding-block:20px 40px}
+.intro{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px;margin-bottom:14px}
+.intro p{color:var(--muted);max-width:70ch}
+.next{font-weight:600;color:var(--sf-blue)}
+.next:hover{text-decoration:underline}
+.ill{font-size:.72rem;color:var(--muted);margin-top:8px}
+
+/* firm tab */
+.firm{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;min-width:0}
+.map svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:.75rem;color:var(--muted);padding-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.m-ground{fill:#EEF0E8}.m-road{fill:none;stroke:#D6D9CF;stroke-width:14;stroke-linecap:round}.m-road2{fill:none;stroke:#fff;stroke-width:2;stroke-dasharray:8 8}
+.m-pond{fill:#9DC3E6}.m-town{fill:var(--muted);font:600 11px var(--mono);letter-spacing:.12em}.m-lbl{fill:var(--ink);font:10px var(--mono)}
+.m-pin{cursor:pointer}.m-pin circle{stroke:var(--ink);stroke-width:1.5}.m-pin:hover circle,.m-pin.on circle{stroke-width:3.5}.m-pin:focus{outline:none}.m-pin:focus-visible circle{stroke:var(--sf-blue);stroke-width:3.5}
+.p-ok{fill:var(--ok)}.p-late{fill:var(--cone)}.p-open{fill:var(--steel)}.p-off{fill:#fff;stroke-dasharray:3 2}
+.job h3{font-size:1.15rem;line-height:1.25}
+.job .sub{font-size:.8rem;color:var(--muted);margin:2px 0 10px}
+.pill{display:inline-block;font:600 .7rem var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;margin-bottom:10px}
+.pill.bad{background:#FBE3D8;color:#A33608}.pill.good{background:#DDF0E4;color:#1F5E39}.pill.open{background:#DFE9F6;color:#24548C}.pill.off{background:#ECEDEA;color:var(--muted)}
+.ledger{display:grid;gap:6px;margin-bottom:12px}
+.lrow{display:grid;grid-template-columns:86px minmax(0,1fr) 78px;gap:8px;align-items:center;font-size:.84rem}
+.lrow .t{height:10px;background:#EEF0EA;border-radius:2px;overflow:hidden}
+.lrow .f{display:block;height:100%;background:#8A9096}
+.lrow .f.rw,.lrow .f.neg{background:var(--cone)}.lrow .f.pos{background:var(--ok)}
+.lrow .n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.snags{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.84rem}
+.snags li{border-left:3px solid var(--cone);padding-left:8px}
+.snags li.none{border-color:var(--ok);color:var(--muted)}
+.crew{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;margin-top:16px}
+.mate{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:2px 9px;align-items:center}
+.mug{grid-row:span 2;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--hivis);font-family:var(--display);font-size:1.05rem;border:1.5px solid var(--ink)}
+.mate.machine .mug{border-radius:5px;background:var(--ink);color:#fff}
+.mate.cat .mug{background:var(--cone);color:#fff}
+.mate b{font-size:.9rem}
+.mate span{font-size:.74rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* firm tab: hero, map + docket, crew ID cards, route */
+.hero{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-bottom:16px}
+.hero-txt{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:10px;align-content:start}
+.eyebrow{font:600 .7rem var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(1.7rem,4vw,2.6rem);line-height:1.05;text-wrap:balance}
+.hero p{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+.stats div{border-top:3px solid var(--ink);padding-top:6px;display:grid}
+.stats b{font-family:var(--display);font-weight:400;font-size:1.7rem;line-height:1.1}
+.stats span{font-size:.78rem;color:var(--muted)}
+.exam{background:var(--hivis);border-radius:10px;padding:20px 20px 30px;display:grid;gap:10px;align-content:center;position:relative;overflow:hidden}
+.exam::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;background:repeating-linear-gradient(-45deg,var(--ink) 0 10px,transparent 10px 20px)}
+.exam small{font:600 .7rem var(--mono);letter-spacing:.09em;text-transform:uppercase}
+.exam q{font-family:var(--display);font-size:clamp(1.3rem,2.8vw,1.85rem);line-height:1.15;quotes:none}
+.exam span{font-size:.86rem}
+.ptitle{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.ptitle b{font-weight:700}.ptitle span{font-size:.78rem;color:var(--muted)}
+.m-field{fill:url(#plough)}.m-tree{fill:#A9C98A;stroke:#7FA563;stroke-width:1}.m-house rect{fill:#fff;stroke:#9AA096}.m-house path{fill:#C9A27E;stroke:#9AA096}
+.docket{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0;position:relative}
+.dh{display:flex;justify-content:space-between;gap:10px;background:var(--ink);color:#fff;padding:8px 14px;font:600 .72rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.db{padding:14px 16px 16px;display:grid;gap:10px}
+.db h3{font-size:1.15rem;line-height:1.25;padding-right:104px}
+.db .sub{font-size:.8rem;color:var(--muted);margin-top:-6px}
+.stamp{position:absolute;top:48px;right:14px;transform:rotate(-8deg);border:2.5px solid currentColor;border-radius:4px;padding:1px 8px;font-family:var(--display);font-size:1rem;letter-spacing:.04em;background:var(--card)}
+.stamp.bad{color:var(--cone)}.stamp.good{color:var(--ok)}.stamp.open{color:var(--steel)}.stamp.off{color:#8A9096}
+.mg{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;background:#F6F7F2;border-radius:8px;padding:10px 12px}
+.mg .eyebrow{width:100%}
+.mg b{font-family:var(--display);font-weight:400;font-size:2.1rem;line-height:1}
+.mg b.neg{color:var(--cone)}.mg b.pos{color:var(--ok)}
+.mg em{font-style:normal;font-size:.82rem;color:var(--muted)}
+.dates{font-size:.78rem;color:var(--muted);font-family:var(--mono)}
+.snags2{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:.86rem}
+.snags2 li{display:grid;grid-template-columns:16px minmax(0,1fr);gap:8px;align-items:start}
+.snags2 li svg{margin-top:2px}
+.snags2 li.none{color:var(--muted)}
+.sec{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:26px 0 10px}
+.crew{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:0}
+.idc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:2px 12px;align-items:center}
+.ava{grid-row:span 2;width:56px;height:56px;border-radius:10px;background:#FFF4BF;display:grid;place-items:center}
+.idc.machine .ava{background:#ECEEE8}.idc.cat .ava{background:#FBE3D8}
+.idt{display:grid;min-width:0}.idt b{font-size:1rem}.idt small{font-size:.78rem;color:var(--muted)}
+.rate{font:600 .76rem var(--mono);background:#F4F5F1;border-radius:99px;padding:2px 8px;white-space:nowrap;align-self:start;margin-top:2px}
+.idc q{grid-column:2/-1;font-size:.84rem;font-style:italic}
+.route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 12px;align-items:center}
+.rc:hover{border-color:var(--ink)}
+.rc .no{grid-row:span 2;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:var(--display)}
+.rc b{font-size:1rem}.rc small{grid-column:2;font-size:.82rem;color:var(--muted)}
+.rc .ar{grid-row:1/span 2;grid-column:3;color:var(--sf-blue);font-size:1.2rem}
+.m-zone-h{fill:#F4EEE3}.m-zone-b{fill:#EAF1DD}
+.m-pin .mk{stroke:#1D2023;stroke-width:1.5}
+.m-pin .mk.p-off{fill:#fff;stroke-dasharray:3 2}
+.m-pin circle.dot{fill:#fff;stroke:none}
+.m-pin circle.halo{fill:none;stroke:#FFD21F;stroke-width:5;opacity:0}
+.m-pin.on circle.halo{opacity:1}
+.m-pin .chip{fill:#fff;stroke:#C9CDC4;stroke-width:1}
+.m-pin:hover .chip,.m-pin:focus-visible .chip{stroke:#1D2023}
+.m-pin.on .chip{fill:#1D2023;stroke:#1D2023}
+.cn{font:600 11px var(--body);fill:#1D2023}
+.cm2{font:500 10.5px var(--mono)}
+.cm2.neg{fill:#C2410C}.cm2.pos{fill:#2B7A4B}.cm2.open{fill:#2F6DB5}.cm2.off{fill:#8A9096}
+.m-pin.on .cn{fill:#fff}.m-pin.on .cm2{fill:#FFD21F}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}.crew{grid-template-columns:repeat(2,minmax(0,1fr))}.route{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.crew{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ===== Snowflake-style worksheet ===== */
+.sf{background:#fff;border:1px solid var(--sf-line);border-radius:10px;overflow:hidden;font-family:var(--sf-font);font-size:13px;color:var(--sf-ink);display:grid;grid-template-columns:196px minmax(0,1fr);min-height:600px;box-shadow:0 2px 10px rgba(30,37,47,.06)}
+.sf-nav{background:var(--sf-nav);border-right:1px solid var(--sf-line);padding:12px 10px;display:flex;flex-direction:column;gap:2px}
+.sf-acct{display:flex;align-items:center;gap:8px;padding:4px 6px 12px;font-weight:600}
+.sf-acct i{width:26px;height:26px;border-radius:6px;background:var(--sf-blue);color:#fff;display:grid;place-items:center;font-style:normal;font-size:12px}
+.sf-create{border:1px solid var(--sf-line);background:#fff;border-radius:6px;padding:6px 10px;font-weight:600;margin-bottom:8px;display:flex;gap:6px;align-items:center}
+.sf-ni{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:6px;color:var(--sf-ink)}
+.sf-ni.sub{padding-left:33px;color:var(--sf-muted)}
+button.sf-ni:hover{background:var(--sf-hover)}
+.sf-ni[aria-current="page"]{background:var(--sf-sel);color:var(--sf-blue);font-weight:600}
+.sf-ni svg{flex:none;color:var(--sf-muted)}
+.sf-user{margin-top:auto;border-top:1px solid var(--sf-line);padding:10px 6px 0;display:flex;gap:8px;align-items:center;font-size:12px}
+.sf-user i{width:26px;height:26px;border-radius:50%;background:#DCE6F5;color:var(--sf-blue);display:grid;place-items:center;font-style:normal;font-weight:700}
+.sf-user small{display:block;color:var(--sf-muted)}
+.sf-main{display:flex;flex-direction:column;min-width:0}
+.sf-top{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--sf-line)}
+.sf-title{display:flex;align-items:baseline;gap:10px;font-size:15px;font-weight:600}
+.sf-title small{font-size:12px;color:var(--sf-muted);font-weight:400}
+.sf-ctl{display:flex;gap:8px;align-items:center}
+.sf-ctx{border:1px solid var(--sf-line);border-radius:6px;padding:5px 10px;display:flex;gap:6px;align-items:center;font-size:12px}
+.sf-ctx b{font-weight:600}
+.sf-share{border:1px solid var(--sf-line);border-radius:6px;padding:5px 12px;font-weight:600}
+.sf-run{width:32px;height:32px;border-radius:50%;background:var(--sf-blue);color:#fff;display:grid;place-items:center}
+.sf-run:hover{background:#1259C4}
+.sf-ws{display:grid;grid-template-columns:230px minmax(0,1fr);flex:1;min-height:0}
+.sf-obj{border-right:1px solid var(--sf-line);display:flex;flex-direction:column;min-width:0}
+.sf-objtabs{display:flex;border-bottom:1px solid var(--sf-line)}
+.sf-objtabs button{flex:1;text-align:center;padding:9px 6px;font-weight:600;color:var(--sf-muted);border-bottom:2px solid transparent}
+.sf-objtabs button[aria-selected="true"]{color:var(--sf-ink);border-bottom-color:var(--sf-blue)}
+.sf-search{margin:10px;border:1px solid var(--sf-line);border-radius:6px;padding:6px 9px;color:var(--sf-muted);font-size:12px;display:flex;gap:6px;align-items:center}
+.sf-tree{overflow:auto;padding-bottom:10px}
+.tn{display:flex;align-items:center;gap:6px;padding:4px 10px;white-space:nowrap}
+.tn svg{flex:none;color:var(--sf-muted)}
+.tn.l1{padding-left:24px}.tn.l2{padding-left:38px}.tn.l3{padding-left:52px}
+.tn .c{margin-left:auto;color:var(--sf-muted);font-size:11px}
+button.tn{width:100%}
+button.tn:hover{background:var(--sf-hover)}
+button.tn[aria-pressed="true"]{background:var(--sf-sel);color:var(--sf-blue);font-weight:600}
+.sf-edit{display:flex;flex-direction:column;min-width:0}
+.sf-ctxbar{display:flex;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--sf-line);font-size:12px;color:var(--sf-muted)}
+.sf-ctxbar b{color:var(--sf-ink);font-weight:600}
+.code{display:grid;grid-template-columns:auto minmax(0,1fr);font-family:var(--mono);font-size:12.5px;line-height:1.7;max-height:220px;overflow:auto;border-bottom:1px solid var(--sf-line)}
+.code .ln{padding:10px 10px 10px 14px;color:#A0A9B5;text-align:right;user-select:none;white-space:pre}
+.code pre{margin:0;padding:10px 14px 10px 4px;white-space:pre;overflow-x:auto}
+.k{color:#1A56C8;font-weight:600}.s{color:#B3401A}.d{color:#167A4A}.cm{color:#8A94A3;font-style:italic}
+.sf-res{display:grid;grid-template-columns:minmax(0,1fr) 190px;flex:1;min-height:0}
+.sf-resgrid{display:flex;flex-direction:column;min-width:0}
+.sf-reshead{display:flex;align-items:center;gap:16px;padding:0 12px;border-bottom:1px solid var(--sf-line)}
+.sf-reshead span{padding:8px 0;font-weight:600;color:var(--sf-muted);border-bottom:2px solid transparent}
+.sf-reshead span.on{color:var(--sf-ink);border-bottom-color:var(--sf-blue)}
+.grid{overflow:auto;max-height:290px}
+.grid table{border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums;min-width:100%}
+.grid th,.grid td{padding:6px 12px;border-bottom:1px solid var(--sf-line);text-align:left;white-space:nowrap}
+.grid th{position:sticky;top:0;background:#FAFBFC;font-weight:600;font-size:11px;color:var(--sf-muted);letter-spacing:.02em;z-index:1}
+.grid th:first-child,.grid td:first-child{color:#A0A9B5;text-align:right;width:1%;padding-right:8px}
+.grid td.n{text-align:right;font-family:var(--mono)}
+.grid td.null{color:#A0A9B5;font-style:italic}
+.grid td.neg{color:var(--cone)}
+.grid tr:hover td{background:var(--sf-hover)}
+.sf-tip{padding:8px 12px;font-size:12px;background:#FFF8DB;border-top:1px solid #F1E3A6;margin-top:auto}
+.sf-det{border-left:1px solid var(--sf-line);padding:12px;display:grid;gap:12px;align-content:start;font-size:12px}
+.sf-det h4{margin:0;font-size:12px}
+.sf-det dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 10px}
+.sf-det dt{color:var(--sf-muted)}.sf-det dd{margin:0;text-align:right;font-weight:600}
+.sf-ok{display:inline-flex;align-items:center;gap:4px;color:#167A4A;font-weight:600}
+.sf-hist{padding:14px;display:grid;gap:12px;align-content:start;overflow:auto}
+.sf-hist h3{font-size:16px}
+.sf-filters{display:flex;flex-wrap:wrap;gap:6px}
+.sf-filters span,.sf-filters button{border:1px solid var(--sf-line);border-radius:99px;padding:4px 10px;font-size:12px}
+.sf-filters button[aria-pressed="true"]{background:var(--sf-sel);border-color:#B9D0F5;color:var(--sf-blue);font-weight:600}
+.sf-hist .grid{border:1px solid var(--sf-line);border-radius:8px;max-height:360px}
+.loading .grid{opacity:.35}
+
+/* ===== Power BI-style report ===== */
+.pb{background:var(--pb-chrome);border:1px solid #C8C6C4;border-radius:6px;overflow:hidden;font-family:var(--pb-font);font-size:12px;color:var(--pb-ink);box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.pb-title{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;padding:5px 10px;background:var(--pb-chrome)}
+.pb-title .app{display:flex;align-items:center;gap:8px}
+.pb-title .app i{width:16px;height:16px;border-radius:3px;background:var(--pb-yellow);display:block}
+.pb-find{border:1px solid var(--pb-line);background:#fff;border-radius:4px;padding:3px 10px;color:var(--pb-muted);min-width:220px;display:flex;gap:6px;align-items:center}
+.pb-title .who{justify-self:end;width:22px;height:22px;border-radius:50%;background:#C7E0F4;color:#004578;display:grid;place-items:center;font-weight:700;font-size:10px}
+.pb-tabs{display:flex;gap:2px;padding:0 8px;overflow-x:auto;background:var(--pb-chrome)}
+.pb-tabs span{padding:6px 12px;white-space:nowrap}
+.pb-tabs span.on{background:#fff;border-radius:4px 4px 0 0;font-weight:600;box-shadow:inset 0 -2px 0 var(--pb-yellow)}
+.pb-ribbon{background:#fff;border-bottom:1px solid var(--pb-line);display:flex;overflow-x:auto;padding:4px 4px 0}
+.rg{display:flex;flex-direction:column;align-items:center;border-right:1px solid var(--pb-line);padding:0 6px}
+.rg .row{display:flex;gap:2px}
+.rg .lab{font-size:11px;color:var(--pb-muted);padding:2px 0 4px;white-space:nowrap}
+.rb{display:grid;justify-items:center;gap:2px;padding:4px 7px;border-radius:3px;font-size:11px;white-space:nowrap;line-height:1.15;text-align:center}
+.rb:hover{background:var(--pb-chrome)}
+.rb svg{display:block}
+.pb-fx{display:grid;grid-template-columns:auto auto minmax(0,1fr);align-items:stretch;background:#fff;border-bottom:1px solid var(--pb-line);font-family:Consolas,var(--mono);font-size:12.5px}
+.pb-fx span{padding:6px 10px;border-right:1px solid var(--pb-line);color:var(--pb-muted);font-family:var(--pb-font)}
+.pb-fx code{padding:6px 10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.pb-fx code i{color:var(--pb-muted);font-style:normal;margin-right:10px}
+.pb-body{display:grid;grid-template-columns:44px minmax(0,1fr) 26px 200px 200px;min-height:470px;background:#fff}
+.pb-rail{border-right:1px solid var(--pb-line);display:flex;flex-direction:column;gap:2px;padding-top:6px;background:#fff}
+.pb-rail button{height:40px;display:grid;place-items:center;color:var(--pb-muted);border-left:3px solid transparent}
+.pb-rail button:hover{background:var(--pb-chrome)}
+.pb-rail button[aria-pressed="true"]{color:var(--pb-ink);border-left-color:var(--pb-yellow);background:var(--pb-chrome)}
+.pb-stage{background:var(--pb-bg);padding:18px;min-width:0;overflow:auto}
+.canvas{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.16);padding:12px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:auto 300px;gap:10px;min-height:0}
+.canvas>*{min-width:0}
+.card{background:#fff;padding:12px 8px;display:grid;align-content:center;justify-items:center;text-align:center;gap:3px;position:relative;border:1px solid transparent;container-type:inline-size;overflow:hidden}
+.card .v{font-size:clamp(1.1rem,14cqi,2.1rem);font-weight:600;line-height:1.1;color:var(--pb-ink);white-space:nowrap}
+.card .t{font-size:12px;color:var(--pb-muted)}
+.card .st{font-size:clamp(10px,4.4cqi,11.5px);color:var(--pb-muted);font-style:italic;line-height:1.3}
+.viz .c-lbl,.viz .c-val{font-size:12px}
+.card:hover,.viz:hover{border-color:#C8C6C4}
+.card[aria-pressed="true"],.viz[aria-pressed="true"]{border-color:#8A8886;box-shadow:0 0 0 1px #8A8886}
+.flag{position:absolute;top:5px;right:5px;width:17px;height:17px;border-radius:50%;background:var(--cone);color:#fff;font-weight:700;font-size:11px;display:grid;place-items:center}
+.viz{grid-column:span 2;padding:6px 8px;display:grid;grid-template-rows:auto minmax(0,1fr);gap:2px;min-height:0;border:1px solid transparent}
+.viz .vt{font-size:13px;color:var(--pb-ink)}
+.viz svg{width:100%;height:100%;display:block}
+.pb-filt{border-left:1px solid var(--pb-line);background:#fff;writing-mode:vertical-rl;padding:10px 0;color:var(--pb-muted);display:flex;align-items:center;gap:8px;font-size:12px}
+.pane{border-left:1px solid var(--pb-line);background:#fff;overflow:auto;min-width:0}
+.pane-h{display:flex;justify-content:space-between;padding:9px 10px;font-weight:600;font-size:13px}
+.pane-h span{color:var(--pb-muted);font-weight:400}
+.vis-sub{display:flex;gap:4px;padding:0 10px 6px;color:var(--pb-muted)}
+.vis-sub span{padding:2px 4px}.vis-sub span.on{color:var(--pb-ink);box-shadow:inset 0 -2px 0 var(--pb-yellow)}
+.vgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:0 8px 8px}
+.vgrid span{aspect-ratio:1;display:grid;place-items:center;border-radius:2px;color:var(--pb-muted)}
+.vgrid span.on{background:var(--pb-sel);outline:1px solid var(--pb-yellow);color:var(--pb-ink)}
+.well{border-top:1px solid var(--pb-line);padding:8px 10px;display:grid;gap:6px}
+.well .wl{color:var(--pb-muted)}
+.well .wf{border:1px solid var(--pb-line);border-radius:3px;padding:4px 8px;background:var(--pb-chrome)}
+.pf-search{margin:0 10px 6px;border:1px solid var(--pb-line);border-radius:3px;padding:4px 8px;color:var(--pb-muted)}
+.pf-t{width:100%;display:flex;gap:6px;align-items:center;padding:4px 10px;font-weight:600}
+.pf-t:hover,.pf-f.ms:hover{background:var(--pb-chrome)}
+.pf-f{width:100%;display:flex;gap:6px;align-items:center;padding:2px 10px 2px 26px;color:var(--pb-ink)}
+.pf-f svg{flex:none}
+.pf-f.ms[aria-pressed="true"]{background:var(--pb-sel)}
+.pb-pages{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--pb-chrome);border-top:1px solid var(--pb-line);padding:0 10px}
+.pb-pages .pg{display:flex;align-items:end}
+.pb-pages .pg span{padding:6px 14px}
+.pb-pages .pg span.on{background:#fff;font-weight:600;box-shadow:inset 0 2px 0 var(--pb-yellow)}
+.pb-pages .zoom{display:flex;gap:8px;align-items:center;color:var(--pb-muted)}
+.pb-pages .zoom i{width:80px;height:2px;background:#C8C6C4;position:relative;display:block}
+.pb-pages .zoom i::after{content:"";position:absolute;left:46px;top:-4px;width:4px;height:10px;background:var(--pb-muted)}
+.tv{display:grid;gap:8px;background:#fff;padding:10px;box-shadow:0 1px 4px rgba(0,0,0,.16)}
+.tv .grid th{background:#F8F8F8}
+.tv .src{font-family:Consolas,var(--mono);font-size:11.5px;line-height:1.6;padding:8px 10px;background:#FAFAFA;border:1px solid var(--pb-line);white-space:pre;overflow-x:auto;margin:0}
+.tv .cnt{color:var(--pb-muted)}
+.tv-pick{display:none;flex-wrap:wrap;gap:6px}
+.tv-pick button{border:1px solid var(--pb-line);border-radius:3px;padding:3px 8px;font-family:Consolas,var(--mono);font-size:11px}
+.tv-pick button[aria-pressed="true"]{background:var(--pb-sel);border-color:var(--pb-yellow)}
+.mv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;padding:6px}
+.mbox{background:#fff;border:1px solid #C8C6C4;border-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.12);min-width:0}
+.mbox h4{margin:0;padding:6px 10px;font-size:12.5px;border-bottom:1px solid var(--pb-line)}
+.mbox ul{margin:0;padding:6px 10px;list-style:none;display:grid;gap:2px}
+.mbox li.m{font-weight:600}
+.mv-note{grid-column:1/-1;color:var(--pb-muted);background:#fff;border:1px dashed #C8C6C4;padding:8px 10px}
+.rule{margin-top:12px;display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--hivis);border-radius:6px;padding:10px 12px;font-size:.92rem}
+.rule.warn{border-left-color:var(--cone)}
+.rule b{white-space:nowrap}
+
+/* charts */
+.c-lbl{fill:#605E5C;font:11px var(--pb-font)}.c-val{fill:#252423;font:600 11px var(--pb-font)}
+.c-pb{fill:var(--pb-data)}.c-bar{fill:var(--steel)}.c-neg{fill:var(--cone)}.c-hi{fill:var(--hivis);stroke:var(--ink);stroke-width:1}
+.c-axis{stroke:#E1DFDD}.c-zero{stroke:#8A8886}.c-mark{stroke:var(--cone);stroke-width:1.5;stroke-dasharray:4 3}
+
+/* agent tab */
+.steps{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px;font-size:.85rem}
+.steps span{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-weight:500}
+.steps em{color:var(--muted);font-style:normal}
+.chat{display:grid;grid-template-columns:minmax(0,270px) minmax(0,1fr);background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.chat-side{border-right:1px solid var(--line);padding:12px;display:grid;gap:6px;align-content:start;background:#FAFAF7}
+.chat-side .lab{font:600 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:2px 2px 4px}
+.q{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 10px;font-size:.88rem;font-weight:500}
+.q:hover{border-color:#B9BDB3}
+.q[aria-pressed="true"]{background:#FFF4BF;border-color:#E6C200}
+.thread{padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.bub{justify-self:end;max-width:80%;background:#EEF1EA;padding:8px 12px;border-radius:14px 14px 4px 14px;font-weight:500}
+.reply{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px}
+.av{width:30px;height:30px;border-radius:50%;background:var(--hivis);border:1.5px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:.9rem}
+.rbody{display:grid;gap:8px;min-width:0}
+.rbody .big{font-size:1.25rem;font-weight:700;line-height:1.25}
+.rbody .chart{border:1px solid var(--line);border-radius:8px;padding:10px;background:#fff}
+.rbody .chart svg{display:block;width:100%;height:auto}
+.rbody .meta{font-size:.84rem;color:var(--muted)}
+.rbody .meta b{color:var(--ink)}
+details.sql{border:1px solid var(--line);border-radius:8px}
+details.sql summary{cursor:pointer;padding:6px 10px;font-size:.8rem;color:var(--muted)}
+details.sql pre{margin:0;padding:10px 12px;font-family:var(--mono);font-size:12px;line-height:1.6;overflow-x:auto;border-top:1px solid var(--line)}
+.units{display:flex;gap:6px;flex-wrap:wrap}
+.units span{width:64px;height:44px;border-radius:6px;display:grid;place-items:center;font-size:.68rem;text-align:center;line-height:1.1;color:#fff;font-weight:600}
+.units .y{background:var(--ok)}.units .n{background:var(--cone)}
+.finish{margin-top:14px;background:var(--hivis);border-radius:10px;padding:16px 18px;display:grid;gap:4px}
+.finish small{font:600 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.finish q{font-family:var(--display);font-size:clamp(1.25rem,3.4vw,1.9rem);line-height:1.15;quotes:none}
+
+@media (max-width:1000px){ .pb-body{grid-template-columns:44px minmax(0,1fr) 26px 200px} .pane.vis{display:none} }
+@media (max-width:820px){
+  .pb-body{grid-template-columns:44px minmax(0,1fr)} .pb-filt,.pane{display:none}
+  .sf{grid-template-columns:minmax(0,1fr)} .sf-nav{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--sf-line);padding:6px 10px} .sf-nav>:not(button){display:none} .sf-ni.sub{padding-left:10px;white-space:nowrap}
+  .tv-pick{display:flex !important}
+  .sf-res{grid-template-columns:minmax(0,1fr)} .sf-det{display:none}
+  .pb-title{grid-template-columns:1fr auto} .pb-find{display:none}
+}
+@media (max-width:700px){
+  .firm,.chat{grid-template-columns:minmax(0,1fr)}
+  .chat-side{border-right:0;border-bottom:1px solid var(--line)}
+  .sf-ws{grid-template-columns:minmax(0,1fr)} .sf-obj{border-right:0;border-bottom:1px solid var(--sf-line)} .sf-tree{max-height:180px}
+  .pb-body{grid-template-columns:minmax(0,1fr)} .pb-rail{flex-direction:row;padding:0;border-right:0;border-bottom:1px solid var(--pb-line)} .pb-rail button{width:48px;border-left:0;border-bottom:3px solid transparent} .pb-rail button[aria-pressed="true"]{border-bottom-color:var(--pb-yellow)}
+  .canvas{grid-template-columns:repeat(2,minmax(0,1fr));aspect-ratio:auto;grid-template-rows:none} .card{min-height:88px} .viz{grid-column:1/-1;height:240px}
+  .mv{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+
+<div class="hz"></div>
+<header>
+  <div class="wrap">
+    <div class="brand"><b>Fixit &amp; Co.</b><span>Practice data for the Analytics Agent Accelerator</span></div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-firm" data-v="firm" aria-selected="true"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14V7l6-4 6 4v7H2zM6 14V9h4v5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>The firm</button>
+      <button role="tab" id="tab-snowflake" data-v="snowflake" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="3.5" rx="5.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 3.5v9c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2v-9M2.5 8c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Snowflake</button>
+      <button role="tab" id="tab-powerbi" data-v="powerbi" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 14V9M7 14V5M11 14V2" stroke="currentColor" stroke-width="2.6"/></svg>Power BI</button>
+      <button role="tab" id="tab-agent" data-v="agent" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v8H7l-3 3v-3H2z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>The agent</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- THE FIRM -->
+<section id="v-firm" role="tabpanel" aria-labelledby="tab-firm">
+  <div class="hero">
+    <div class="hero-txt">
+      <span class="eyebrow">Meet the firm</span>
+      <h1>A small building firm with a margin problem.</h1>
+      <p>Fixit &amp; Co. is made up. Its data is real enough to build an agent on.</p>
+      <div class="stats">
+        <div><b>10</b><span>jobs, Jul to Oct 2026</span></div>
+        <div><b>£478K</b><span>of contracts</span></div>
+        <div><b>8</b><span>crew, 5 are machines</span></div>
+        <div><b>11</b><span>things went wrong</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="firm">
+    <div class="panel map">
+      <div class="ptitle"><b>The jobs</b><span>Tap a pin</span></div>
+      <svg viewBox="0 0 560 340" role="img" aria-label="Map of the ten jobs" id="map"></svg>
+      <div class="legend"><span><i style="background:var(--ok)"></i>on time</span><span><i style="background:var(--cone)"></i>late</span><span><i style="background:var(--steel)"></i>open</span><span><i style="border:1.5px dashed var(--ink)"></i>cancelled</span><span>Labels show each job's margin</span></div>
+    </div>
+    <div class="docket" id="sheet" aria-live="polite"></div>
+  </div>
+  <h2 class="sec">The crew</h2>
+  <div class="crew" id="crew"></div>
+  <h2 class="sec">Your route</h2>
+  <div class="route">
+    <button class="rc" data-go="snowflake"><span class="no">1</span><b>The data</b><small>Five tables and the query history in Snowflake</small><span class="ar">&#8594;</span></button>
+    <button class="rc" data-go="powerbi"><span class="no">2</span><b>The dashboard</b><small>Four tiles in Power BI, and the rules behind them</small><span class="ar">&#8594;</span></button>
+    <button class="rc" data-go="agent"><span class="no">3</span><b>The agent</b><small>What it answers, and how it shows its working</small><span class="ar">&#8594;</span></button>
+  </div>
+</section>
+
+<!-- SNOWFLAKE -->
+<section id="v-snowflake" role="tabpanel" aria-labelledby="tab-snowflake" hidden>
+  <div class="intro">
+    <p>Five tables and four months of query history. Click a table or a worksheet.</p>
+    <button class="next" data-go="powerbi">See the dashboard in Power BI &#8594;</button>
+  </div>
+  <div class="sf">
+    <aside class="sf-nav" aria-label="Snowflake navigation">
+      <div class="sf-acct"><i>F</i>FIXIT</div>
+      <div class="sf-create"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6"/></svg>Create</div>
+      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4"/></svg>Search</div>
+      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14V7l6-4.5L14 7v7z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Home</div>
+      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 6h6M5 9h6M5 12h3" stroke="currentColor" stroke-width="1.4"/></svg>Projects</div>
+      <button class="sf-ni sub" data-sf="ws" aria-current="page">Worksheets</button>
+      <div class="sf-ni sub">Notebooks</div>
+      <div class="sf-ni sub">Dashboards</div>
+      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Data</div>
+      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 9h3l2-5 3 9 2-6 1 2h3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Monitoring</div>
+      <button class="sf-ni sub" data-sf="qh">Query History</button>
+      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4" stroke="currentColor" stroke-width="1.4"/></svg>Admin</div>
+      <div class="sf-user"><i>Y</i><div>YARD_OFFICE<small>ANALYST</small></div></div>
+    </aside>
+    <div class="sf-main">
+      <!-- worksheet -->
+      <div id="sf-ws" style="display:flex;flex-direction:column;flex:1;min-height:0">
+        <div class="sf-top">
+          <div class="sf-title"><span id="wsname">yard-tour</span><small>Edited Nov 9, 2026</small></div>
+          <div class="sf-ctl">
+            <span class="sf-ctx"><b>ANALYST</b>&middot; YARD_WH <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <span class="sf-share">Share</span>
+            <button class="sf-run" id="run" aria-label="Run"><svg width="11" height="11" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 0.5l7.5 4.5L2 9.5z" fill="currentColor"/></svg></button>
+          </div>
+        </div>
+        <div class="sf-ws">
+          <div class="sf-obj">
+            <div class="sf-objtabs" role="tablist"><button role="tab" id="ot-db" aria-selected="true">Databases</button><button role="tab" id="ot-ws" aria-selected="false">Worksheets</button></div>
+            <div class="sf-search"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6"/></svg>Search objects</div>
+            <div class="sf-tree" id="tree"></div>
+          </div>
+          <div class="sf-edit" id="sfedit">
+            <div class="sf-ctxbar"><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><b>FIXIT</b>.<b>SITE</b></div>
+            <div class="code"><div class="ln" id="ln"></div><pre id="sql"></pre></div>
+            <div class="sf-res">
+              <div class="sf-resgrid">
+                <div class="sf-reshead"><span class="on">Results</span><span>Chart</span></div>
+                <div class="grid" id="whgrid"></div>
+                <div class="sf-tip" id="whnote"></div>
+              </div>
+              <div class="sf-det" id="sfdet"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- query history -->
+      <div id="sf-qh" class="sf-hist" hidden>
+        <h3>Query History</h3>
+        <div class="sf-filters">
+          <button id="qh-runs" aria-pressed="true">Individual queries</button>
+          <button id="qh-grp" aria-pressed="false">Grouped queries</button>
+          <span>Status: All</span><span>User: All</span><span>Jul 1 to Oct 31, 2026</span>
+        </div>
+        <div class="grid" id="qhgrid"></div>
+        <div class="sf-tip" id="qhnote" style="border:1px solid #F1E3A6;border-radius:6px"></div>
+      </div>
+    </div>
+  </div>
+  <p class="ill">Illustration for training, not the real product. Rows are real rows from the practice files.</p>
+</section>
+
+<!-- POWER BI -->
+<section id="v-powerbi" role="tabpanel" aria-labelledby="tab-powerbi" hidden>
+  <div class="intro">
+    <p>The dashboard the agent starts from. Click a card to see its measure.</p>
+    <button class="next" data-go="agent">Meet the agent &#8594;</button>
+  </div>
+  <div class="pb">
+    <div class="pb-title">
+      <div class="app"><i></i><span>hard-hat-area-site-performance</span></div>
+      <div class="pb-find"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6"/></svg>Search</div>
+      <div class="who">YO</div>
+    </div>
+    <div class="pb-tabs"><span>File</span><span class="on">Home</span><span>Insert</span><span>Modeling</span><span>View</span><span>Optimize</span><span>Help</span></div>
+    <div class="pb-ribbon" aria-hidden="true">
+      <div class="rg"><div class="row"><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="5" y="4" width="11" height="15" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="9" y="8" width="11" height="13" rx="1" fill="#fff" stroke="currentColor" stroke-width="1.4"/></svg>Paste</span></div><span class="lab">Clipboard</span></div>
+      <div class="rg"><div class="row"><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="2.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 6v11c0 1.5 3 2.6 7 2.6s7-1.1 7-2.6V6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Get<br>data</span><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1.5" fill="none" stroke="#1D7044" stroke-width="1.5"/><path d="M4 9h16M4 14h16M10 4v16" stroke="#1D7044" stroke-width="1.2"/></svg>Excel<br>workbook</span><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="1.4"/></svg>Enter<br>data</span></div><span class="lab">Data</span></div>
+      <div class="rg"><div class="row"><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M4 9h16M9 9v11" stroke="currentColor" stroke-width="1.4"/></svg>Transform<br>data</span><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M18 8a7 7 0 1 0 1 6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M19 3v5h-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Refresh</span></div><span class="lab">Queries</span></div>
+      <div class="rg"><div class="row"><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M5 19v-6M10 19V7M15 19v-9M20 19V4" stroke="#C99A00" stroke-width="3"/></svg>New<br>visual</span><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M6 6h12M12 6v13" stroke="currentColor" stroke-width="1.8"/></svg>Text<br>box</span></div><span class="lab">Insert</span></div>
+      <div class="rg"><div class="row"><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="8" y="6" width="8" height="3" fill="currentColor"/><path d="M8 13h2M12 13h2M8 17h2M12 17h2" stroke="currentColor" stroke-width="1.6"/></svg>New<br>measure</span><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M9 12l2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Quick<br>measure</span></div><span class="lab">Calculations</span></div>
+      <div class="rg" style="border-right:0"><div class="row"><span class="rb"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 17V5M7 10l5-5 5 5M5 20h14" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Publish</span></div><span class="lab">Share</span></div>
+    </div>
+    <div class="pb-fx"><span>&#10005;</span><span>&#10003;</span><code id="fx"></code></div>
+    <div class="pb-body">
+      <nav class="pb-rail" aria-label="Views">
+        <button id="pv-report" aria-pressed="true" title="Report view" aria-label="Report view"><svg width="20" height="20" viewBox="0 0 22 22"><path d="M4 18V12M9 18V6M14 18V9M19 18V4" stroke="currentColor" stroke-width="2.4"/></svg></button>
+        <button id="pv-table" aria-pressed="false" title="Table view" aria-label="Table view"><svg width="20" height="20" viewBox="0 0 22 22"><rect x="3" y="4" width="16" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3 9h16M3 13.5h16M9 4v14" stroke="currentColor" stroke-width="1.5"/></svg></button>
+        <button id="pv-model" aria-pressed="false" title="Model view" aria-label="Model view"><svg width="20" height="20" viewBox="0 0 22 22"><rect x="2" y="3" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="3" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="7.5" y="13" width="7" height="6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button>
+      </nav>
+      <div class="pb-stage" id="stage"></div>
+      <div class="pb-filt" aria-hidden="true">&#8249; Filters</div>
+      <aside class="pane vis" aria-label="Visualizations">
+        <div class="pane-h">Visualizations <span>&#8250;</span></div>
+        <div class="vis-sub"><span>Build visual</span></div>
+        <div class="vgrid" id="vgrid" aria-hidden="true"></div>
+        <div class="well" id="well"></div>
+      </aside>
+      <aside class="pane" aria-label="Data pane">
+        <div class="pane-h">Data <span>&#8250;</span></div>
+        <div class="pf-search">Search</div>
+        <div id="fields"></div>
+      </aside>
+    </div>
+    <div class="pb-pages"><div class="pg"><span class="on">Site Performance</span><span>+</span></div><div class="zoom">Page 1 of 1 <span>&#8722;</span><i></i><span>+</span> 72%</div></div>
+  </div>
+  <div class="rule" id="pbnote" aria-live="polite"></div>
+  <p class="ill">Illustration for training, not the real product. Layout, measures and SQL come from the template file; values from the practice data.</p>
+</section>
+
+<!-- AGENT -->
+<section id="v-agent" role="tabpanel" aria-labelledby="tab-agent" hidden>
+  <div class="intro"><p>What you build: an agent that learns the firm's rules from Power BI and the query history, then answers with its working.</p></div>
+  <div class="steps"><span>Read the dashboard and history</span><em>&#8594;</em><span>Write metrics and saved SQL</span><em>&#8594;</em><span>Write eval questions</span><em>&#8594;</em><span>Get a baseline score</span></div>
+  <div class="chat">
+    <div class="chat-side"><span class="lab">Try asking</span><div id="qs" style="display:grid;gap:6px"></div></div>
+    <div class="thread" id="thread" aria-live="polite"></div>
+  </div>
+  <div class="finish"><small>The question to finish on</small><q>Which job ate our margin last quarter, and what ate it?</q></div>
+</section>
+
+</div>
+</main>
+
+<script>
+(function(){
+var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
+var gbp=function(n){return (n<0?'-':'')+'£'+Math.abs(Math.round(n)).toLocaleString('en-GB')};
+var el=function(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+var $=function(id){return document.getElementById(id)};
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---- tabs ---- */
+var VIEWS=['firm','snowflake','powerbi','agent'];
+function go(v){
+  if(VIEWS.indexOf(v)<0)v='firm';
+  VIEWS.forEach(function(x){$('v-'+x).hidden=x!==v;$('tab-'+x).setAttribute('aria-selected',x===v?'true':'false')});
+  if(location.hash!=='#'+v){try{history.replaceState(null,'','#'+v)}catch(e){location.hash=v}}
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-v]').forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-v'))})});
+document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-go'))})});
+window.addEventListener('hashchange',function(){go(location.hash.slice(1))});
+
+/* ---- charts ---- */
+function hbar(items,o){
+  o=o||{};var W=o.w||520,rh=o.rh||24,lw=o.lw||140,vw=o.vw||70,fmt=o.fmt||gbp,base=o.base||'c-bar';
+  var vals=items.map(function(d){return d[1]});
+  var mn=Math.min(0,Math.min.apply(null,vals)),mx=Math.max(0,Math.max.apply(null,vals));if(o.mark)mx=Math.max(mx,o.mark);
+  var pw=W-lw-vw-8,x=function(v){return lw+(v-mn)/(mx-mn||1)*pw};
+  if(o.inline){pw=W-lw-58;}
+  var H=items.length*rh+(o.mark?22:6),s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.aria||'bar chart')+'">';
+  items.forEach(function(d,i){
+    var y=i*rh+4,a=x(0),b=x(d[1]),cls=d[2]||(d[1]<0&&!o.same?'c-neg':base);
+    s+='<text class="c-lbl" x="'+(lw-8)+'" y="'+(y+rh/2+3)+'" text-anchor="end">'+esc(d[0])+'</text>';
+    s+='<rect class="'+cls+'" x="'+Math.min(a,b).toFixed(1)+'" y="'+(y+3)+'" width="'+Math.max(1,Math.abs(b-a)).toFixed(1)+'" height="'+(rh-8)+'"/>';
+    if(o.inline)s+='<text class="c-val" x="'+((d[1]<0?a:b)+5).toFixed(1)+'" y="'+(y+rh/2+4)+'">'+esc(fmt(d[1]))+'</text>';
+    else s+='<text class="c-val" x="'+(W-4)+'" y="'+(y+rh/2+3)+'" text-anchor="end">'+esc(fmt(d[1]))+'</text>';
+  });
+  if(mn<0)s+='<line class="c-zero" x1="'+x(0)+'" x2="'+x(0)+'" y1="2" y2="'+(items.length*rh+6)+'"/>';
+  if(o.mark){var m=x(o.mark);s+='<line class="c-mark" x1="'+m+'" x2="'+m+'" y1="2" y2="'+(items.length*rh+6)+'"/><text class="c-lbl" x="'+m+'" y="'+(H-4)+'" text-anchor="middle">'+esc(o.markLabel)+'</text>';}
+  return s+'</svg>';
+}
+function vbar(items,o){
+  o=o||{};var W=o.w||520,H=o.h||210,fmt=o.fmt||gbp,top=18,bot=22,base=o.base||'c-bar';
+  var mx=Math.max.apply(null,items.map(function(d){return d[1]}));
+  var cw=W/items.length,ph=H-top-bot,s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.aria||'column chart')+'">';
+  s+='<line class="c-axis" x1="0" x2="'+W+'" y1="'+(H-bot)+'" y2="'+(H-bot)+'"/>';
+  items.forEach(function(d,i){
+    var h=d[1]/mx*ph,xx=i*cw+cw*.2,w=cw*.6,y=H-bot-h;
+    s+='<rect class="'+(d[2]||base)+'" x="'+xx.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h.toFixed(1)+'"/>';
+    s+='<text class="c-val" x="'+(i*cw+cw/2)+'" y="'+(y-5)+'" text-anchor="middle">'+esc(fmt(d[1]))+'</text>';
+    s+='<text class="c-lbl" x="'+(i*cw+cw/2)+'" y="'+(H-6)+'" text-anchor="middle">'+esc(d[0])+'</text>';
+  });
+  return s+'</svg>';
+}
+var kfmt=function(n){return (n<0?'-':'')+'£'+(Math.abs(n)/1000).toFixed(1)+'K'};
+
+/* ---- data ---- */
+var crew=[['C01','Rob','human','foreman',45,'Measure twice, pour once.'],['C02','Wanda','human','builder',42,'Already on it.'],['C03','Sprout','human','apprentice (self-appointed)',18,"I'm helping!"],['C04','Dig','machine','digger',60,'Dig deep.'],['C05','Tipper','machine','dumper',40,"If it's heavy, I'll tip it."],['C06','Whirl','machine','cement mixer',25,'Round and round!'],['C07','Flatt','machine','steamroller',35,'Flat out.'],['C08','Lanky','machine','crane',85,'Er, how high?']];
+var jobs=[
+ {id:'P01',n:"Mrs Kettle's Pergola",sh:'Pergola',c:'Mrs Kettle',t:'Hammerton',ty:'residential',cv:9800,s:'2026-07-06',p:'2026-07-24',e:'2026-07-22',st:'complete',lab:3720,rw:0,mat:2878,m:3203,d:-2,sn:[],xy:[70,82]},
+ {id:'P02',n:"Farmer Marrow's Barn Extension",sh:'Barn',c:'Farmer Marrow',t:'Buttercup Vale',ty:'farm',cv:72000,s:'2026-07-01',p:'2026-08-28',e:'2026-08-27',st:'complete',lab:29212,rw:1200,mat:26651,m:16137,d:-1,sn:['Rain washed out the barn footings.'],xy:[330,86]},
+ {id:'P03',n:'Buttercup Vale Wind Turbine Base',sh:'Turbine base',c:'Buttercup Vale Council',t:'Buttercup Vale',ty:'civic',cv:150000,s:'2026-07-13',p:'2026-09-25',e:'2026-10-23',st:'complete',lab:97620,rw:30084,mat:58740,m:-6360,d:28,sn:['Kipper sat in the wet concrete. Paw prints set overnight.','Whirl over-mixed batch 14. It came out as soup.','Kipper sat in the wet concrete again. Same spot.','Lanky lowered the mould two feet left of the pegs.'],xy:[448,128]},
+ {id:'P04',n:"Sprout's Scarecrow Workshop",sh:'Scarecrow',c:'Sprout',t:'Buttercup Vale',ty:'farm',cv:10500,s:'2026-08-03',p:'2026-08-21',e:'2026-09-04',st:'complete',lab:9482,rw:1596,mat:1198,m:-180,d:14,sn:['Sprout built the scarecrow a door. On the roof.',"Sprout 'improved' the paint colour to turnip."],xy:[318,212]},
+ {id:'P05',n:'Hammerton Skate Park',sh:'Skate park',c:'Hammerton Town Council',t:'Hammerton',ty:'civic',cv:96000,s:'2026-08-10',p:'2026-09-30',e:'2026-09-29',st:'complete',lab:19636,rw:175,mat:52020,m:24344,d:-1,sn:['Flatt rolled the half-pipe flat. It is now a quarter-pipe.'],xy:[178,84]},
+ {id:'P06',n:'Town Hall Clock Tower Repair',sh:'Clock tower',c:'Hammerton Town Council',t:'Hammerton',ty:'civic',cv:54000,s:'2026-09-01',p:'2026-10-16',e:null,st:'on_hold',lab:6515,rw:0,mat:20280,m:27205,d:null,sn:[],xy:[92,180]},
+ {id:'P07',n:"Jojo's Yard Fence",sh:'Fence',c:'Jojo',t:'Hammerton',ty:'commercial',cv:3200,s:'2026-09-14',p:'2026-09-25',e:null,st:'cancelled',lab:0,rw:0,mat:0,m:null,d:null,sn:[],xy:[56,268]},
+ {id:'P08',n:"Mr Bramley's Office Refit",sh:'Office refit',c:'Mr Bramley',t:'Hammerton',ty:'commercial',cv:61000,s:'2026-09-21',p:'2026-11-20',e:null,st:'in_progress',lab:10031,rw:160,mat:4502,m:46467,d:null,sn:['Tipper delivered the office carpet to the farm.'],xy:[196,204]},
+ {id:'P09',n:'Buttercup Vale Bus Shelter',sh:'Bus shelter',c:'Buttercup Vale Council',t:'Buttercup Vale',ty:'civic',cv:21000,s:'2026-10-01',p:'2026-10-09',e:'2026-10-15',st:'complete',lab:4565,rw:180,mat:7923,m:8512,d:6,sn:['Wind blew the roof panels into the duck pond.'],xy:[408,256]},
+ {id:'P10',n:"Kipper's Cat Flap",sh:'Cat flap',c:'Rob (personal job)',t:'Hammerton',ty:'residential',cv:150,s:'2026-10-20',p:'2026-10-28',e:'2026-10-27',st:'complete',lab:788,rw:405,mat:9,m:-647,d:-1,sn:['Cat flap fitted upside down. Kipper unimpressed.'],xy:[160,290]}
+];
+var pinCls=function(j){return j.st==='cancelled'?'p-off':(j.st!=='complete'?'p-open':(j.d>7?'p-late':'p-ok'))};
+
+/* ---- firm tab ---- */
+function status(j){
+  if(j.st==='cancelled')return '<span class="pill off">cancelled</span>';
+  if(j.st==='on_hold')return '<span class="pill open">on hold</span>';
+  if(j.st==='in_progress')return '<span class="pill open">in progress</span>';
+  if(j.d>7)return '<span class="pill bad">'+j.d+' days late</span>';
+  if(j.d>0)return '<span class="pill good">'+j.d+' days over, in grace</span>';
+  return '<span class="pill good">on time</span>';
+}
+function lrow(name,val,max,cls){return '<div class="lrow"><span>'+name+'</span><span class="t"><span class="f '+(cls||'')+'" style="width:'+Math.min(100,Math.abs(val)/max*100).toFixed(1)+'%"></span></span><span class="n">'+gbp(val)+'</span></div>'}
+var WARN='<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l7 12.5H1z" fill="#FFD21F" stroke="#1D2023" stroke-width="1.2" stroke-linejoin="round"/><path d="M8 6v4" stroke="#1D2023" stroke-width="1.6"/><circle cx="8" cy="12" r=".9" fill="#1D2023"/></svg>';
+var TICK='<svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7" fill="#DDF0E4"/><path d="M4.5 8.2l2.3 2.3 4.7-5" fill="none" stroke="#2B7A4B" stroke-width="1.8"/></svg>';
+function show(i){
+  var j=jobs[i],open=j.st==='on_hold'||j.st==='in_progress';
+  document.querySelectorAll('.m-pin').forEach(function(g){g.classList.toggle('on',+g.getAttribute('data-i')===i)});
+  var st=j.st==='cancelled'?['Cancelled','off']:j.st==='on_hold'?['On hold','open']:j.st==='in_progress'?['In progress','open']:j.d>7?['Late','bad']:['On time','good'];
+  var h='<div class="dh"><span>Job sheet · '+j.id+'</span><span>'+j.ty+'</span></div><div class="db"><span class="stamp '+st[1]+'">'+st[0]+'</span><h3>'+esc(j.n)+'</h3><p class="sub">'+esc(j.c)+' · '+j.t+'</p>';
+  if(j.st==='cancelled')h+='<p style="font-size:.9rem;color:var(--muted)">Cancelled before any work started. Left out of every margin figure.</p>';
+  else{
+    h+='<div class="mg"><span class="eyebrow">Margin'+(open?' so far':'')+'</span><b class="'+(j.m<0?'neg':'pos')+'">'+gbp(j.m)+'</b><em>on a '+gbp(j.cv)+' contract</em></div>';
+    h+='<div class="ledger">'+lrow('Labour',j.lab,j.cv)+lrow('of it rework',j.rw,j.cv,'rw')+lrow('Materials',j.mat,j.cv)+'</div>';
+  }
+  h+='<p class="dates">Due '+j.p+' · '+(j.e?'handed over '+j.e+(j.d>0?' ('+j.d+' days over)':''):'not handed over')+'</p>';
+  h+='<span class="eyebrow">Snag log</span><ul class="snags2">'+(j.sn.length?j.sn.map(function(s){return '<li>'+WARN+'<span>'+esc(s)+'</span></li>'}).join(''):'<li class="none">'+TICK+'<span>Nothing went wrong.</span></li>')+'</ul></div>';
+  $('sheet').innerHTML=h;
+}
+var POS={P01:[34,108],P05:[150,108],P06:[34,200],P08:[150,200],P07:[34,292],P10:[150,292],P02:[316,118],P03:[434,118],P04:[316,240],P09:[434,240]};
+function mapSvg(){
+  var s='<defs><pattern id="plough" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><rect width="8" height="8" fill="#E1EACB"/><path d="M0 0v8" stroke="#D0DBB2" stroke-width="3"/></pattern></defs>';
+  s+='<rect width="560" height="340" fill="#F7F8F3"/><rect class="m-zone-h" x="8" y="10" width="270" height="322" rx="18"/><rect class="m-zone-b" x="296" y="10" width="256" height="322" rx="18"/>';
+  [[306,150,112,52],[424,150,118,52],[306,272,118,50]].forEach(function(f){s+='<rect class="m-field" x="'+f[0]+'" y="'+f[1]+'" width="'+f[2]+'" height="'+f[3]+'" rx="8"/>'});
+  s+='<path class="m-road" d="M287 345 C 278 270, 298 210, 287 150 S 280 50, 290 -5"/><path class="m-road2" d="M287 345 C 278 270, 298 210, 287 150 S 280 50, 290 -5"/>';
+  for(var hx=30;hx<=250;hx+=37)s+='<g class="m-house" transform="translate('+hx+' 306)"><rect x="0" y="6" width="14" height="10"/><path d="M-1.5 7.5L7 0l8.5 7.5z"/></g>';
+  [[248,150,7],[262,160,5],[236,163,5],[250,246,6],[264,254,4],[532,300,6],[544,288,4],[312,318,4]].forEach(function(t){s+='<circle class="m-tree" cx="'+t[0]+'" cy="'+t[1]+'" r="'+t[2]+'"/>'});
+  s+='<ellipse class="m-pond" cx="488" cy="304" rx="34" ry="14"/><ellipse cx="478" cy="302" rx="3.5" ry="2.5" fill="#fff"/><ellipse cx="494" cy="307" rx="3.5" ry="2.5" fill="#fff"/>';
+  s+='<g transform="translate(532 34)" stroke="#1D2023" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="0" y1="0" x2="0" y2="34"/><line x1="0" y1="0" x2="0" y2="-14"/><line x1="0" y1="0" x2="12" y2="7"/><line x1="0" y1="0" x2="-12" y2="7"/></g>';
+  s+='<text class="m-town" x="26" y="40">HAMMERTON</text><text class="m-town" x="314" y="40">BUTTERCUP VALE</text>';
+  jobs.forEach(function(j,i){
+    var p=POS[j.id],cls=pinCls(j);
+    var mt=j.st==='cancelled'?['cancelled','off']:j.st!=='complete'?[gbp(j.m)+' so far','open']:[gbp(j.m),j.m<0?'neg':'pos'];
+    var w=Math.round(Math.max(j.sh.length*6.6,mt[0].length*6.3)+18);
+    s+='<g class="m-pin" tabindex="0" role="button" data-i="'+i+'" aria-label="'+esc(j.n)+', margin '+esc(mt[0])+'" transform="translate('+p[0]+' '+p[1]+')">';
+    s+='<circle class="halo" cx="0" cy="-16" r="14"/><path class="mk '+cls+'" d="M0 0C-3-6-9-10-9-16a9 9 0 0 1 18 0c0 6-6 10-9 16z"/><circle class="dot" cx="0" cy="-16" r="3.5"/>';
+    s+='<rect class="chip" x="14" y="-31" width="'+w+'" height="31" rx="7"/><text class="cn" x="23" y="-18">'+esc(j.sh)+'</text><text class="cm2 '+mt[1]+'" x="23" y="-6">'+esc(mt[0])+'</text></g>';
+  });
+  return s;
+}
+var O='stroke="#1D2023" stroke-width="1.5" stroke-linejoin="round"';
+function human(hat,sprout){return '<svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true"><path d="M11 45c1-8 6-12 13-12s12 4 13 12z" fill="#F07C2A" '+O+'/><path d="M20 33l4 12 4-12" fill="none" stroke="#FFD21F" stroke-width="2"/><circle cx="24" cy="23" r="8" fill="#F2C9A0" '+O+'/><path d="M15 20a9 8.5 0 0 1 18 0z" fill="'+hat+'" '+O+'/><rect x="12.5" y="19" width="23" height="3" rx="1.5" fill="'+hat+'" '+O+'/>'+(sprout?'<path d="M24 11.5V7" stroke="#3E7A2E" stroke-width="1.5"/><path d="M24 8c-3-3-6-2-7 0 2 2 5 2 7 0zM24 8c3-3 6-2 7 0-2 2-5 2-7 0z" fill="#6CB257" stroke="#3E7A2E" stroke-width="1"/>':'')+'<circle cx="21" cy="25" r="1" fill="#1D2023"/><circle cx="27" cy="25" r="1" fill="#1D2023"/></svg>'}
+var ART={
+ C01:human('#FFFFFF'),C02:human('#FFD21F'),C03:human('#FFD21F',1),
+ C04:'<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="37" width="26" height="7" rx="3.5" fill="#3A3F44"/><rect x="7" y="22" width="18" height="15" rx="2" fill="#FFD21F" '+O+'/><rect x="15" y="25" width="7" height="6" fill="#BFD9EE" '+O+'/><path d="M24 28L34 14l8 9" fill="none" stroke="#1D2023" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M40 21l5 7-7 2z" fill="#3A3F44"/></svg>',
+ C05:'<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 20h24l-4 14H8z" fill="#FFD21F" '+O+'/><rect x="28" y="22" width="13" height="12" rx="1.5" fill="#FFD21F" '+O+'/><rect x="31" y="24.5" width="7" height="5" fill="#BFD9EE" '+O+'/><rect x="4" y="33" width="38" height="3" fill="#3A3F44"/><circle cx="13" cy="39" r="5" fill="#3A3F44"/><circle cx="35" cy="39" r="5" fill="#3A3F44"/></svg>',
+ C06:'<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect x="4" y="33" width="40" height="3" fill="#3A3F44"/><ellipse cx="20" cy="22" rx="14" ry="9" transform="rotate(-22 20 22)" fill="#F07C2A" '+O+'/><path d="M12 16l6 14M19 13l6 14M26 11l5 12" stroke="#FFFFFF" stroke-width="2"/><rect x="33" y="21" width="10" height="12" rx="1.5" fill="#FFD21F" '+O+'/><circle cx="12" cy="39" r="5" fill="#3A3F44"/><circle cx="36" cy="39" r="5" fill="#3A3F44"/></svg>',
+ C07:'<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect x="18" y="24" width="24" height="12" rx="2" fill="#FFD21F" '+O+'/><path d="M26 24V13h12v11" fill="#BFD9EE" '+O+'/><path d="M24 13h16" stroke="#1D2023" stroke-width="2.5"/><circle cx="13" cy="35" r="9" fill="#5C6268" stroke="#1D2023" stroke-width="1.5"/><path d="M7 35h12" stroke="#8A9096" stroke-width="1.5"/><circle cx="36" cy="39" r="5" fill="#3A3F44"/></svg>',
+ C08:'<svg width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 44V9M20 44V9M14 16l6 6M20 16l-6 6M14 28l6 6M20 28l-6 6" stroke="#E0B000" stroke-width="2"/><path d="M6 8h38" stroke="#E0B000" stroke-width="3.5"/><path d="M6 8h38M14 44V9M20 44V9" stroke="#1D2023" stroke-width=".8" fill="none"/><rect x="11" y="9" width="12" height="7" fill="#FFD21F" '+O+'/><path d="M39 9v17" stroke="#1D2023" stroke-width="1.3"/><path d="M37 26a2.5 2.5 0 1 0 5 0" fill="none" stroke="#1D2023" stroke-width="1.6"/><rect x="9" y="42" width="16" height="3" fill="#3A3F44"/></svg>',
+ K:'<svg width="44" height="44" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 42V16l7 7h14l7-7v26z" fill="#3A3F44" '+O+'/><circle cx="19" cy="30" r="2.6" fill="#FFD21F"/><circle cx="29" cy="30" r="2.6" fill="#FFD21F"/><path d="M22 35l2 1.5 2-1.5" fill="none" stroke="#F2A3A3" stroke-width="1.5"/><path d="M8 34h7M8 37h7M33 34h7M33 37h7" stroke="#C9CDC4" stroke-width="1"/></svg>'
+};
+(function(){
+  var s='<defs><pattern id="plough" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(30)"><rect width="8" height="8" fill="#E3EBCF"/><path d="M0 0v8" stroke="#D1DCB5" stroke-width="3"/></pattern></defs><rect class="m-ground" width="520" height="330"/>';
+  [[268,52,120,64],[244,176,112,72],[372,168,104,56],[300,280,110,40]].forEach(function(f){s+='<rect class="m-field" x="'+f[0]+'" y="'+f[1]+'" width="'+f[2]+'" height="'+f[3]+'" rx="6"/>'});
+  [[16,128],[34,146],[126,126],[144,140],[232,134],[244,158],[18,214],[122,238],[234,262],[96,306],[112,46],[24,170]].forEach(function(p){s+='<g class="m-house" transform="translate('+p[0]+' '+p[1]+')"><rect x="0" y="5" width="12" height="9"/><path d="M-1.5 6.5L6 0l7.5 6.5z"/></g>'});
+  [[292,148,6],[306,158,5],[392,96,6],[404,106,5],[500,210,7],[506,226,5],[262,308,6],[250,40,6],[236,52,4],[372,250,5]].forEach(function(t){s+='<circle class="m-tree" cx="'+t[0]+'" cy="'+t[1]+'" r="'+t[2]+'"/>'});
+  s+='<path class="m-road" d="M20 318 C 150 298, 200 160, 270 170 S 420 40, 510 30"/><path class="m-road2" d="M20 318 C 150 298, 200 160, 270 170 S 420 40, 510 30"/>';
+  s+='<ellipse class="m-pond" cx="472" cy="298" rx="38" ry="17"/><text class="m-lbl" x="472" y="301" text-anchor="middle" style="font-size:9px;fill:#4A6C8C">duck pond</text>';
+  s+='<text class="m-town" x="18" y="26">HAMMERTON</text><text class="m-town" x="300" y="26">BUTTERCUP VALE</text>';
+  s+='<g transform="translate(488 112)" stroke="#1D2023" stroke-width="2" aria-hidden="true"><line x1="0" y1="0" x2="0" y2="34"/><line x1="0" y1="0" x2="0" y2="-15"/><line x1="0" y1="0" x2="13" y2="8"/><line x1="0" y1="0" x2="-13" y2="8"/></g>';
+  jobs.forEach(function(j,i){var r=6+Math.sqrt(j.cv/150000)*22,x=j.xy[0],y=j.xy[1];
+    s+='<g class="m-pin" tabindex="0" role="button" data-i="'+i+'" aria-label="'+esc(j.n)+'"><title>'+esc(j.n)+(j.m!=null?' · margin '+gbp(j.m):' · cancelled')+'</title><circle class="'+pinCls(j)+'" cx="'+x+'" cy="'+y+'" r="'+r.toFixed(1)+'"/><text class="m-lbl" x="'+x+'" y="'+(y+r+12).toFixed(1)+'" text-anchor="middle">'+esc(j.sh)+'</text></g>'});
+  s=mapSvg();
+  var m=$('map');m.innerHTML=s;
+  var pick=function(e){var g=e.target.closest('.m-pin');if(g)show(+g.getAttribute('data-i'))};
+  m.addEventListener('click',pick);m.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();pick(e)}});
+  crew.forEach(function(c){$('crew').appendChild(el('div','idc '+c[2],'<span class="ava">'+ART[c[0]]+'</span><div class="idt"><b>'+c[1]+'</b><small>'+esc(c[3])+'</small></div><span class="rate">£'+c[4]+'/h</span><q>'+esc(c[5])+'</q>'))});
+  $('crew').appendChild(el('div','idc cat','<span class="ava">'+ART.K+'</span><div class="idt"><b>Kipper</b><small>the cat, not crew</small></div><span class="rate">2 snags</span><q>Sits in wet concrete.</q>'));
+  show(2);
+})();
+
+/* ---- Snowflake ---- */
+var HMB="Hammerton Builders' Merchant";
+var W={
+ projects:{rows:10,sql:"SELECT *\nFROM site.projects\nLIMIT 10;",cols:['PROJECT_ID','PROJECT_NAME','CLIENT_NAME','SITE_TOWN','PROJECT_TYPE','CONTRACT_VALUE_GBP','START_DATE','PLANNED_END_DATE','ACTUAL_END_DATE','STATUS'],
+  data:jobs.map(function(j){return [j.id,j.n,j.c,j.t,j.ty,j.cv.toFixed(2),j.s,j.p,j.e,j.st]}),note:'One job is cancelled, two are still open.'},
+ crew:{rows:8,sql:"SELECT *\nFROM site.crew;",cols:['CREW_ID','CREW_NAME','CREW_TYPE','ROLE','HOURLY_RATE_GBP','CATCHPHRASE'],
+  data:crew.map(function(c){return [c[0],c[1],c[2],c[3],c[4].toFixed(2),c[5]]}),note:'No cost column anywhere. Cost = hours × this rate.'},
+ work_logs:{rows:746,sql:"SELECT *\nFROM site.work_logs\nWHERE log_id IN ('W0001', 'W0002', 'W0003', 'W0004',\n                 'W0391', 'W0392', 'W0477', 'W0723', 'W0724');",cols:['LOG_ID','CREW_ID','PROJECT_ID','WORK_DATE','TASK_TYPE','HOURS'],
+  data:[['W0001','C01','P01','2026-07-06','supervise','6.00'],['W0002','C02','P01','2026-07-07','build','6.00'],['W0003','C02','P01','2026-07-07','tea_break','0.50'],['W0004','C06','P01','2026-07-08','mix','7.00'],['W0391','C02','P03','2026-08-13','rework','8.00'],['W0392','C06','P03','2026-08-13','rework','8.00'],['W0477','C03','P04','2026-08-03','sprout_helping','3.00'],['W0723','C01',null,'2026-07-03','yard_tidy','2.00'],['W0724','C03',null,'2026-07-03','yard_tidy','3.00']],
+  note:'Rework is never billed. Yard tidying has no job.'},
+ material_orders:{rows:51,sql:"SELECT *\nFROM site.material_orders\nLIMIT 10;",cols:['ORDER_ID','PROJECT_ID','MATERIAL','UNIT','QUANTITY','UNIT_COST_GBP','SUPPLIER','ORDER_DATE','ORDER_STATUS','WASTED_QUANTITY'],
+  data:[['M001','P01','timber','m3','3.00','520.00',HMB,'2026-07-14','delivered','0.10'],['M002','P01','timber','m3','2.00','520.00',HMB,'2026-07-11','delivered','0.10'],['M003','P01','paint','tin','3.00','28.00',HMB,'2026-07-10','delivered','0.20'],['M004','P01','paint','tin','2.00','28.00',HMB,'2026-07-13','delivered','0.10'],['M005','P01','paint','tin','3.00','28.00',HMB,'2026-07-11','delivered','0.20'],['M006','P01','nails','box','2.00','9.00',HMB,'2026-07-06','delivered','0.20'],['M007','P01','nails','box','2.00','9.00',HMB,'2026-07-15','delivered','0.20'],['M008','P01','nails','box','2.00','9.00',HMB,'2026-07-08','delivered','0.20'],['M009','P02','bricks','pallet','8.00','380.00',HMB,'2026-07-22','delivered','0.30'],['M010','P02','bricks','pallet','14.00','380.00',HMB,'2026-07-07','cancelled','0.00']],
+  note:'Cancelled orders (like M010) never arrived. Leave them out.'},
+ site_snags:{rows:11,sql:"SELECT *\nFROM site.site_snags;",cols:['SNAG_ID','PROJECT_ID','REPORTED_DATE','CAUSED_BY','DESCRIPTION','SEVERITY'],
+  data:[['S01','P03','2026-08-12','KIPPER','Kipper sat in the wet turbine-base concrete. Paw prints set overnight.','high'],['S02','P03','2026-08-27','C06','Whirl over-mixed batch 14. It came out as soup.','medium'],['S03','P03','2026-09-16','KIPPER','Kipper sat in the wet concrete again. Same spot. Same paws.','high'],['S04','P03','2026-09-30','C08','Lanky lowered the turbine base mould two feet left of the pegs.','high'],['S05','P04','2026-08-18','C03','Sprout built the scarecrow a door. On the roof.','medium'],['S06','P04','2026-08-25','C03',"Sprout 'improved' the paint colour to turnip.",'low'],['S07','P02','2026-08-04','WEATHER','Rain washed out the barn footings.','medium'],['S08','P05','2026-09-08','C07','Flatt rolled the half-pipe flat. It is now a quarter-pipe.','low'],['S09','P10','2026-10-21','C01','Cat flap fitted upside down. Kipper unimpressed.','low'],['S10','P09','2026-10-07','WEATHER','Wind blew the shelter roof panels into the duck pond.','low'],['S11','P08','2026-10-14','C05','Tipper delivered the office carpet to the farm.','low']],
+  note:'CAUSED_BY mixes crew ids with WEATHER and KIPPER.'},
+ q_margin:{label:'gross-margin-by-job',sql:"WITH labour AS (\n  SELECT w.project_id, SUM(w.hours * c.hourly_rate_gbp) AS labour_cost\n  FROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id\n  WHERE w.project_id IS NOT NULL\n  GROUP BY w.project_id\n), mats AS (\n  SELECT project_id, SUM(quantity * unit_cost_gbp) AS materials_cost\n  FROM site.material_orders\n  WHERE order_status = 'delivered'\n  GROUP BY project_id\n)\nSELECT p.project_name,\n       p.contract_value_gbp - COALESCE(l.labour_cost, 0)\n         - COALESCE(m.materials_cost, 0) AS gross_margin_gbp\nFROM site.projects p\nLEFT JOIN labour l ON l.project_id = p.project_id\nLEFT JOIN mats m ON m.project_id = p.project_id\nWHERE p.status <> 'cancelled'\nORDER BY gross_margin_gbp;",cols:['PROJECT_NAME','GROSS_MARGIN_GBP'],
+  data:jobs.filter(function(j){return j.st!=='cancelled'}).sort(function(a,b){return a.m-b.m}).map(function(j){return [j.n,j.m.toFixed(2)]}),note:'Run 34 times by all five analysts.'},
+ q_rework:{label:'rework-by-job',sql:"SELECT p.project_name,\n       SUM(w.hours * c.hourly_rate_gbp) AS rework_cost_gbp\nFROM site.work_logs w\nJOIN site.crew c ON c.crew_id = w.crew_id\nJOIN site.projects p ON p.project_id = w.project_id\nWHERE w.task_type = 'rework'\nGROUP BY 1\nORDER BY 2 DESC;",cols:['PROJECT_NAME','REWORK_COST_GBP'],
+  data:[['Buttercup Vale Wind Turbine Base','30084.00'],["Sprout's Scarecrow Workshop",'1596.00'],["Farmer Marrow's Barn Extension",'1200.00'],["Kipper's Cat Flap",'405.00'],['Buttercup Vale Bus Shelter','180.00'],['Hammerton Skate Park','175.00'],["Mr Bramley's Office Refit",'160.00']],note:'89% of all rework is one job.'},
+ q_ontime:{label:'on-time-rate',sql:"SELECT COUNT(CASE WHEN CAST(julianday(actual_end_date)\n                 - julianday(planned_end_date) AS INTEGER) <= 7\n             THEN 1 END) * 1.0 / COUNT(*) AS on_time_rate\nFROM site.projects\nWHERE status = 'complete';",cols:['ON_TIME_RATE'],data:[['0.7142857142857143']],note:'The most-run query (36 times). Not on the dashboard.'}
+};
+var KW=/^(SELECT|FROM|WHERE|AND|OR|NOT|IN|IS|NULL|AS|JOIN|LEFT|ON|GROUP|BY|ORDER|DESC|ASC|LIMIT|WITH|CASE|WHEN|THEN|ELSE|END|SUM|COUNT|CAST|INTEGER|COALESCE|UNION|ALL)$/i;
+function hl(sql){return sql.split('\n').map(function(line){var ci=line.indexOf('--'),code=ci>=0?line.slice(0,ci):line,cm=ci>=0?line.slice(ci):'';
+  return code.replace(/('(?:[^']|'')*')|(\b\d+(?:\.\d+)?\b)|([A-Za-z_]+)|([^'A-Za-z_\d]+)/g,function(m,s,n,w,o){if(s)return '<span class="s">'+esc(s)+'</span>';if(n)return '<span class="d">'+n+'</span>';if(w)return KW.test(w)?'<span class="k">'+w+'</span>':esc(w);return esc(o)})+(cm?'<span class="cm">'+esc(cm)+'</span>':'')}).join('\n')}
+function gridHtml(cols,data){
+  return '<table><thead><tr><th></th>'+cols.map(function(c){return '<th>'+esc(c)+'</th>'}).join('')+'</tr></thead><tbody>'+data.map(function(r,i){
+    return '<tr><td>'+(i+1)+'</td>'+r.map(function(v){if(v===null)return '<td class="null">NULL</td>';var num=/^-?\d+(\.\d+)?$/.test(String(v));return '<td class="'+(num?'n':'')+(num&&+v<0?' neg':'')+'">'+esc(v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>';
+}
+var tb={},cur='projects',objTab='db';
+function openW(key){
+  cur=key;var q=W[key];
+  Object.keys(tb).forEach(function(k){tb[k].setAttribute('aria-pressed',k===key?'true':'false')});
+  $('wsname').textContent=q.label||'yard-tour';
+  var n=q.sql.split('\n').length,ln='';for(var i=1;i<=n;i++)ln+=i+'\n';
+  $('ln').textContent=ln;$('sql').innerHTML=hl(q.sql);
+  $('whgrid').innerHTML=gridHtml(q.cols,q.data);$('whnote').textContent=q.note;
+  var ms=60+((key.length*37+q.data.length*11)%180);
+  $('sfdet').innerHTML='<h4>Query Details</h4><dl><dt>Status</dt><dd><span class="sf-ok">&#10003; Success</span></dd><dt>Duration</dt><dd>'+ms+'ms</dd><dt>Rows</dt><dd>'+q.data.length+'</dd>'+(q.rows?'<dt>Table rows</dt><dd>'+q.rows+'</dd>':'')+'<dt>Warehouse</dt><dd>YARD_WH</dd></dl>';
+}
+function tree(){
+  var t=$('tree');t.innerHTML='';tb={};
+  var ic={db:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><ellipse cx="6.5" cy="3" rx="5" ry="2" fill="none" stroke="currentColor"/><path d="M1.5 3v7c0 1.1 2.2 2 5 2s5-.9 5-2V3" fill="none" stroke="currentColor"/></svg>',
+   sc:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M1 3h4l1 1.5h6V11H1z" fill="none" stroke="currentColor"/></svg>',
+   tb:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><rect x="1" y="2" width="11" height="9" fill="none" stroke="currentColor"/><path d="M1 5h11M5 5v6" stroke="currentColor"/></svg>',
+   ws:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M2 1h6l3 3v8H2z" fill="none" stroke="currentColor"/><path d="M4 7h5M4 9.5h5" stroke="currentColor"/></svg>',
+   ch:'<svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" transform="rotate(90 5 5)"/></svg>'};
+  var add=function(key,icon,cls,label){var q=W[key],b=el('button','tn '+cls,icon+'<span>'+(label||key.toUpperCase())+'</span>'+(q.rows?'<span class="c">'+q.rows+'</span>':''));b.id='sf-'+key;b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){openW(key)});tb[key]=b;t.appendChild(b)};
+  if(objTab==='db'){
+    t.appendChild(el('div','tn',ic.ch+ic.db+'<b>FIXIT</b>'));
+    t.appendChild(el('div','tn l1',ic.ch+ic.sc+'SITE'));
+    t.appendChild(el('div','tn l2',ic.ch+'Tables'));
+    ['projects','crew','work_logs','material_orders','site_snags'].forEach(function(k){add(k,ic.tb,'l3')});
+    t.appendChild(el('div','tn',ic.db+'<b>SNOWFLAKE</b>'));
+  }else{
+    [['q_margin','Gross margin by job'],['q_rework','Rework cost by job'],['q_ontime','On-time rate']].forEach(function(a){add(a[0],ic.ws,'',a[1])});
+  }
+  openW(objTab==='db'?(W[cur].label?'projects':cur):(W[cur].label?cur:'q_margin'));
+}
+['db','ws'].forEach(function(k){$('ot-'+k).addEventListener('click',function(){objTab=k;$('ot-db').setAttribute('aria-selected',k==='db');$('ot-ws').setAttribute('aria-selected',k==='ws');tree()})});
+$('run').addEventListener('click',function(){var e=$('sfedit');e.classList.add('loading');setTimeout(function(){openW(cur);e.classList.remove('loading')},reduce?0:300)});
+tree();
+
+var runs=[['2026-10-31 13:49','ESTIMATOR','3.0s','WITH labour AS (SELECT w.project_id, SUM(w.hours * c.hourly_rate_gbp) …'],['2026-10-31 12:57','QUANTITY_SURVEYOR','2.9s','SELECT SUM(wasted_quantity * unit_cost_gbp) / SUM(quantity * unit_cost …'],['2026-10-30 16:49','SITE_PLANNER','1.2s','SELECT p.project_name, SUM(w.hours * c.hourly_rate_gbp) AS rework_cost …'],['2026-10-30 12:09','QUANTITY_SURVEYOR','3.0s','SELECT SUM(w.hours * c.hourly_rate_gbp) AS rework_cost_gbp FROM site.w …'],['2026-10-30 10:22','QUANTITY_SURVEYOR','2.0s',"SELECT SUM(CASE WHEN task_type NOT IN ('tea_break', 'yard_tidy', 'rewo …"],['2026-10-30 08:46','QUANTITY_SURVEYOR','1.0s',"SELECT c.crew_name, SUM(CASE WHEN w.task_type NOT IN ('tea_break', 'ya …"],['2026-10-29 13:37','ESTIMATOR','2.6s','SELECT * FROM site.crew LIMIT 100']];
+var shapes=[["SELECT COUNT(CASE WHEN … <= 7 THEN 1 END) * 1.0 / COUNT(*) AS on_time_rate …",'36','5'],['WITH labour AS (…), mats AS (…) SELECT … AS gross_margin_gbp …','34','5'],["SELECT p.project_name, SUM(…) AS rework_cost_gbp … WHERE w.task_type = 'rework' …",'20','4'],["SELECT c.crew_name, … AS billable_utilisation …",'20','3'],['SELECT project_type, … AS on_time_rate … GROUP BY project_type','14','3'],['SELECT material, … AS waste_pct … GROUP BY material','12','2'],["SELECT … AS waste_pct FROM site.material_orders WHERE order_status = 'delivered'",'11','2'],['SELECT project_id, … AS waste_pct … GROUP BY project_id','10','1']];
+function qh(grp){
+  $('qh-runs').setAttribute('aria-pressed',!grp);$('qh-grp').setAttribute('aria-pressed',!!grp);
+  if(grp){$('qhgrid').innerHTML=gridHtml(['SQL TEXT','RUNS','USERS'],shapes);$('qhnote').textContent='110 distinct queries. On-time rate is asked most, and it is not on the dashboard.'}
+  else{$('qhgrid').innerHTML=gridHtml(['STATUS','SQL TEXT','USER','WAREHOUSE','DURATION','STARTED'],runs.map(function(r){return ['✓ Success',r[3],r[1],'YARD_WH',r[2],r[0]]}));$('qhnote').textContent='417 runs by 5 analysts. The agent learns what the office really asks from here.'}
+}
+$('qh-runs').addEventListener('click',function(){qh(false)});$('qh-grp').addEventListener('click',function(){qh(true)});qh(false);
+document.querySelectorAll('[data-sf]').forEach(function(b){b.addEventListener('click',function(){var v=b.getAttribute('data-sf');
+  document.querySelectorAll('[data-sf]').forEach(function(x){if(x===b)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current')});
+  $('sf-ws').style.display=v==='ws'?'flex':'none';$('sf-qh').hidden=v!=='qh'})});
+
+/* ---- Power BI ---- */
+var rate={};crew.forEach(function(c){rate[c[0]]=[c[1],c[2],c[4]]});
+var M=[
+ {id:'gm',tbl:'JOB_LEDGER',name:'Gross Margin',v:'£118.68K',st:'Contract less labour and delivered materials',dax:'Gross Margin = SUM(JOB_LEDGER[amount_gbp])',rule:'Cancelled jobs are excluded. £73,672 of it is from two jobs still open.',vis:6},
+ {id:'rc',tbl:'WORK_COST',name:'Rework Cost',v:'£33.80K',st:'Hours spent fixing what we already fixed',dax:'Rework Cost = CALCULATE(SUM(WORK_COST[cost_gbp]), WORK_COST[task_type] = "rework")',rule:'Wanda tops the chart because she did the fixing. The causes are in the snag log.',vis:6},
+ {id:'mw',tbl:'DELIVERED_MATERIALS',name:'Material Waste',v:'£7.65K',st:'Delivered, then skipped',dax:'Material Waste = SUM(DELIVERED_MATERIALS[wasted_value_gbp])',rule:'Cancelled orders are dropped in the table\'s SQL, not in this formula.',vis:6},
+ {id:'lj',tbl:'JOBS',name:'Late Jobs',v:'2',st:'Completed after the planned end date',dax:'Late Jobs = CALCULATE(COUNTROWS(JOBS), JOBS[delivery] = "late")',rule:'The subtitle says "after the planned end date" (3 jobs). The measure allows 7 days\' grace (2 jobs). The agent must follow the measure.',warn:1,vis:6}
+];
+var T={
+ JOB_LEDGER:{rows:27,cols:['project_id','project_name','entry_type','amount_gbp'],sql:"SELECT p.project_id, p.project_name, 'contract' AS entry_type, p.contract_value_gbp AS amount_gbp\nFROM site.projects p WHERE p.status <> 'cancelled'\nUNION ALL\nSELECT p.project_id, p.project_name, 'labour', -SUM(w.hours * c.hourly_rate_gbp) ...\nUNION ALL\nSELECT p.project_id, p.project_name, 'materials', -SUM(o.quantity * o.unit_cost_gbp)\nFROM site.material_orders o ... WHERE o.order_status = 'delivered' ...",
+  data:(function(){var r=[];['contract','labour','materials'].forEach(function(t){jobs.forEach(function(j){if(j.st!=='cancelled')r.push([j.id,j.n,t,(t==='contract'?j.cv:-(t==='labour'?j.lab:j.mat)).toFixed(2)])})});return r})()},
+ WORK_COST:{rows:746,cols:['log_id','project_id','work_date','task_type','crew_name','crew_type','hours','cost_gbp'],sql:"SELECT w.log_id, w.project_id, w.work_date, w.task_type, c.crew_name, c.crew_type, w.hours,\n       w.hours * c.hourly_rate_gbp AS cost_gbp\nFROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id",
+  data:W.work_logs.data.map(function(r){var c=rate[r[1]];return [r[0],r[2],r[3],r[4],c[0],c[1],r[5],(+r[5]*c[2]).toFixed(2)]})},
+ DELIVERED_MATERIALS:{rows:45,cols:['order_id','project_id','material','supplier','order_date','delivered_value_gbp','wasted_value_gbp'],sql:"SELECT o.order_id, o.project_id, o.material, o.supplier, o.order_date,\n       o.quantity * o.unit_cost_gbp AS delivered_value_gbp, o.wasted_quantity * o.unit_cost_gbp AS wasted_value_gbp\nFROM site.material_orders o WHERE o.order_status = 'delivered'",
+  data:W.material_orders.data.filter(function(r){return r[8]==='delivered'}).map(function(r){return [r[0],r[1],r[2],r[6],r[7],(+r[4]*+r[5]).toFixed(2),(+r[9]*+r[5]).toFixed(2)]})},
+ JOBS:{rows:7,cols:['project_id','project_name','project_type','actual_end_date','delivery'],sql:"SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,\n       CASE WHEN CAST(julianday(p.actual_end_date) - julianday(p.planned_end_date) AS INTEGER) > 7\n            THEN 'late' ELSE 'on_time' END AS delivery\nFROM site.projects p WHERE p.status = 'complete'",
+  data:jobs.filter(function(j){return j.st==='complete'}).map(function(j){return [j.id,j.n,j.ty,j.e,j.d>7?'late':'on_time']})}
+};
+var view='report',sel={kind:'m',id:'gm'},selT='JOB_LEDGER',fb={};
+var marginItems=jobs.filter(function(j){return j.st!=='cancelled'}).sort(function(a,b){return b.m-a.m}).map(function(j){return [j.sh,j.m]});
+var reworkCrew=[['Wanda',10500],['Rob',6705],['Lanky',6120],['Dig',5040],['Whirl',3500],['Tipper',1760],['Flatt',175]];
+var VIS=['M3 13V8M7 13V4M11 13V6','M3 4h7M3 8h10M3 12h5','M2 12l4-5 3 3 5-6','M2 13l4-6 3 3 5-6V13z','M8 2a6 6 0 1 0 6 6H8z','circle','card','M2 3h12M2 7h12M2 11h12M6 3v10','M2 3h12v10H2zM2 7h12M6 3v10M10 3v10','M3 12l2-3 3 1 3-5 2 2','M3 13a5 5 0 0 1 10 0','M3 4h10M3 8h6M3 12h8'];
+var selViz=null;
+function vgrid(active){
+  $('vgrid').innerHTML=VIS.map(function(p,i){var on=i===active?' class="on"':'',inner;
+    if(p==='circle')inner='<circle cx="8" cy="8" r="5" fill="none" stroke="currentColor" stroke-width="2.4"/>';
+    else if(p==='card')inner='<rect x="2" y="4" width="12" height="8" fill="none" stroke="currentColor" stroke-width="1.3"/><text x="8" y="10.5" font-size="5.5" text-anchor="middle" fill="currentColor" font-family="sans-serif">123</text>';
+    else inner='<path d="'+p+'" fill="'+(i===3?'currentColor':'none')+'" stroke="currentColor" stroke-width="1.4"/>';
+    return '<span'+on+'><svg width="16" height="16" viewBox="0 0 16 16">'+inner+'</svg></span>'}).join('');
+}
+function pickM(id,viz){
+  var m=M.filter(function(x){return x.id===id})[0];selViz=viz||null;
+  $('fx').innerHTML='<i>1</i>'+esc(m.dax);
+  Object.keys(fb).forEach(function(k){fb[k].setAttribute('aria-pressed',k===id?'true':'false')});
+  document.querySelectorAll('#stage [data-m]').forEach(function(b){b.setAttribute('aria-pressed',(viz?b.id===viz:b.id==='card-'+id)?'true':'false')});
+  vgrid(viz==='viz-gm'?1:viz==='viz-rc'?0:6);
+  $('well').innerHTML=viz?'<span class="wl">'+(viz==='viz-gm'?'Y-axis':'X-axis')+'</span><span class="wf">'+(viz==='viz-gm'?'project_name':'crew_name')+'</span><span class="wl">'+(viz==='viz-gm'?'X-axis':'Y-axis')+'</span><span class="wf">'+m.name+'</span>':'<span class="wl">Fields</span><span class="wf">'+m.name+'</span>';
+  var n=$('pbnote');n.className='rule'+(m.warn?' warn':'');n.innerHTML='<b>'+(m.warn?'Trap:':m.name+':')+'</b><span>'+esc(m.rule)+'</span>';
+}
+function render(){
+  ['report','table','model'].forEach(function(v){$('pv-'+v).setAttribute('aria-pressed',v===view?'true':'false')});
+  var s=$('stage');
+  if(view==='report'){
+    var h='<div class="canvas">';
+    M.forEach(function(m){h+='<button class="card" data-m="'+m.id+'" id="card-'+m.id+'">'+(m.warn?'<span class="flag" aria-label="Subtitle and measure disagree">!</span>':'')+'<span class="v">'+m.v+'</span><span class="t">'+m.name+'</span><span class="st">'+esc(m.st)+'</span></button>'});
+    h+='<button class="viz" data-m="gm" id="viz-gm"><span class="vt">Gross Margin by project_name</span>'+hbar(marginItems,{w:560,rh:30,lw:100,inline:1,fmt:kfmt,base:'c-pb',same:1,aria:'Gross margin by job'})+'</button>';
+    h+='<button class="viz" data-m="rc" id="viz-rc"><span class="vt">Rework Cost by crew_name</span>'+vbar(reworkCrew,{w:560,h:270,fmt:kfmt,base:'c-pb',aria:'Rework cost by crew'})+'</button>';
+    s.innerHTML=h+'</div>';
+    s.querySelectorAll('[data-m]').forEach(function(b){b.addEventListener('click',function(){pickM(b.getAttribute('data-m'),b.id.indexOf('viz')===0?b.id:null)})});
+    pickM(sel.id,selViz);
+  }else if(view==='table'){
+    var t=T[selT];
+    s.innerHTML='<div class="tv"><div class="tv-pick">'+Object.keys(T).map(function(n){return '<button data-t="'+n+'" aria-pressed="'+(n===selT)+'">'+n+'</button>'}).join('')+'</div><div class="grid" style="max-height:250px">'+gridHtml(t.cols,t.data)+'</div><span class="cnt">Table: '+selT+' ('+t.rows+' rows)</span><pre class="src">'+hl(t.sql)+'</pre></div>';
+    s.querySelectorAll('[data-t]').forEach(function(b){b.addEventListener('click',function(){selT=b.getAttribute('data-t');render()})});
+    $('fx').innerHTML='<i>1</i>'+selT;
+    $('pbnote').className='rule';$('pbnote').innerHTML='<b>'+selT+':</b><span>Each table is built from SQL against Snowflake. Pick another in the Data pane.</span>';
+  }else{
+    s.innerHTML='<div class="mv">'+Object.keys(T).map(function(n){var m=M.filter(function(x){return x.tbl===n})[0];return '<div class="mbox"><h4>'+n+'</h4><ul><li class="m">'+m.name+'</li>'+T[n].cols.map(function(c){return '<li>'+c+'</li>'}).join('')+'</ul></div>'}).join('')+'<p class="mv-note">No relationships between the tables.</p></div>';
+    $('fx').innerHTML='<i>1</i>Model';
+    $('pbnote').className='rule';$('pbnote').innerHTML='<b>Model:</b><span>No relationships. The rules live in each table\'s SQL, so the agent needs the SQL as well as the measures.</span>';
+  }
+}
+(function(){
+  var f=$('fields'),tic='<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><rect x="1" y="2" width="11" height="9" fill="none" stroke="currentColor"/><path d="M1 5h11M5 5v6" stroke="currentColor"/></svg>',
+      mic='<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><rect x="1.5" y="1" width="10" height="11" rx="1" fill="none" stroke="currentColor"/><rect x="3.5" y="3" width="6" height="2" fill="currentColor"/><path d="M4 7.5h1M6 7.5h1M8 7.5h1M4 9.8h1M6 9.8h1M8 9.8h1" stroke="currentColor"/></svg>';
+  Object.keys(T).forEach(function(n){
+    var b=el('button','pf-t',tic+'<span>'+n+'</span>');b.addEventListener('click',function(){selT=n;view='table';render()});f.appendChild(b);
+    var m=M.filter(function(x){return x.tbl===n})[0],mb=el('button','pf-f ms',mic+'<span>'+m.name+'</span>');mb.id='field-'+m.id;
+    mb.addEventListener('click',function(){sel={kind:'m',id:m.id};selViz=null;view='report';render()});fb[m.id]=mb;f.appendChild(mb);
+    T[n].cols.forEach(function(c){f.appendChild(el('div','pf-f','<span style="width:13px"></span><span>'+c+'</span>'))});
+  });
+  ['report','table','model'].forEach(function(v){$('pv-'+v).addEventListener('click',function(){view=v;render()})});
+  document.addEventListener('click',function(e){var c=e.target.closest('#stage [data-m]');if(c)sel={kind:'m',id:c.getAttribute('data-m')}});
+  render();
+})();
+
+/* ---- agent ---- */
+var pf=function(v){return Math.round(v*100)+'%'};
+var QA=[
+ {q:'Which job lost us the most money?',a:'The wind turbine base: -£6,360.',d:'£30,084 of its cost was rework.',chart:hbar(jobs.filter(function(j){return j.st!=='cancelled'}).sort(function(a,b){return a.m-b.m}).map(function(j){return [j.sh,j.m,j.id==='P03'?'c-hi':null]}),{aria:'Gross margin by job'}),metric:'Gross Margin',sql:W.q_margin.sql},
+ {q:'How many jobs were late?',a:'2 of the 7 finished jobs.',d:'The bus shelter was 6 days over, inside the week of grace.',chart:hbar(jobs.filter(function(j){return j.st==='complete'}).sort(function(a,b){return b.d-a.d}).map(function(j){return [j.sh,j.d,j.d>7?'c-neg':'c-bar']}),{fmt:function(v){return v+' days'},mark:7,markLabel:'grace ends',aria:'Days over plan'}),metric:'Late Jobs',sql:"SELECT project_name,\n       CAST(julianday(actual_end_date) - julianday(planned_end_date) AS INTEGER) AS days_late\nFROM site.projects\nWHERE status = 'complete'\n  AND CAST(julianday(actual_end_date) - julianday(planned_end_date) AS INTEGER) > 7;"},
+ {q:'What did rework cost, by month?',a:'£33,800. October alone was £17,449.',d:'Mostly the turbine base being put right.',chart:vbar([['Jul',.001],['Aug',7510],['Sep',8841],['Oct',17449]],{fmt:function(v){return v<1?'£0':gbp(v)},h:190,aria:'Rework by month'}),metric:'Rework Cost',sql:"SELECT substr(w.work_date, 1, 7) AS month,\n       SUM(w.hours * c.hourly_rate_gbp) AS rework_cost_gbp\nFROM site.work_logs w\nJOIN site.crew c ON c.crew_id = w.crew_id\nWHERE w.task_type = 'rework'\nGROUP BY 1 ORDER BY 1;"},
+ {q:'How much material went in the skip?',a:'£7,647, 4.4% of deliveries.',d:'Cement is the worst: 19% wasted.',chart:hbar([['cement',3724,'c-hi'],['timber',1456],['steel rebar',1260],['bricks',874],['paint',288],['nails',44]],{aria:'Waste by material'}),metric:'Material Waste',sql:"SELECT material, SUM(wasted_quantity * unit_cost_gbp) AS wasted_gbp\nFROM site.material_orders\nWHERE order_status = 'delivered'\nGROUP BY material ORDER BY 2 DESC;"},
+ {q:'Who is least billable?',a:'Sprout, at 57%.',d:'Flatt the steamroller is the most billable at 96%.',chart:hbar([['Sprout',.568,'c-neg'],['Wanda',.714],['Whirl',.729],['Rob',.77],['Lanky',.815],['Dig',.831],['Tipper',.909],['Flatt',.964]],{fmt:pf,aria:'Billable utilisation'}),metric:'Billable utilisation (from query history)',sql:"SELECT c.crew_name,\n       SUM(CASE WHEN w.task_type NOT IN ('tea_break', 'yard_tidy', 'rework', 'sprout_helping')\n                THEN w.hours ELSE 0 END) / SUM(w.hours) AS billable_utilisation\nFROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id\nGROUP BY 1 ORDER BY 2;"},
+ {q:'What share of jobs finish on time?',a:'71%: 5 of 7.',d:'The most-asked question, and it is not on the dashboard.',chart:'<div class="units">'+jobs.filter(function(j){return j.st==='complete'}).map(function(j){return '<span class="'+(j.d>7?'n':'y')+'">'+esc(j.sh)+'</span>'}).join('')+'</div>',metric:'On-time rate (from query history)',sql:W.q_ontime.sql}
+];
+var qb=[];
+function ask(i){
+  qb.forEach(function(b,x){b.setAttribute('aria-pressed',x===i?'true':'false')});var q=QA[i];
+  $('thread').innerHTML='<div class="bub">'+esc(q.q)+'</div><div class="reply"><span class="av">F</span><div class="rbody"><p class="big">'+esc(q.a)+'</p><p class="meta">'+esc(q.d)+'</p><div class="chart">'+q.chart+'</div><p class="meta"><b>Metric:</b> '+esc(q.metric)+'</p><details class="sql"><summary>SQL it ran</summary><pre>'+hl(q.sql)+'</pre></details></div></div>';
+}
+QA.forEach(function(q,i){var b=el('button','q',esc(q.q));b.id='q-'+i;b.addEventListener('click',function(){ask(i)});qb.push(b);$('qs').appendChild(b)});
+ask(0);
+
+go(location.hash.slice(1));
+})();
+</script>
+
+</body>
+</html>
