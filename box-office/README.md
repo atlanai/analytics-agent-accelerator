@@ -53,7 +53,7 @@ Build an eval set for these metrics, run a baseline with a fresh agent per quest
 ```
 
 It writes eval questions and keeps their answers on your laptop, registers your agent, and runs
-the baseline. On the box office the setup takes about 5 minutes and the baseline about 7.
+the baseline. On the box office the setup and the baseline together take about 12 to 14 minutes.
 
 ## The question to finish on
 
