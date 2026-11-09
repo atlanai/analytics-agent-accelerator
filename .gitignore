@@ -102,6 +102,7 @@ atlan-readiness-report.md
 
 # The builder's yard is built locally; eval answers and agent files from a run never ship.
 yard/site.sqlite
+box-office/tix.sqlite
 .atlan-metrics/
 .atlan-analytics/
 .claude/agents/
