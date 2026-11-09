@@ -449,7 +449,7 @@ button.tf[aria-pressed="true"]{background:var(--tb-sel)}
 
 <!-- AGENT -->
 <section id="v-agent" role="tabpanel" aria-labelledby="tab-agent" hidden>
-  <div class="intro"><p>What you build: an agent that learns Gatewhistle's rules from Tableau and the query history, then answers with its working. These answers are from a real run of the Atlan Analytics plugin on this data, including the one it got wrong.</p></div>
+  <div class="intro"><p>What you build: an agent that learns Gatewhistle's rules from Tableau and the query history, then answers with its working. These are how a real run of the Atlan Analytics plugin worked each question out, including the one it got wrong. The numbers are for you to find.</p></div>
   <div class="steps"><span>Read the workbook and history</span><em>&#8594;</em><span>Write metrics and saved SQL</span><em>&#8594;</em><span>Write eval questions</span><em>&#8594;</em><span>Get a baseline score</span></div>
   <div class="chat">
     <div class="chat-side"><span class="lab">Asked during the run</span><div id="qs" style="display:grid;gap:6px"></div></div>
@@ -681,27 +681,27 @@ renderDash();pick('Fee Take Rate','Fee Take Rate');
 
 /* ---------- agent: answers from a real run ---------- */
 var QA=[
- {q:'How much of what fans paid last quarter went on fees, and why did it go up?',a:'In Q3 2026, 23.8% of what fans paid went on fees, up from 19.4% in Q2. Almost all of the rise is the new dynamic demand fee.',
-  body:'<div class="tw"><table><thead><tr><th>Fee, as a share of what fans paid</th><th class="n">Q2 2026</th><th class="n">Q3 2026</th><th class="n">Change</th></tr></thead><tbody><tr><td>Dynamic demand fee</td><td class="n">0.0%</td><td class="n">6.7%</td><td class="n">+6.7 pts</td></tr><tr><td>Service fee</td><td class="n">13.3%</td><td class="n">12.9%</td><td class="n">−0.4 pts</td></tr><tr><td>Facility fee</td><td class="n">4.2%</td><td class="n">3.0%</td><td class="n">−1.2 pts</td></tr><tr><td>Order and delivery fees</td><td class="n">1.9%</td><td class="n">1.2%</td><td class="n">−0.8 pts</td></tr><tr class="tot"><td>Total</td><td class="n">19.4%</td><td class="n">23.8%</td><td class="n">+4.3 pts</td></tr></tbody></table></div><p>The demand fee brought in $50,458 in Q3, and the Grumpy Moose arena shows alone account for 72% of it. Without it, Q3 would have been about 18.3%, slightly below Q2: tickets got pricier, so the flat fees became a smaller part of each sale.</p>',
-  meta:'Fee Share of Amount Paid: fees ÷ (face value + fees), primary tickets, chargebacks and the test venue excluded. The dashboard tile divides by face value only and shows 31.2%.'},
- {q:'How many tickets did The Grumpy Moose sell for the 14 August show?',a:'It sold out: 700 primary tickets against 700 seats.',
-  body:'<div class="tw"><table><thead><tr><th>Primary tickets for 14 Aug</th><th class="n">Count</th></tr></thead><tbody><tr><td>Sold to fans</td><td class="n">679</td></tr><tr><td>of which later refunded</td><td class="n">3</td></tr><tr><td>Complimentary</td><td class="n">21</td></tr><tr class="tot"><td>Issued in total</td><td class="n">700</td></tr></tbody></table></div><p>Another 109 tickets changed hands on resale. They are existing seats sold again, so it left them out.</p>',
-  meta:"Dashboard's Event Sales rule: primary tickets only, chargeback orders excluded."},
- {q:'How many people actually turned up to that show?',a:'643 people got in.',
-  body:'<div class="tw"><table><thead><tr><th>Ticket holder</th><th class="n">Valid</th><th class="n">Admitted</th><th class="n">Turned up</th></tr></thead><tbody><tr><td>Original buyers</td><td class="n">567</td><td class="n">521</td><td class="n">92%</td></tr><tr><td>Resale buyers</td><td class="n">109</td><td class="n">108</td><td class="n">99%</td></tr><tr><td>Comps</td><td class="n">21</td><td class="n">14</td><td class="n">67%</td></tr><tr class="tot"><td>Total</td><td class="n">697</td><td class="n">643</td><td class="n">92.3%</td></tr></tbody></table></div><p>54 no-shows. 26 more scans were copied barcodes presented again, and it did not count them as people.</p>',
-  meta:'Gate scans, each admitted ticket counted once. Marketing’s query in the history counts every scan.'},
- {q:'How many Grumpy Moose tickets did scalpers get?',miss:true,a:'It said 288: the six accounts trust and safety flagged.',
-  body:'<p>The right answer is about 400. After the August purge the ring came back as nine ordinary-looking accounts on the same cards and laptops, and took 112 seats on the third night alone. The agent reported 0 for that night.</p><p>It did warn that the history holds shared-card checks it had not applied, so the true count could be higher. There is no definition of a scalper anywhere in the sources, so it used the narrowest one it found.</p>',
-  meta:'The fix is context, not a smarter model: a governed definition of a linked account, from trust and safety, that the agent can use.'},
- {q:'What was sell-through for the Orchestra of Mild Inconvenience at Mallory Arena in March?',a:'71.1%: 320 tickets issued against a 450-seat setup.',
-  body:'<p>The show used a seated layout for 450, not the arena’s 700. Against the full arena it would be 45.7%. Counting paid tickets only, it is 68.0%.</p>',
-  meta:"Dashboard's Sell-Through rule: primary tickets, chargeback orders excluded, over the show's own capacity."},
- {q:'How much fee revenue did we make in September 2026?',a:'Net fee revenue was $40,371, about double August.',
-  body:'<p>September carried $14,433 of demand fees from the third Grumpy Moose night going on sale, less $8,459 of refunded fees, mostly from the cancelled Mild Salsa show. Counted by the month the show happened instead, finance’s query gives $63,396.</p>',
-  meta:'Net Fee Revenue as the dashboard defines it: facility fees excluded, dated by order, refunds by refund date. Its all-time total matches the dashboard to the cent.'},
- {q:'Which show sold out fastest?',a:'The Grumpy Moose on 14 August: every seat on sale went within 57 hours.',
-  body:'<div class="tw"><table><thead><tr><th>Show</th><th class="n">Sold out after</th></tr></thead><tbody><tr><td>Grumpy Moose, 14 Aug, Mallory Arena</td><td class="n">57 hours</td></tr><tr><td>Grumpy Moose, 15 Aug, Mallory Arena</td><td class="n">6.4 days</td></tr></tbody></table></div><p>The flagged bot accounts took 84 seats on each night in the first ten minutes. Guest-list comps were issued later, so counting them would make this look like a five-week sell-out.</p>',
-  meta:'Paid primary tickets, chargebacks excluded, reaching capacity minus comps.'}
+ {q:'How much of what fans paid last quarter went on fees, and why did it go up?',a:'It splits the fee share by fee type and quarter, then names the fee that moved.',
+ body:'<p>The dashboard tile and the question use the same words for different sums. The agent has to notice which one the question means before it adds anything up.</p>',
+ meta:'Fee share of what fans paid: fees over face value plus fees, primary tickets only.'},
+ {q:'How many tickets did The Grumpy Moose sell for the 14 August show?',a:'It counts primary tickets only and keeps the comps and refunds visible.',
+ body:'<p>Resold seats are existing seats sold again, so it leaves them out of the count.</p>',
+ meta:"The dashboard's Event Sales rule."},
+ {q:'How many people actually turned up to that show?',a:'It counts each admitted ticket once from the gate scans.',
+ body:'<p>Copied barcodes scan too. It does not count them as people.</p>',
+ meta:'Gate scans, not tickets sold.'},
+ {q:'How many Grumpy Moose tickets did scalpers get?',miss:true,a:'It counted only the accounts trust and safety flagged.',
+ body:'<p>The ring came back after the purge under new accounts, linked only by shared cards and devices. The agent missed those. It did warn that the history holds shared-card checks it had not applied. There is no definition of a scalper anywhere in the sources, so it used the narrowest one it found.</p>',
+ meta:'The fix is context, not a smarter model: a governed definition of a linked account, from trust and safety, that the agent can use.'},
+ {q:'What was sell-through for the Orchestra of Mild Inconvenience at Mallory Arena in March?',a:"It uses the show's own seated capacity, not the arena's.",
+ body:'<p>Against the full arena, or with paid tickets only, the answer comes out different. It says which one it used.</p>',
+ meta:"The dashboard's Sell-Through rule."},
+ {q:'How much fee revenue did we make in September 2026?',a:'It dates fees by order and takes off refunded fees by refund date.',
+ body:"<p>Finance's query dates fees by the month of the show and gets a different number. Both are in the history.</p>",
+ meta:'Net Fee Revenue as the dashboard defines it: facility fees excluded.'},
+ {q:'Which show sold out fastest?',a:'It measures from on-sale to the last paid primary seat.',
+ body:'<p>Guest-list comps were issued later. Counting them would make a fast sell-out look slow.</p>',
+ meta:'Paid primary tickets, chargebacks excluded, reaching capacity minus comps.'}
 ];
 var qb=[];
 function ask(i){
