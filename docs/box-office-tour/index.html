@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Gatewhistle Box Office Tour</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Work+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one light app shell with four tabs. The firm reads like a venue's season board and a ticket stub; two tabs are faithful light-mode mock-ups of a Databricks SQL workspace and Tableau Desktop. Single light theme on purpose. */
+:root{
+  color-scheme:light;
+  --page:#F1F3F5; --card:#FFFFFF; --ink:#14161B; --muted:#5E646C; --line:#D8DCE1;
+  --red:#E8433A; --gold:#FFC83D; --ok:#2B7A4B; --blue:#2F6DB5; --plum:#6B3FA0;
+  --db-blue:#2272B4; --db-nav:#F7F7F7; --db-line:#E0E0E0; --db-ink:#1B1B1B; --db-muted:#5F6B7A; --db-sel:#E8F1FA; --db-hover:#F0F2F4;
+  --tb-bg:#FFFFFF; --tb-chrome:#F2F2F2; --tb-line:#D4D4D4; --tb-ink:#333333; --tb-muted:#666666; --tb-dim:#3D7AB8; --tb-mea:#1E8F5A; --tb-sel:#E6EEF7;
+  --c1:#4E79A7; --c2:#F28E2B; --c3:#E15759; --c4:#76B7B2; --c5:#59A14F; --c6:#EDC948; --c7:#B07AA1;
+  --display:"Bungee","Arial Black",Impact,sans-serif;
+  --body:"Work Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ui:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --tb-font:"Segoe UI","Inter",system-ui,-apple-system,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+h1,h2,h3,p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0;text-align:left}
+:focus-visible{outline:2px solid var(--db-blue);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:600 .7rem var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+
+/* header */
+.bulbs{height:8px;background:radial-gradient(circle,var(--gold) 2.2px,transparent 2.6px) 0 0/14px 8px,var(--ink)}
+header{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:21;background:var(--card)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:4px 24px;padding-block:10px 0}
+.brand{display:flex;align-items:baseline;gap:12px;padding-bottom:10px}
+.brand b{font-family:var(--display);font-weight:400;font-size:1.5rem;line-height:1;letter-spacing:.01em}
+.brand b i{font-style:normal;color:var(--red)}
+.brand span{font-size:.8rem;color:var(--muted)}
+nav.tabs{display:flex;gap:2px;overflow-x:auto}
+nav.tabs button{padding:10px 14px 11px;font-weight:600;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:7px}
+nav.tabs button:hover{color:var(--ink)}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--red)}
+main .wrap{padding-block:20px 40px}
+.intro{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 20px;margin-bottom:14px}
+.intro p{color:var(--muted);max-width:70ch}
+.next{font-weight:600;color:var(--db-blue)}
+.next:hover{text-decoration:underline}
+.ill{font-size:.72rem;color:var(--muted);margin-top:8px}
+.sec{font-family:var(--display);font-weight:400;font-size:1.25rem;margin:28px 0 10px;letter-spacing:.01em}
+
+/* firm: hero */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:10px;margin-bottom:16px;position:relative;overflow:hidden}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.08;text-wrap:balance;max-width:24ch}
+.hero p{color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+.stats div{border-top:3px solid var(--ink);padding-top:6px;display:grid}
+.stats b{font-family:var(--display);font-weight:400;font-size:1.6rem;line-height:1.1}
+.stats span{font-size:.78rem;color:var(--muted)}
+/* firm: season + stub */
+.firm{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;min-width:0}
+.ptitle{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:12px 14px 8px}
+.ptitle b{font-weight:700}.ptitle span{font-size:.78rem;color:var(--muted)}
+.season{max-height:560px;overflow:auto;padding:0 6px 10px}
+.mon{position:sticky;top:0;background:var(--card);font:600 .7rem var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--muted);padding:8px 8px 4px;border-bottom:1px solid var(--line);z-index:1}
+.show{width:100%;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;padding:7px 8px;border-radius:6px}
+.show:hover{background:#F5F6F8}
+.show[aria-pressed="true"]{background:#FFF2D1}
+.show .day{font-family:var(--display);font-size:1.05rem;line-height:1;text-align:center}
+.show .day small{display:block;font:500 .62rem var(--mono);color:var(--muted);letter-spacing:.06em;margin-top:2px}
+.show .who b{display:block;font-size:.9rem;line-height:1.25}
+.show .who span{font-size:.76rem;color:var(--muted)}
+.chip{font:600 .66rem var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:99px;white-space:nowrap}
+.chip.sold{background:#FDE3E1;color:#A32820}.chip.played{background:#E6ECF3;color:#3B4A5C}.chip.cx{background:#ECEDEA;color:#6B7076;text-decoration:line-through}
+.chip.pp{background:#EFE6FA;color:#55308A}.chip.on{background:#DDF0E4;color:#1F5E39}.chip.soon{background:#FFF3CF;color:#7A5A00}
+.hd{display:inline-block;margin-left:6px;font:600 .6rem var(--mono);color:var(--red);letter-spacing:.06em}
+/* ticket stub */
+.stub{position:relative;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-width:0}
+.stub-top{background:var(--ink);color:#fff;padding:14px 16px 16px;position:relative}
+.stub-top .eyebrow{color:#C9CDD3}
+.stub-top h3{font-family:var(--display);font-weight:400;font-size:1.35rem;line-height:1.15;margin:6px 0 4px;padding-right:110px}
+.stub-top p{font-size:.85rem;color:#D7DBE0}
+.perf{height:16px;background:radial-gradient(circle at 8px 0,var(--page) 6px,transparent 6.5px) 0 0/16px 16px repeat-x,var(--card);border-top:2px dashed var(--line)}
+.stamp{position:absolute;top:14px;right:14px;transform:rotate(-8deg);border:2.5px solid currentColor;border-radius:4px;padding:2px 9px;font-family:var(--display);font-size:.95rem;letter-spacing:.03em}
+.stamp.sold{color:#FF6B61}.stamp.played{color:#C9D2DC}.stamp.cx{color:#B8BCC2}.stamp.pp{color:#C9A7F2}.stamp.on{color:#7BD89D}.stamp.soon{color:var(--gold)}
+.stub-body{padding:6px 16px 16px;display:grid;gap:12px}
+.paid{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.paid b{font-family:var(--display);font-weight:400;font-size:2rem;line-height:1}
+.paid em{font-style:normal;font-size:.84rem;color:var(--muted)}
+.stack{display:flex;height:26px;border-radius:6px;overflow:hidden;border:1px solid var(--ink)}
+.stack span{display:block;height:100%}
+.legend2{display:grid;gap:5px;font-size:.84rem}
+.legend2 div{display:grid;grid-template-columns:12px minmax(0,1fr) auto;gap:8px;align-items:center}
+.legend2 i{width:12px;height:12px;border-radius:3px;display:block}
+.legend2 small{color:var(--muted)}
+.feeshare{display:flex;justify-content:space-between;gap:10px;font-size:.9rem;padding:8px 10px;background:#FFF5DA;border-radius:6px}
+.feeshare b{font-family:var(--mono)}
+.bar2{height:10px;background:#EDF0F3;border-radius:5px;overflow:hidden}
+.bar2 span{display:block;height:100%;background:var(--ok)}
+.kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:.84rem}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+/* venues + lineup */
+.venues{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.ven{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:10px;display:grid;gap:2px}
+.ven b{font-size:.9rem;line-height:1.2}.ven span{font-size:.75rem;color:var(--muted)}
+.ven .cap{font-family:var(--display);font-size:1.1rem;margin-top:4px}
+.poster{background:var(--gold);border-radius:10px;padding:22px 20px;text-align:center;display:grid;gap:8px;position:relative;overflow:hidden}
+.poster::before{content:"";position:absolute;inset:8px;border:2px solid var(--ink);border-radius:6px;pointer-events:none}
+.poster .ln{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 16px;font-family:var(--display);line-height:1.12;position:relative}
+.poster .l1{font-size:clamp(1.6rem,4.5vw,2.6rem)}.poster .l2{font-size:clamp(1.1rem,2.6vw,1.5rem)}.poster .l3{font-size:clamp(.85rem,1.8vw,1rem)}
+.poster .ln span:not(:last-child)::after{content:" ·";color:var(--red)}
+.poster small{font:600 .7rem var(--mono);letter-spacing:.12em;text-transform:uppercase;position:relative}
+.route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.rc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 12px;align-items:center}
+.rc:hover{border-color:var(--ink)}
+.rc .no{grid-row:span 2;width:34px;height:34px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-family:var(--display)}
+.rc b{font-size:1rem}.rc small{grid-column:2;font-size:.82rem;color:var(--muted)}
+.rc .ar{grid-row:1/span 2;grid-column:3;color:var(--db-blue);font-size:1.2rem}
+
+/* ===== Databricks-style workspace ===== */
+.db{background:#fff;border:1px solid #CFCFCF;border-radius:8px;overflow:hidden;font-family:var(--ui);font-size:13px;color:var(--db-ink);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.db-top{display:flex;align-items:center;gap:12px;padding:8px 12px;border-bottom:1px solid var(--db-line);background:#fff}
+.db-top .ws{display:flex;align-items:center;gap:8px;font-weight:600}
+.db-top .ws i{width:22px;height:22px;border-radius:5px;background:linear-gradient(135deg,#FF6A3D,#E8433A);display:block}
+.db-search{flex:1;max-width:460px;margin:0 auto;border:1px solid var(--db-line);border-radius:6px;padding:5px 10px;color:var(--db-muted);display:flex;gap:6px;align-items:center;background:#FAFAFA}
+.db-top .av{width:24px;height:24px;border-radius:50%;background:#DCE8F5;color:var(--db-blue);display:grid;place-items:center;font-weight:700;font-size:11px}
+.db-body{display:grid;grid-template-columns:200px minmax(0,1fr);min-height:600px}
+.db-nav{background:var(--db-nav);border-right:1px solid var(--db-line);padding:10px 8px;display:flex;flex-direction:column;gap:1px}
+.db-new{border:1px solid var(--db-line);background:#fff;border-radius:6px;padding:6px 10px;font-weight:600;margin-bottom:8px;display:flex;gap:6px;align-items:center}
+.db-ni{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:5px;color:var(--db-ink)}
+.db-ni svg{flex:none;color:#4B5563}
+button.db-ni:hover{background:var(--db-hover)}
+.db-ni[aria-current="page"]{background:var(--db-sel);color:var(--db-blue);font-weight:600}
+.db-ni[aria-current="page"] svg{color:var(--db-blue)}
+.db-grp{font-size:11px;font-weight:600;color:var(--db-muted);padding:12px 8px 4px;letter-spacing:.04em;text-transform:uppercase}
+.db-main{display:flex;flex-direction:column;min-width:0}
+.db-ed{display:grid;grid-template-columns:240px minmax(0,1fr);flex:1;min-height:0}
+.db-cat{border-right:1px solid var(--db-line);display:flex;flex-direction:column;min-width:0}
+.db-cat-h{display:flex;justify-content:space-between;align-items:center;padding:10px 12px 6px;font-weight:600}
+.db-cat-h span{color:var(--db-muted);font-weight:400;font-size:12px}
+.db-sel2{margin:0 10px 6px;border:1px solid var(--db-line);border-radius:6px;padding:5px 9px;display:flex;justify-content:space-between;align-items:center}
+.db-tree{overflow:auto;padding-bottom:10px}
+.tn{display:flex;align-items:center;gap:6px;padding:4px 12px;white-space:nowrap}
+.tn svg{flex:none;color:#6B7280}
+.tn.l1{padding-left:26px}.tn.l2{padding-left:40px}
+.tn .c{margin-left:auto;color:var(--db-muted);font-size:11px}
+button.tn{width:100%}
+button.tn:hover{background:var(--db-hover)}
+button.tn[aria-pressed="true"]{background:var(--db-sel);color:var(--db-blue);font-weight:600}
+.db-work{display:flex;flex-direction:column;min-width:0}
+.db-tabs{display:flex;gap:2px;padding:6px 8px 0;border-bottom:1px solid var(--db-line);background:#FAFAFA;overflow-x:auto}
+.db-tabs span{padding:6px 14px;border:1px solid var(--db-line);border-bottom:0;border-radius:5px 5px 0 0;background:#fff;font-weight:600;white-space:nowrap}
+.db-tabs span.off{background:transparent;border-color:transparent;font-weight:400;color:var(--db-muted)}
+.db-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--db-line)}
+.db-run{background:var(--db-blue);color:#fff;border-radius:4px;padding:5px 12px;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.db-run:hover{background:#1B5E95}
+.db-pill{border:1px solid var(--db-line);border-radius:4px;padding:4px 9px;display:inline-flex;gap:6px;align-items:center;font-size:12px}
+.db-pill .dot{width:8px;height:8px;border-radius:50%;background:#2E9B57}
+.db-bar .sp{flex:1}
+.code{display:grid;grid-template-columns:auto minmax(0,1fr);font-family:var(--mono);font-size:12.5px;line-height:1.7;max-height:230px;overflow:auto;border-bottom:1px solid var(--db-line)}
+.code .ln{padding:10px 10px 10px 14px;color:#A0A7B0;text-align:right;user-select:none;white-space:pre}
+.code pre{margin:0;padding:10px 14px 10px 4px;white-space:pre;overflow-x:auto}
+.k{color:#0B5CAD;font-weight:600}.s{color:#B3401A}.d{color:#167A4A}.cm{color:#8A94A3;font-style:italic}
+.db-resh{display:flex;align-items:center;gap:14px;padding:0 12px;border-bottom:1px solid var(--db-line);font-size:12px}
+.db-resh span{padding:8px 0;font-weight:600;color:var(--db-muted);border-bottom:2px solid transparent}
+.db-resh span.on{color:var(--db-ink);border-bottom-color:var(--db-blue)}
+.db-resh .meta{margin-left:auto;font-weight:400;border:0}
+.grid{overflow:auto;max-height:300px}
+.grid table{border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums;min-width:100%}
+.grid th,.grid td{padding:6px 12px;border-bottom:1px solid var(--db-line);text-align:left;white-space:nowrap}
+.grid th{position:sticky;top:0;background:#FAFAFA;font-weight:600;color:#374151;z-index:1}
+.grid th:first-child,.grid td:first-child{color:#A0A7B0;text-align:right;width:1%;padding-right:8px}
+.grid td.n{text-align:right;font-family:var(--mono)}
+.grid td.null{color:#A0A7B0;font-style:italic}
+.grid td.mask{color:#8A6D00;font-family:var(--mono)}
+.grid tr:hover td{background:var(--db-hover)}
+.db-tip{padding:8px 12px;font-size:12px;background:#FFF8DB;border-top:1px solid #F1E3A6;margin-top:auto}
+.db-qh{padding:14px;display:grid;gap:12px;align-content:start}
+.db-qh h3{font-size:18px;font-weight:600}
+.db-filters{display:flex;flex-wrap:wrap;gap:6px}
+.db-filters span{border:1px solid var(--db-line);border-radius:4px;padding:4px 10px;font-size:12px;display:inline-flex;gap:4px}
+.db-filters span b{font-weight:600}
+.db-qh .grid{border:1px solid var(--db-line);border-radius:6px;max-height:400px}
+.st-ok{color:#2E9B57;font-weight:600}.st-x{color:#C9372C;font-weight:600}
+.loading .grid{opacity:.35}
+
+/* ===== Tableau-style desktop ===== */
+.tb{background:var(--tb-bg);border:1px solid #BDBDBD;border-radius:6px;overflow:hidden;font-family:var(--tb-font);font-size:12px;color:var(--tb-ink);box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.tb-title{display:flex;justify-content:space-between;align-items:center;padding:5px 10px;background:var(--tb-chrome);border-bottom:1px solid var(--tb-line)}
+.tb-title .app{display:flex;gap:8px;align-items:center}
+.tb-title .app i{width:14px;height:14px;display:block;background:conic-gradient(var(--c1) 0 25%,var(--c2) 0 50%,var(--c3) 0 75%,var(--c5) 0);border-radius:2px}
+.tb-menu{display:flex;gap:2px;padding:2px 6px;background:var(--tb-chrome);border-bottom:1px solid var(--tb-line);overflow-x:auto}
+.tb-menu span{padding:3px 8px;white-space:nowrap}
+.tb-tools{display:flex;gap:2px;padding:4px 8px;border-bottom:1px solid var(--tb-line);overflow-x:auto;background:#FBFBFB}
+.tb-tools span{width:28px;height:24px;display:grid;place-items:center;border-radius:3px;color:#555}
+.tb-tools span:hover{background:#ECECEC}
+.tb-tools i{width:1px;background:var(--tb-line);margin:2px 4px}
+.tb-body{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:520px}
+.tb-side{border-right:1px solid var(--tb-line);display:flex;flex-direction:column;min-width:0;background:#fff}
+.tb-sidetabs{display:flex;border-bottom:1px solid var(--tb-line)}
+.tb-sidetabs span{flex:1;text-align:center;padding:7px 4px;font-weight:600;color:var(--tb-muted)}
+.tb-sidetabs span.on{color:var(--tb-ink);box-shadow:inset 0 -2px 0 var(--c1)}
+.tb-ds{padding:6px 0;border-bottom:1px solid var(--tb-line)}
+.tb-ds button{width:100%;display:flex;gap:7px;align-items:center;padding:4px 10px}
+.tb-ds button:hover{background:#F4F4F4}
+.tb-ds button[aria-pressed="true"]{background:var(--tb-sel);font-weight:600}
+.tb-fields{overflow:auto;padding:6px 0 10px;flex:1}
+.tb-fh{font-weight:600;color:var(--tb-muted);padding:6px 10px 2px;font-size:11px}
+.tf{width:100%;display:flex;gap:7px;align-items:center;padding:2px 10px 2px 14px;white-space:nowrap}
+.tf .ic{font:600 10px var(--mono);width:22px;text-align:center}
+.tf.dim{color:var(--tb-dim)}.tf.mea{color:var(--tb-mea)}
+button.tf:hover{background:#F4F4F4}
+button.tf[aria-pressed="true"]{background:var(--tb-sel)}
+.tb-stage{background:#EBEBEB;padding:14px;min-width:0;overflow:auto;position:relative}
+.dash{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.18);padding:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.dash>*{min-width:0}
+.dash-t{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;border-bottom:1px solid #E5E5E5;padding-bottom:8px}
+.dash-t b{font-size:18px;font-weight:600}
+.dash-t span{color:var(--tb-muted);font-size:11px}
+.kpi{border:1px solid transparent;padding:10px;display:grid;gap:3px;text-align:center;position:relative;container-type:inline-size;overflow:hidden}
+.kpi .t{font-size:11.5px;color:var(--tb-muted);font-weight:600}
+.kpi .v{font-size:clamp(1.15rem,15cqi,2rem);font-weight:600;color:var(--tb-ink);white-space:nowrap;line-height:1.15}
+.kpi:hover,.viz:hover{border-color:#C8C8C8}
+.kpi[aria-pressed="true"],.viz[aria-pressed="true"]{border-color:var(--c1);box-shadow:0 0 0 1px var(--c1)}
+.flag{position:absolute;top:5px;right:5px;width:17px;height:17px;border-radius:50%;background:var(--red);color:#fff;font-weight:700;font-size:11px;display:grid;place-items:center}
+.viz{border:1px solid transparent;padding:6px 8px;display:grid;grid-template-rows:auto auto;gap:4px;align-content:start}
+.viz.w2{grid-column:span 2}.viz.w4{grid-column:1/-1}
+.viz .vt{font-size:12.5px;font-weight:600}
+.viz svg{width:100%;height:auto;display:block}
+.c-lbl{fill:#666;font:11px var(--tb-font)}.c-val{fill:#333;font:600 11px var(--tb-font)}.c-axis{stroke:#E0E0E0}.c-zero{stroke:#999}
+.calc{position:absolute;right:22px;top:22px;width:min(380px,calc(100% - 44px));background:#fff;border:1px solid #A9A9A9;box-shadow:0 6px 18px rgba(0,0,0,.18);z-index:3}
+.calc-h{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:var(--tb-chrome);border-bottom:1px solid var(--tb-line);font-weight:600}
+.calc-h button{color:var(--tb-muted);padding:0 4px;font-size:14px}
+.calc-n{padding:8px 10px 4px;font-size:13px;font-weight:600}
+.calc pre{margin:0 10px;padding:8px;border:1px solid var(--tb-line);font:12.5px Consolas,var(--mono);white-space:pre-wrap;color:#1F4E8C;background:#FBFBFB}
+.calc p{padding:8px 10px;color:var(--tb-muted);font-size:12px}
+.calc .ok{padding:4px 10px 10px;color:var(--tb-muted);font-size:11px;display:flex;justify-content:space-between}
+.tb-shelf{display:grid;grid-template-columns:70px minmax(0,1fr);gap:4px 8px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--tb-line);background:#fff}
+.tb-shelf span:nth-child(odd){color:var(--tb-muted);font-weight:600}
+.pill{display:inline-block;padding:2px 9px;border-radius:10px;color:#fff;font-size:11px;margin-right:4px}
+.pill.d{background:#4996B2}.pill.m{background:#2DA06B}
+.tb-tabsbar{display:flex;align-items:end;gap:2px;background:var(--tb-chrome);border-top:1px solid var(--tb-line);padding:0 6px;overflow-x:auto}
+.tb-tabsbar span{padding:5px 12px;white-space:nowrap;border:1px solid transparent;border-top:0;color:#444}
+.tb-tabsbar span.on{background:#fff;border-color:var(--tb-line);font-weight:600}
+.tb-tabsbar span.ds{color:var(--c1);font-weight:600}
+.rule{margin-top:12px;display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:6px;padding:10px 12px;font-size:.92rem}
+.rule.warn{border-left-color:var(--red)}
+.rule b{white-space:nowrap}
+
+/* agent */
+.steps{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:14px;font-size:.85rem}
+.steps span{background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px 12px;font-weight:500}
+.steps em{color:var(--muted);font-style:normal}
+.chat{display:grid;grid-template-columns:minmax(0,280px) minmax(0,1fr);background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.chat-side{border-right:1px solid var(--line);padding:12px;display:grid;gap:6px;align-content:start;background:#FAFAFB}
+.chat-side .lab{font:600 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:2px 2px 4px}
+.q{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px 10px;font-size:.88rem;font-weight:500}
+.q:hover{border-color:#B6BBC2}
+.q[aria-pressed="true"]{background:#FFF2D1;border-color:#E8B400}
+.thread{padding:16px;display:grid;gap:12px;align-content:start;min-width:0}
+.bub{justify-self:end;max-width:80%;background:#EEF1F4;padding:8px 12px;border-radius:14px 14px 4px 14px;font-weight:500}
+.reply{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px}
+.av2{width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:.85rem}
+.rbody{display:grid;gap:8px;min-width:0}
+.rbody .big{font-size:1.2rem;font-weight:700;line-height:1.3}
+.rbody p{font-size:.92rem}
+.rbody .meta{font-size:.82rem;color:var(--muted)}
+.rbody table{border-collapse:collapse;font-size:.85rem;width:100%}
+.rbody th,.rbody td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:left}
+.rbody td.n,.rbody th.n{text-align:right;font-family:var(--mono)}
+.rbody tr.tot td{font-weight:700}
+.rbody .tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+.real.miss{color:#A32820;background:#FDE3E1}
+.real{font:600 .66rem var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ok);background:#DDF0E4;border-radius:99px;padding:2px 8px;justify-self:start}
+.tries{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.try{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:6px;align-content:start}
+.try h3{font:600 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.try ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:.9rem}
+.finish{margin-top:14px;background:var(--ink);color:#fff;border-radius:10px;padding:16px 18px;display:grid;gap:4px}
+.finish small{font:600 .7rem var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold)}
+.finish q{font-family:var(--display);font-size:clamp(1.15rem,3.2vw,1.7rem);line-height:1.2;quotes:none}
+
+@media (max-width:900px){ .venues{grid-template-columns:repeat(3,minmax(0,1fr))} .tries{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:820px){
+  .db-body{grid-template-columns:minmax(0,1fr)} .db-nav{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--db-line);padding:6px 10px} .db-nav>:not(button){display:none}
+  .db-search{display:none}
+  .tb-body{grid-template-columns:minmax(0,1fr)} .tb-side{border-right:0;border-bottom:1px solid var(--tb-line);max-height:240px}
+}
+@media (max-width:760px){
+  .firm,.chat{grid-template-columns:minmax(0,1fr)} .chat-side{border-right:0;border-bottom:1px solid var(--line)}
+  .route{grid-template-columns:minmax(0,1fr)} .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .db-ed{grid-template-columns:minmax(0,1fr)} .db-cat{border-right:0;border-bottom:1px solid var(--db-line)} .db-tree{max-height:180px}
+  .dash{grid-template-columns:repeat(2,minmax(0,1fr))} .viz.w2{grid-column:1/-1}
+}
+@media (max-width:480px){ .venues{grid-template-columns:repeat(2,minmax(0,1fr))} }
+</style>
+
+<div class="bulbs"></div>
+<header>
+  <div class="wrap">
+    <div class="brand"><b>Gate<i>whistle</i></b><span>Practice data for the Analytics Agent Accelerator</span></div>
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" id="tab-firm" data-v="firm" aria-selected="true"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M1.5 4.5h13v2a1.5 1.5 0 0 0 0 3v2h-13v-2a1.5 1.5 0 0 0 0-3z" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 4.5v7" stroke="currentColor" stroke-width="1.2" stroke-dasharray="1.5 1.5"/></svg>The firm</button>
+      <button role="tab" id="tab-databricks" data-v="databricks" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l6.5 3.5L8 8.5 1.5 5zM1.5 8L8 11.5 14.5 8M1.5 11L8 14.5 14.5 11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>Databricks</button>
+      <button role="tab" id="tab-tableau" data-v="tableau" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M1 8h14M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="currentColor" stroke-width="1.3"/></svg>Tableau</button>
+      <button role="tab" id="tab-agent" data-v="agent" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v8H7l-3 3v-3H2z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>The agent</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+<!-- THE FIRM -->
+<section id="v-firm" role="tabpanel" aria-labelledby="tab-firm">
+  <div class="hero">
+    <span class="eyebrow">Meet the firm</span>
+    <h1>A ticketing firm where the fees keep growing.</h1>
+    <p>Gatewhistle is made up. Its data is real enough to build an agent on.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+  <div class="firm">
+    <div class="panel">
+      <div class="ptitle"><b>The season</b><span>Pick a show</span></div>
+      <div class="season" id="season"></div>
+    </div>
+    <div class="stub" id="stub" aria-live="polite"></div>
+  </div>
+  <h2 class="sec">The venues</h2>
+  <div class="venues" id="venues"></div>
+  <h2 class="sec">The line-up</h2>
+  <div class="poster" id="poster"></div>
+  <h2 class="sec">Your route</h2>
+  <div class="route">
+    <button class="rc" data-go="databricks"><span class="no">1</span><b>The data</b><small>Ten tables and the query history in Databricks</small><span class="ar">&#8594;</span></button>
+    <button class="rc" data-go="tableau"><span class="no">2</span><b>The dashboard</b><small>Box Office Pulse in Tableau, and the rules behind it</small><span class="ar">&#8594;</span></button>
+    <button class="rc" data-go="agent"><span class="no">3</span><b>The agent</b><small>What it answers, from a real run of the plugin</small><span class="ar">&#8594;</span></button>
+  </div>
+</section>
+
+<!-- DATABRICKS -->
+<section id="v-databricks" role="tabpanel" aria-labelledby="tab-databricks" hidden>
+  <div class="intro">
+    <p>Ten tables in the tix schema, and three months of query history. Click a table or a saved query.</p>
+    <button class="next" data-go="tableau">See the dashboard in Tableau &#8594;</button>
+  </div>
+  <div class="db">
+    <div class="db-top">
+      <div class="ws"><i></i>gatewhistle-prod</div>
+      <div class="db-search"><svg width="12" height="12" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.6"/></svg>Search data, notebooks, recents and more…</div>
+      <span class="av">YO</span>
+    </div>
+    <div class="db-body">
+      <aside class="db-nav" aria-label="Workspace navigation">
+        <div class="db-new"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6"/></svg>New</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h5l1.5 1.5H14V13H2z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Workspace</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 4.5V8l2.5 1.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Recents</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Catalog</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="4" cy="8" r="2" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6 7l4-2M6 9l4 2" stroke="currentColor" stroke-width="1.3"/></svg>Jobs &amp; Pipelines</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="12" height="4" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Compute</div>
+        <div class="db-grp">SQL</div>
+        <button class="db-ni" data-db="ed" aria-current="page"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 2h12v12H2zM5 6l2 2-2 2M8.5 10.5H11" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>SQL Editor</button>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2h7l3 3v9H3z" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Queries</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13V9M7 13V5M11 13V7" stroke="currentColor" stroke-width="2"/></svg>Dashboards</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2l1.5 3.5L13 7l-3.5 1.5L8 12 6.5 8.5 3 7l3.5-1.5z" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>Genie</div>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 11V7a4 4 0 0 1 8 0v4l1 1H3z M6.5 13.5a1.5 1.5 0 0 0 3 0" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Alerts</div>
+        <button class="db-ni" data-db="qh"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v2.5H5" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 5v3l2 1.5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>Query History</button>
+        <div class="db-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12v8H2zM5 4v8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>SQL Warehouses</div>
+      </aside>
+      <div class="db-main">
+        <div id="db-ed" style="display:flex;flex-direction:column;flex:1;min-height:0">
+          <div class="db-ed">
+            <div class="db-cat">
+              <div class="db-cat-h">Catalog <span>box_office</span></div>
+              <div class="db-sel2"><span>box_office</span><svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></div>
+              <div class="db-tree" id="tree"></div>
+            </div>
+            <div class="db-work" id="dbwork">
+              <div class="db-tabs"><span id="dbtab">Box office tour</span><span class="off">+</span></div>
+              <div class="db-bar">
+                <button class="db-run" id="run"><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M1.5 0.5l8 4.5-8 4.5z" fill="currentColor"/></svg>Run (1000)</button>
+                <span class="db-pill">box_office <svg width="8" height="8" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                <span class="db-pill">tix <svg width="8" height="8" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+                <span class="sp"></span>
+                <span class="db-pill"><span class="dot"></span>Gatewhistle Serverless</span>
+              </div>
+              <div class="code"><div class="ln" id="ln"></div><pre id="sql"></pre></div>
+              <div class="db-resh"><span class="on">Results</span><span>+</span><span class="meta" id="resmeta"></span></div>
+              <div class="grid" id="grid"></div>
+              <div class="db-tip" id="tip"></div>
+            </div>
+          </div>
+        </div>
+        <div id="db-qh" class="db-qh" hidden>
+          <h3>Query history</h3>
+          <div class="db-filters"><span><b>Date</b> 1 Aug to 31 Oct 2026</span><span><b>User</b> All</span><span><b>Compute</b> Gatewhistle Serverless</span><span><b>Status</b> All</span><span><b>Statement</b> All</span></div>
+          <div class="grid" id="qhgrid"></div>
+          <div class="db-tip" id="qhtip" style="border:1px solid #F1E3A6;border-radius:6px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="ill">Illustration for training, not the real product. Rows are real rows from the practice files.</p>
+</section>
+
+<!-- TABLEAU -->
+<section id="v-tableau" role="tabpanel" aria-labelledby="tab-tableau" hidden>
+  <div class="intro">
+    <p>The dashboard the agent starts from. Click a tile or a field to open its calculation.</p>
+    <button class="next" data-go="agent">Meet the agent &#8594;</button>
+  </div>
+  <div class="tb">
+    <div class="tb-title"><div class="app"><i></i><span>Tableau - box-office-pulse</span></div><span style="color:var(--tb-muted)">&#8212; &#9633; &#10005;</span></div>
+    <div class="tb-menu"><span>File</span><span>Data</span><span>Worksheet</span><span>Dashboard</span><span>Story</span><span>Analysis</span><span>Map</span><span>Format</span><span>Server</span><span>Window</span><span>Help</span></div>
+    <div class="tb-tools" aria-hidden="true">
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><path d="M5 3L2 6l3 3M2 6h8a4 4 0 0 1 0 8H6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 2h8l2 2v10H3z M5 2v4h6V2" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><ellipse cx="8" cy="4" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></span>
+      <i></i>
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 13V9M7 13V4M11 13V7" stroke="#4E79A7" stroke-width="2.4"/></svg></span>
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><path d="M2 12l4-5 3 3 5-6" fill="none" stroke="#F28E2B" stroke-width="1.6"/></svg></span>
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 5h10M3 8h7M3 11h9" stroke="currentColor" stroke-width="1.4"/></svg></span>
+      <i></i>
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 2v9M4 7l4 4 4-4M3 14h10" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>
+      <span><svg width="16" height="16" viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M6 14h4" stroke="currentColor" stroke-width="1.3"/></svg></span>
+    </div>
+    <div class="tb-body">
+      <aside class="tb-side" aria-label="Data pane">
+        <div class="tb-sidetabs"><span class="on">Data</span><span>Analytics</span></div>
+        <div class="tb-ds" id="tbds"></div>
+        <div class="tb-fields" id="tbfields"></div>
+      </aside>
+      <div style="display:flex;flex-direction:column;min-width:0">
+        <div class="tb-shelf" id="shelf"></div>
+        <div class="tb-stage" id="tbstage"></div>
+      </div>
+    </div>
+    <div class="tb-tabsbar"><span class="ds">&#9707; Data Source</span><span>Gross Sales</span><span>Fee Take Rate</span><span>Net Fee Revenue</span><span>Sell-Through</span><span>Gross Sales by Month</span><span>Fee Income by Type</span><span>Sell-Through by Event</span><span class="on">&#9638; Box Office Pulse</span></div>
+  </div>
+  <div class="rule" id="tbnote" aria-live="polite"></div>
+  <p class="ill">Illustration for training, not the real product. Measures, titles, filters and SQL come from the workbook file; values from the practice data.</p>
+</section>
+
+<!-- AGENT -->
+<section id="v-agent" role="tabpanel" aria-labelledby="tab-agent" hidden>
+  <div class="intro"><p>What you build: an agent that learns Gatewhistle's rules from Tableau and the query history, then answers with its working. These answers are from a real run of the Atlan Analytics plugin on this data, including the one it got wrong.</p></div>
+  <div class="steps"><span>Read the workbook and history</span><em>&#8594;</em><span>Write metrics and saved SQL</span><em>&#8594;</em><span>Write eval questions</span><em>&#8594;</em><span>Get a baseline score</span></div>
+  <div class="chat">
+    <div class="chat-side"><span class="lab">Asked during the run</span><div id="qs" style="display:grid;gap:6px"></div></div>
+    <div class="thread" id="thread" aria-live="polite"></div>
+  </div>
+  <h2 class="sec">Try these</h2>
+  <div class="tries">
+    <div class="try"><h3>Where did my money go?</h3><ul><li>How much of a Grumpy Moose floor ticket went on fees?</li><li>Is it cheaper to buy at the box office?</li><li>How much does it cost to print your own ticket?</li><li>How much does Gatewhistle actually keep from a ticket?</li></ul></div>
+    <div class="try"><h3>Scalpers and drama</h3><ul><li>Which show sold out fastest?</li><li>How many Grumpy Moose tickets did scalpers really get?</li><li>How many people actually turned up to the Grumpy Moose?</li><li>What was the biggest resale markup?</li><li>Did fans get their fees back when Velvet Thunder cancelled?</li><li>What happened to Kevin From Accounting's show?</li></ul></div>
+    <div class="try"><h3>Running the business</h3><ul><li>App, web or box office: how do fans like to buy?</li><li>Which venue is hardest to fill?</li><li>Did the rain keep fans away from Riverside Fields?</li><li>How many free tickets did we give away?</li><li>What would last quarter look like without the demand fee?</li></ul></div>
+  </div>
+  <div class="finish"><small>The question to finish on</small><q>How much of what fans paid last quarter went on fees, and why did it go up?</q></div>
+</section>
+
+</div>
+</main>
+
+<script>
+var D={"venues": [{"id": "V01", "name": "The Rusty Anchor", "city": "Port Mallory", "type": "club", "cap": 90}, {"id": "V02", "name": "Pemberton Theatre", "city": "Port Mallory", "type": "theatre", "cap": 250}, {"id": "V03", "name": "Gasworks Hall", "city": "Little Hampden", "type": "hall", "cap": 350}, {"id": "V04", "name": "Mallory Arena", "city": "Port Mallory", "type": "arena", "cap": 700}, {"id": "V05", "name": "Riverside Fields", "city": "Little Hampden", "type": "outdoor", "cap": 1000}, {"id": "V06", "name": "The Velvet Basement", "city": "Little Hampden", "type": "club", "cap": 60}], "acts": [{"id": "A01", "name": "The Grumpy Moose", "genre": "indie rock", "town": "Port Mallory"}, {"id": "A02", "name": "DJ Spreadsheet", "genre": "electronic", "town": "Little Hampden"}, {"id": "A03", "name": "Auntie Synth", "genre": "synth-pop", "town": "Port Mallory"}, {"id": "A04", "name": "The Unpaid Interns", "genre": "punk", "town": "Little Hampden"}, {"id": "A05", "name": "Mild Salsa", "genre": "latin", "town": "Port Mallory"}, {"id": "A06", "name": "Kevin From Accounting", "genre": "comedy", "town": "Port Mallory"}, {"id": "A07", "name": "Velvet Thunder", "genre": "metal", "town": "Little Hampden"}, {"id": "A08", "name": "Lullaby Riot", "genre": "pop", "town": "Port Mallory"}, {"id": "A09", "name": "The Quiet Carriage", "genre": "folk", "town": "Little Hampden"}, {"id": "A10", "name": "Big Tuesday", "genre": "hip hop", "town": "Port Mallory"}, {"id": "A11", "name": "Saxophone Steve", "genre": "jazz", "town": "Little Hampden"}, {"id": "A12", "name": "Glitter Hazard", "genre": "pop", "town": "Little Hampden"}, {"id": "A13", "name": "The Late Fees", "genre": "ska", "town": "Port Mallory"}, {"id": "A14", "name": "The Orchestra of Mild Inconvenience", "genre": "classical", "town": "Port Mallory"}, {"id": "A15", "name": "Nana Beats", "genre": "electronic", "town": "Little Hampden"}, {"id": "A16", "name": "Cardboard Castle", "genre": "kids", "town": "Port Mallory"}], "shows": [{"attended": 79, "dupes": 0, "invalid": 0, "weather": null, "id": "E001", "name": "The Quiet Carriage Live", "act": "The Quiet Carriage", "aid": "A09", "venue": "The Rusty Anchor", "vid": "V01", "vtype": "club", "date": "2025-07-11", "onsale": "2025-06-06", "cap": 90, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 83, "resale": 0, "markup": 0, "ticket": {"tier": "GA", "face": 20.0, "service": 2.4, "facility": 1.5, "demand": 0, "order": 1.87}}, {"attended": 232, "dupes": 0, "invalid": 0, "weather": null, "id": "E002", "name": "Auntie Synth Live", "act": "Auntie Synth", "aid": "A03", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2025-07-26", "onsale": "2025-06-07", "cap": 350, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 248, "resale": 7, "markup": 1.4, "ticket": {"tier": "GA Floor", "face": 36.0, "service": 5.4, "facility": 3.0, "demand": 0, "order": 1.76}}, {"attended": 48, "dupes": 0, "invalid": 0, "weather": null, "id": "E003", "name": "Saxophone Steve Live", "act": "Saxophone Steve", "aid": "A11", "venue": "The Velvet Basement", "vid": "V06", "vtype": "club", "date": "2025-08-08", "onsale": "2025-07-04", "cap": 60, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 51, "resale": 0, "markup": 0, "ticket": {"tier": "GA", "face": 18.5, "service": 2.22, "facility": 1.5, "demand": 0, "order": 1.68}}, {"attended": 419, "dupes": 0, "invalid": 0, "weather": null, "id": "E004", "name": "Big Tuesday: Midweek Tour", "act": "Big Tuesday", "aid": "A10", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2025-08-23", "onsale": "2025-06-14", "cap": 700, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 448, "resale": 3, "markup": 1.3, "ticket": {"tier": "Floor", "face": 114.0, "service": 20.52, "facility": 5.0, "demand": 0, "order": 1.78}}, {"attended": 511, "dupes": 0, "invalid": 0, "weather": "clear", "id": "E005", "name": "Mild Salsa Live", "act": "Mild Salsa", "aid": "A05", "venue": "Riverside Fields", "vid": "V05", "vtype": "outdoor", "date": "2025-09-06", "onsale": "2025-06-14", "cap": 1000, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 550, "resale": 13, "markup": 1.4, "ticket": {"tier": "GA", "face": 72.0, "service": 12.96, "facility": 4.0, "demand": 0, "order": 1.83}}, {"attended": 183, "dupes": 0, "invalid": 0, "weather": null, "id": "E006", "name": "The Orchestra of Mild Inconvenience: Mostly Brahms", "act": "The Orchestra of Mild Inconvenience", "aid": "A14", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2025-09-19", "onsale": "2025-07-25", "cap": 250, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 195, "resale": 5, "markup": 1.3, "ticket": {"tier": "Stalls", "face": 55.0, "service": 7.7, "facility": 2.5, "demand": 0, "order": 1.93}}, {"attended": 257, "dupes": 0, "invalid": 0, "weather": null, "id": "E007", "name": "DJ Spreadsheet Live", "act": "DJ Spreadsheet", "aid": "A02", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2025-10-03", "onsale": "2025-08-15", "cap": 350, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 282, "resale": 5, "markup": 1.3, "ticket": {"tier": "GA Floor", "face": 38.0, "service": 5.7, "facility": 3.0, "demand": 0, "order": 1.89}}, {"attended": 78, "dupes": 0, "invalid": 0, "weather": null, "id": "E008", "name": "The Late Fees: Overdue Tour", "act": "The Late Fees", "aid": "A13", "venue": "The Rusty Anchor", "vid": "V01", "vtype": "club", "date": "2025-10-17", "onsale": "2025-09-12", "cap": 90, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 86, "resale": 2, "markup": 1.3, "ticket": {"tier": "GA", "face": 17.5, "service": 2.1, "facility": 1.5, "demand": 0, "order": 1.56}}, {"attended": 568, "dupes": 0, "invalid": 2, "weather": null, "id": "E009", "name": "Glitter Hazard: Hi-Vis Tour", "act": "Glitter Hazard", "aid": "A12", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2025-11-07", "onsale": "2025-08-29", "cap": 700, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 611, "resale": 14, "markup": 1.4, "ticket": {"tier": "Lower Tier", "face": 97.5, "service": 17.55, "facility": 5.0, "demand": 0, "order": 1.7}}, {"attended": 204, "dupes": 0, "invalid": 0, "weather": null, "id": "E010", "name": "Kevin From Accounting: The Reconciliation Tour", "act": "Kevin From Accounting", "aid": "A06", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2025-11-21", "onsale": "2025-09-26", "cap": 250, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 232, "resale": 5, "markup": 1.4, "ticket": {"tier": "Stalls", "face": 60.5, "service": 8.47, "facility": 2.5, "demand": 0, "order": 1.75}}, {"attended": 167, "dupes": 0, "invalid": 0, "weather": null, "id": "E011", "name": "Cardboard Castle: The Big Box Tour", "act": "Cardboard Castle", "aid": "A16", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2025-12-06", "onsale": "2025-10-11", "cap": 250, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 173, "resale": 4, "markup": 1.2, "ticket": {"tier": "Stalls", "face": 38.5, "service": 5.39, "facility": 2.5, "demand": 0, "order": 1.83}}, {"attended": 632, "dupes": 0, "invalid": 1, "weather": null, "id": "E012", "name": "Lullaby Riot: Wide Awake Tour", "act": "Lullaby Riot", "aid": "A08", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2025-12-19", "onsale": "2025-10-10", "cap": 700, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 677, "resale": 13, "markup": 1.4, "ticket": {"tier": "Upper Tier", "face": 70.0, "service": 12.6, "facility": 5.0, "demand": 0, "order": 1.79}}, {"attended": 73, "dupes": 0, "invalid": 0, "weather": null, "id": "E013", "name": "The Unpaid Interns Live", "act": "The Unpaid Interns", "aid": "A04", "venue": "The Rusty Anchor", "vid": "V01", "vtype": "club", "date": "2026-01-16", "onsale": "2025-12-12", "cap": 90, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 75, "resale": 1, "markup": 1.1, "ticket": {"tier": "GA", "face": 17.5, "service": 2.1, "facility": 1.5, "demand": 0, "order": 1.62}}, {"attended": 198, "dupes": 0, "invalid": 0, "weather": null, "id": "E014", "name": "Nana Beats Live", "act": "Nana Beats", "aid": "A15", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2026-01-30", "onsale": "2025-12-12", "cap": 350, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 217, "resale": 2, "markup": 1.2, "ticket": {"tier": "GA Floor", "face": 34.0, "service": 5.1, "facility": 3.0, "demand": 0, "order": 2.0}}, {"attended": 238, "dupes": 0, "invalid": 0, "weather": null, "id": "E015", "name": "Velvet Thunder: Loud Library Tour", "act": "Velvet Thunder", "aid": "A07", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2026-02-13", "onsale": "2025-12-26", "cap": 350, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 259, "resale": 7, "markup": 1.3, "ticket": {"tier": "GA Floor", "face": 40.0, "service": 6.0, "facility": 3.0, "demand": 0, "order": 1.94}}, {"attended": 51, "dupes": 0, "invalid": 0, "weather": null, "id": "E016", "name": "Saxophone Steve Live", "act": "Saxophone Steve", "aid": "A11", "venue": "The Velvet Basement", "vid": "V06", "vtype": "club", "date": "2026-02-27", "onsale": "2026-01-23", "cap": 60, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 54, "resale": 0, "markup": 0, "ticket": {"tier": "GA", "face": 18.5, "service": 2.22, "facility": 1.5, "demand": 0, "order": 1.65}}, {"attended": 299, "dupes": 0, "invalid": 0, "weather": null, "id": "E017", "name": "The Orchestra of Mild Inconvenience: Mostly Brahms", "act": "The Orchestra of Mild Inconvenience", "aid": "A14", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-03-13", "onsale": "2026-01-02", "cap": 450, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 320, "resale": 4, "markup": 1.2, "ticket": {"tier": "Floor", "face": 95.0, "service": 17.1, "facility": 5.0, "demand": 0, "order": 1.7}}, {"attended": 189, "dupes": 0, "invalid": 0, "weather": null, "id": "E018", "name": "Auntie Synth Live", "act": "Auntie Synth", "aid": "A03", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2026-03-27", "onsale": "2026-01-30", "cap": 250, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 200, "resale": 1, "markup": 1.0, "ticket": {"tier": "Stalls", "face": 52.0, "service": 7.28, "facility": 2.5, "demand": 0, "order": 1.71}}, {"attended": 639, "dupes": 0, "invalid": 1, "weather": null, "id": "E019", "name": "Lullaby Riot: Wide Awake Tour", "act": "Lullaby Riot", "aid": "A08", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-04-10", "onsale": "2026-01-30", "cap": 700, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 689, "resale": 8, "markup": 1.3, "ticket": {"tier": "Floor", "face": 128.0, "service": 23.04, "facility": 5.0, "demand": 0, "order": 1.78}}, {"attended": 74, "dupes": 0, "invalid": 0, "weather": null, "id": "E020", "name": "The Late Fees: Overdue Tour", "act": "The Late Fees", "aid": "A13", "venue": "The Rusty Anchor", "vid": "V01", "vtype": "club", "date": "2026-04-24", "onsale": "2026-03-20", "cap": 90, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 85, "resale": 1, "markup": 1.3, "ticket": {"tier": "GA", "face": 17.5, "service": 2.1, "facility": 1.5, "demand": 0, "order": 1.92}}, {"attended": 253, "dupes": 0, "invalid": 0, "weather": null, "id": "E021", "name": "Big Tuesday: Midweek Tour", "act": "Big Tuesday", "aid": "A10", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2026-05-08", "onsale": "2026-03-20", "cap": 350, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 270, "resale": 6, "markup": 1.4, "ticket": {"tier": "GA Floor", "face": 45.5, "service": 6.83, "facility": 3.0, "demand": 0, "order": 1.75}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E022", "name": "Velvet Thunder: Loud Library Tour", "act": "Velvet Thunder", "aid": "A07", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2026-05-22", "onsale": "2026-04-03", "cap": 350, "hd": 0, "status": "cancelled", "label": "Cancelled", "orig": null, "issued": 224, "resale": 8, "markup": 1.4, "ticket": {"tier": "GA Floor", "face": 40.0, "service": 6.0, "facility": 3.0, "demand": 0, "order": 1.83}}, {"attended": 470, "dupes": 0, "invalid": 2, "weather": null, "id": "E023", "name": "DJ Spreadsheet Live", "act": "DJ Spreadsheet", "aid": "A02", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-05-30", "onsale": "2026-03-21", "cap": 700, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 509, "resale": 10, "markup": 1.4, "ticket": {"tier": "Floor", "face": 95.0, "service": 17.1, "facility": 5.0, "demand": 0, "order": 1.82}}, {"attended": 193, "dupes": 0, "invalid": 0, "weather": null, "id": "E024", "name": "The Quiet Carriage Live", "act": "The Quiet Carriage", "aid": "A09", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2026-06-12", "onsale": "2026-04-17", "cap": 250, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 202, "resale": 4, "markup": 1.3, "ticket": {"tier": "Stalls", "face": 49.5, "service": 6.93, "facility": 2.5, "demand": 0, "order": 1.75}}, {"attended": 552, "dupes": 0, "invalid": 0, "weather": "hot, clear", "id": "E025", "name": "Mild Salsa Live", "act": "Mild Salsa", "aid": "A05", "venue": "Riverside Fields", "vid": "V05", "vtype": "outdoor", "date": "2026-06-27", "onsale": "2026-04-04", "cap": 1000, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 578, "resale": 9, "markup": 1.4, "ticket": {"tier": "GA", "face": 72.0, "service": 12.96, "facility": 4.0, "demand": 0, "order": 1.71}}, {"attended": 594, "dupes": 2, "invalid": 1, "weather": null, "id": "E026", "name": "Big Tuesday: Midweek Tour", "act": "Big Tuesday", "aid": "A10", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-07-25", "onsale": "2026-06-01", "cap": 700, "hd": 1, "status": "completed", "label": "Played", "orig": null, "issued": 637, "resale": 33, "markup": 1.9, "ticket": {"tier": "Lower Tier", "face": 93.5, "service": 16.83, "facility": 5.0, "demand": 9.35, "order": 1.72}}, {"attended": 52, "dupes": 0, "invalid": 0, "weather": null, "id": "E027", "name": "The Unpaid Interns Live", "act": "The Unpaid Interns", "aid": "A04", "venue": "The Velvet Basement", "vid": "V06", "vtype": "club", "date": "2026-07-31", "onsale": "2026-06-26", "cap": 60, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 57, "resale": 0, "markup": 0, "ticket": {"tier": "GA", "face": 17.5, "service": 2.1, "facility": 1.5, "demand": 0, "order": 1.86}}, {"attended": 643, "dupes": 26, "invalid": 0, "weather": null, "id": "E028", "name": "The Grumpy Moose: Antler Tour", "act": "The Grumpy Moose", "aid": "A01", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-08-14", "onsale": "2026-07-03", "cap": 700, "hd": 1, "status": "completed", "label": "Sold out", "orig": null, "issued": 700, "resale": 109, "markup": 3.5, "ticket": {"tier": "Floor", "face": 138.0, "service": 24.84, "facility": 5.0, "demand": 13.8, "order": 1.63}}, {"attended": 641, "dupes": 7, "invalid": 0, "weather": null, "id": "E029", "name": "The Grumpy Moose: Antler Tour", "act": "The Grumpy Moose", "aid": "A01", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-08-15", "onsale": "2026-07-03", "cap": 700, "hd": 1, "status": "completed", "label": "Sold out", "orig": null, "issued": 700, "resale": 109, "markup": 3.6, "ticket": {"tier": "Floor", "face": 138.0, "service": 24.84, "facility": 5.0, "demand": 13.8, "order": 1.64}}, {"attended": 155, "dupes": 0, "invalid": 0, "weather": null, "id": "E030", "name": "Cardboard Castle: The Big Box Tour", "act": "Cardboard Castle", "aid": "A16", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2026-08-22", "onsale": "2026-06-27", "cap": 250, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 165, "resale": 3, "markup": 1.1, "ticket": {"tier": "Stalls", "face": 38.5, "service": 5.39, "facility": 2.5, "demand": 0, "order": 1.73}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": "storm warning", "id": "E031", "name": "Mild Salsa Live", "act": "Mild Salsa", "aid": "A05", "venue": "Riverside Fields", "vid": "V05", "vtype": "outdoor", "date": "2026-08-29", "onsale": "2026-06-06", "cap": 1000, "hd": 0, "status": "cancelled", "label": "Cancelled", "orig": null, "issued": 602, "resale": 23, "markup": 1.4, "ticket": {"tier": "GA", "face": 72.0, "service": 12.96, "facility": 4.0, "demand": 0, "order": 1.76}}, {"attended": 769, "dupes": 6, "invalid": 4, "weather": "heavy rain", "id": "E032", "name": "The Grumpy Moose: Antler Tour", "act": "The Grumpy Moose", "aid": "A01", "venue": "Riverside Fields", "vid": "V05", "vtype": "outdoor", "date": "2026-09-12", "onsale": "2026-07-03", "cap": 1000, "hd": 1, "status": "completed", "label": "Played", "orig": null, "issued": 958, "resale": 150, "markup": 3.6, "ticket": {"tier": "GA", "face": 104.5, "service": 18.81, "facility": 4.0, "demand": 10.45, "order": 1.58}}, {"attended": 639, "dupes": 5, "invalid": 1, "weather": null, "id": "E034", "name": "Lullaby Riot: Wide Awake Tour", "act": "Lullaby Riot", "aid": "A08", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-09-26", "onsale": "2026-07-10", "cap": 700, "hd": 1, "status": "completed", "label": "Sold out", "orig": null, "issued": 695, "resale": 80, "markup": 3.5, "ticket": {"tier": "Floor", "face": 128.0, "service": 23.04, "facility": 5.0, "demand": 12.8, "order": 1.67}}, {"attended": 305, "dupes": 4, "invalid": 0, "weather": null, "id": "E035", "name": "Glitter Hazard: Hi-Vis Tour", "act": "Glitter Hazard", "aid": "A12", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2026-10-03", "onsale": "2026-07-24", "cap": 350, "hd": 1, "status": "completed", "label": "Played", "orig": null, "issued": 332, "resale": 18, "markup": 2.0, "ticket": {"tier": "GA Floor", "face": 47.5, "service": 7.12, "facility": 3.0, "demand": 4.75, "order": 1.88}}, {"attended": 46, "dupes": 0, "invalid": 0, "weather": null, "id": "E036", "name": "Nana Beats Live", "act": "Nana Beats", "aid": "A15", "venue": "The Velvet Basement", "vid": "V06", "vtype": "club", "date": "2026-10-09", "onsale": "2026-09-04", "cap": 60, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 47, "resale": 0, "markup": 0, "ticket": {"tier": "GA", "face": 20.0, "service": 2.4, "facility": 1.5, "demand": 0, "order": 1.6}}, {"attended": 174, "dupes": 0, "invalid": 0, "weather": null, "id": "E037", "name": "The Orchestra of Mild Inconvenience: Mostly Brahms", "act": "The Orchestra of Mild Inconvenience", "aid": "A14", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2026-10-17", "onsale": "2026-08-22", "cap": 250, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 185, "resale": 6, "markup": 1.4, "ticket": {"tier": "Stalls", "face": 55.0, "service": 7.7, "facility": 2.5, "demand": 0, "order": 1.87}}, {"attended": 73, "dupes": 0, "invalid": 0, "weather": null, "id": "E038", "name": "Auntie Synth Live", "act": "Auntie Synth", "aid": "A03", "venue": "The Rusty Anchor", "vid": "V01", "vtype": "club", "date": "2026-10-30", "onsale": "2026-09-25", "cap": 90, "hd": 0, "status": "completed", "label": "Played", "orig": null, "issued": 77, "resale": 1, "markup": 1.3, "ticket": {"tier": "GA", "face": 21.0, "service": 2.52, "facility": 1.5, "demand": 0, "order": 1.78}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E039", "name": "The Late Fees: Overdue Tour", "act": "The Late Fees", "aid": "A13", "venue": "The Rusty Anchor", "vid": "V01", "vtype": "club", "date": "2026-11-13", "onsale": "2026-10-09", "cap": 90, "hd": 0, "status": "scheduled", "label": "On sale", "orig": null, "issued": 57, "resale": 1, "markup": 1.4, "ticket": {"tier": "GA", "face": 17.5, "service": 2.1, "facility": 1.5, "demand": 0, "order": 1.68}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E033", "name": "Kevin From Accounting: The Reconciliation Tour", "act": "Kevin From Accounting", "aid": "A06", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2026-11-20", "onsale": "2026-07-15", "cap": 250, "hd": 0, "status": "scheduled", "label": "Postponed", "orig": "2026-09-18", "issued": 190, "resale": 4, "markup": 1.2, "ticket": {"tier": "Stalls", "face": 60.5, "service": 8.47, "facility": 2.5, "demand": 0, "order": 1.68}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E040", "name": "Velvet Thunder: Loud Library Tour", "act": "Velvet Thunder", "aid": "A07", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2026-11-27", "onsale": "2026-10-09", "cap": 350, "hd": 0, "status": "scheduled", "label": "On sale", "orig": null, "issued": 143, "resale": 5, "markup": 1.4, "ticket": {"tier": "GA Floor", "face": 40.0, "service": 6.0, "facility": 3.0, "demand": 0, "order": 1.74}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E041", "name": "Saxophone Steve Live", "act": "Saxophone Steve", "aid": "A11", "venue": "The Velvet Basement", "vid": "V06", "vtype": "club", "date": "2026-12-04", "onsale": "2026-10-30", "cap": 60, "hd": 0, "status": "scheduled", "label": "On sale", "orig": null, "issued": 20, "resale": 0, "markup": 0, "ticket": {"tier": "GA", "face": 18.5, "service": 2.22, "facility": 1.5, "demand": 0, "order": 2.17}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E045", "name": "The Grumpy Moose: Antler Tour", "act": "The Grumpy Moose", "aid": "A01", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-12-05", "onsale": "2026-09-18", "cap": 700, "hd": 1, "status": "scheduled", "label": "Sold out", "orig": null, "issued": 681, "resale": 132, "markup": 3.6, "ticket": {"tier": "Floor", "face": 138.0, "service": 24.84, "facility": 5.0, "demand": 13.8, "order": 1.57}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E042", "name": "Glitter Hazard: Hi-Vis Tour", "act": "Glitter Hazard", "aid": "A12", "venue": "Mallory Arena", "vid": "V04", "vtype": "arena", "date": "2026-12-11", "onsale": "2026-09-25", "cap": 700, "hd": 1, "status": "scheduled", "label": "On sale", "orig": null, "issued": 354, "resale": 71, "markup": 3.6, "ticket": {"tier": "Floor", "face": 119.0, "service": 21.42, "facility": 5.0, "demand": 11.9, "order": 1.61}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E043", "name": "Cardboard Castle: The Big Box Tour", "act": "Cardboard Castle", "aid": "A16", "venue": "Pemberton Theatre", "vid": "V02", "vtype": "theatre", "date": "2026-12-19", "onsale": "2026-10-24", "cap": 250, "hd": 0, "status": "scheduled", "label": "On sale", "orig": null, "issued": 83, "resale": 1, "markup": 1.0, "ticket": {"tier": "Circle", "face": 29.5, "service": 4.13, "facility": 2.5, "demand": 0, "order": 2.0}}, {"attended": 0, "dupes": 0, "invalid": 0, "weather": null, "id": "E044", "name": "The Quiet Carriage: New Year's Eve (Quietly)", "act": "The Quiet Carriage", "aid": "A09", "venue": "Gasworks Hall", "vid": "V03", "vtype": "hall", "date": "2026-12-31", "onsale": "2026-11-12", "cap": 350, "hd": 0, "status": "scheduled", "label": "On sale soon", "orig": null, "issued": 0, "resale": 0, "markup": 0, "ticket": null}], "tiles": {"gross": 1550066.18, "take": 0.2711581847816059, "nfr": 302117.69, "st": 0.8150454863540938}, "monthly": [["2025-06", 68732.28], ["2025-07", 31699.69], ["2025-08", 71200.2], ["2025-09", 43482.96], ["2025-10", 81471.36], ["2025-11", 42869.56], ["2025-12", 32859.22], ["2026-01", 64352.479999999996], ["2026-02", 74789.59], ["2026-03", 47668.42], ["2026-04", 61993.53], ["2026-05", 41973.33], ["2026-06", 99149.46], ["2026-07", 479379.15], ["2026-08", 78098.68], ["2026-09", 198515.18000000002], ["2026-10", 31831.09]], "feetype": [["service", 201873.12], ["demand", 51641.05], ["order_processing", 24655.9], ["resale_buyer", 22963.8], ["resale_seller", 11481.9], ["delivery", 1677.0], ["refunded", -12175.08]], "stEvent": [["The Grumpy Moose: Antler Tour \u00b7 08-14", 1.0], ["The Grumpy Moose: Antler Tour \u00b7 08-15", 1.0], ["Lullaby Riot: Wide Awake Tour \u00b7 09-26", 0.9928571428571429], ["Lullaby Riot: Wide Awake Tour \u00b7 04-10", 0.9842857142857143], ["Lullaby Riot: Wide Awake Tour \u00b7 12-19", 0.9671428571428572], ["The Grumpy Moose: Antler Tour \u00b7 09-12", 0.958], ["The Late Fees: Overdue Tour \u00b7 10-17", 0.9555555555555556], ["The Unpaid Interns Live \u00b7 07-31", 0.95], ["Glitter Hazard: Hi-Vis Tour \u00b7 10-03", 0.9485714285714286], ["The Late Fees: Overdue Tour \u00b7 04-24", 0.9444444444444444], ["Kevin From Accounting: The Reconciliation Tour \u00b7 11-21", 0.928], ["The Quiet Carriage Live \u00b7 07-11", 0.9222222222222223]], "counts": {"venues": 7, "artists": 17, "events": 46, "fee_schedule": 16, "customers": 2418, "orders": 6911, "tickets": 15327, "refunds": 509, "scans": 10760, "payments": 6783}, "samples": {"events": {"cols": ["event_id", "event_name", "venue_id", "event_date", "on_sale_date", "capacity", "high_demand", "status", "original_event_date"], "rows": [["E017", "The Orchestra of Mild Inconvenience: Mostly Brahms", "V04", "2026-03-13", "2026-01-02", 450, 0, "completed", null], ["E022", "Velvet Thunder: Loud Library Tour", "V03", "2026-05-22", "2026-04-03", 350, 0, "cancelled", null], ["E026", "Big Tuesday: Midweek Tour", "V04", "2026-07-25", "2026-06-01", 700, 1, "completed", null], ["E999", "TEST EVENT - DO NOT SELL", "V99", "2026-08-01", "2026-07-20", 500, 0, "completed", null], ["E028", "The Grumpy Moose: Antler Tour", "V04", "2026-08-14", "2026-07-03", 700, 1, "completed", null], ["E029", "The Grumpy Moose: Antler Tour", "V04", "2026-08-15", "2026-07-03", 700, 1, "completed", null], ["E031", "Mild Salsa Live", "V05", "2026-08-29", "2026-06-06", 1000, 0, "cancelled", null], ["E032", "The Grumpy Moose: Antler Tour", "V05", "2026-09-12", "2026-07-03", 1000, 1, "completed", null], ["E034", "Lullaby Riot: Wide Awake Tour", "V04", "2026-09-26", "2026-07-10", 700, 1, "completed", null], ["E033", "Kevin From Accounting: The Reconciliation Tour", "V02", "2026-11-20", "2026-07-15", 250, 0, "scheduled", "2026-09-18"]]}, "orders": {"cols": ["order_id", "customer_id", "event_id", "order_ts", "channel", "delivery_method", "order_processing_fee", "delivery_fee", "status"], "rows": [["O000001", "C00417", "E001", "2025-06-06 15:48:50", "Web", "mobile", 3.95, 0.0, "paid"], ["O000003", "C01681", "E001", "2025-06-06 19:13:41", "App", "mobile", 3.95, 0.0, "paid"], ["O000034", "C00243", "E002", "2025-06-08 17:43:39", "Web", "will_call", 3.95, 2.5, "refunded"], ["O000188", "C01434", "E005", "2025-06-16 17:33:50", "App", "mobile", 3.95, 0.0, "refunded"], ["O000216", "C01545", "E005", "2025-06-17 09:00:21", "App", "mobile", 3.95, 0.0, "partially_refunded"], ["O000265", "C01868", "E002", "2025-06-22 20:01:11", "Web", "print_at_home", 3.95, 1.0, "partially_refunded"], ["O000273", "C00844", "E004", "2025-06-24 22:46:20", "BOX OFFICE", "collected", 0.0, 0.0, "paid"], ["O000275", "C00134", "E002", "2025-06-25 18:54:19", "resale", "mobile", 3.95, 0.0, "paid"], ["O000811", "C02370", "E009", "2025-08-31 19:15:10", "Web", "mobile", 3.95, 0.0, "chargeback"], ["O001093", "C90000", "E007", "2025-10-01 16:41:00", "box_office", "guest_list", 0.0, 0.0, "paid"]]}, "tickets": {"cols": ["ticket_id", "order_id", "event_id", "ticket_type", "resale_of_ticket_id", "tier", "is_comp", "face_value", "resale_price", "service_fee", "facility_fee", "demand_fee", "seller_fee"], "rows": [["T0000001", "O000001", "E001", "primary", null, "GA", 0, 20.0, null, 2.4, 1.5, 0.0, 0.0], ["T0000600", "O000275", "E002", "resale", "T0000067", "GA Floor", 0, 36.0, 40.0, 4.0, 0.0, 0.0, 2.0], ["T0000753", "O000345", "E001", "primary", null, "GA", 1, 0.0, null, 0.0, 0.0, 0.0, 0.0], ["T0008267", "O003753", "E026", "primary", null, "Floor", 0, 114.0, null, 20.52, 5.0, 11.4, 0.0]]}, "refunds": {"cols": ["refund_id", "order_id", "refund_ts", "reason", "face_refunded", "service_fee_refunded", "facility_fee_refunded", "demand_fee_refunded", "order_fees_refunded"], "rows": [["R00001", "O000034", "2025-06-19 10:13:45", "customer_request", 36.0, 0.0, 0.0, 0.0, 0.0], ["R00014", "O000811", "2025-09-21 12:44:43", "chargeback", 476.0, 85.68, 20.0, 0.0, 3.95], ["R00051", "O003186", "2026-05-21 20:31:47", "event_cancelled", 40.0, 6.0, 3.0, 0.0, 1.0], ["R00297", "O004932", "2026-09-05 11:37:28", "goodwill", 0.0, 16.94, 0.0, 0.0, 0.0]]}, "fee_schedule": {"cols": ["fee_code", "applies_to", "basis", "rate", "effective_from", "paid_to"], "rows": [["service", "club", "pct_of_face", 0.12, "2024-01-01", "gatewhistle"], ["service", "theatre", "pct_of_face", 0.14, "2024-01-01", "gatewhistle"], ["service", "hall", "pct_of_face", 0.15, "2024-01-01", "gatewhistle"], ["service", "arena", "pct_of_face", 0.18, "2024-01-01", "gatewhistle"], ["service", "outdoor", "pct_of_face", 0.18, "2024-01-01", "gatewhistle"], ["facility", "club", "per_ticket", 1.5, "2024-01-01", "venue"], ["facility", "theatre", "per_ticket", 2.5, "2024-01-01", "venue"], ["facility", "hall", "per_ticket", 3.0, "2024-01-01", "venue"], ["facility", "arena", "per_ticket", 5.0, "2024-01-01", "venue"], ["facility", "outdoor", "per_ticket", 4.0, "2024-01-01", "venue"], ["order_processing", "all", "per_order", 3.95, "2024-01-01", "gatewhistle"], ["delivery", "all", "per_order", 1.0, "2024-01-01", "gatewhistle"], ["delivery", "all", "per_order", 2.5, "2024-01-01", "gatewhistle"], ["demand", "high_demand_events", "pct_of_face", 0.1, "2026-07-01", "gatewhistle"], ["resale_buyer", "all", "pct_of_resale_price", 0.1, "2024-01-01", "gatewhistle"], ["resale_seller", "all", "pct_of_resale_price", 0.05, "2024-01-01", "gatewhistle"]]}, "customers": {"cols": ["customer_id", "full_name", "email", "phone", "home_city", "account_status"], "rows": [["C00001", "Lena Dunn", "lena.dunn502@example.com", "+1 (237) 555-0179", "Port Mallory", "active"], ["C00002", "Grace Garcia", "grace.garcia965@example.com", "+1 (227) 555-0163", "Port Mallory", "active"], ["C00003", "Dina Tran", "dina.tran823@example.com", "+1 (221) 555-0147", "Little Hampden", "active"], ["C02401", "Tix Fan 01", "tixfan.07+01@example.net", "+1 (202) 555-0177", "Saltmarsh", "bot_suspected"], ["C02402", "Tix Fan 02", "tixfan.07+02@example.net", "+1 (202) 555-0177", "Saltmarsh", "bot_suspected"], ["C90000", "Guest List", "guestlist@gatewhistle.example", "+1 (202) 555-0100", "Port Mallory", "internal"]]}, "venues": {"cols": ["venue_id", "venue_name", "city", "venue_type", "capacity", "opened_year"], "rows": [["V01", "The Rusty Anchor", "Port Mallory", "club", 90, 1987], ["V02", "Pemberton Theatre", "Port Mallory", "theatre", 250, 1924], ["V03", "Gasworks Hall", "Little Hampden", "hall", 350, 2011], ["V04", "Mallory Arena", "Port Mallory", "arena", 700, 1998], ["V05", "Riverside Fields", "Little Hampden", "outdoor", 1000, 2016], ["V06", "The Velvet Basement", "Little Hampden", "club", 60, 2019], ["V99", "QA Hall", "Port Mallory", "test", 500, 2024]]}, "scans": {"cols": ["scan_id", "ticket_id", "event_id", "scanned_at", "gate", "result"], "rows": [["G0007263", "T0009000", "E028", "2026-08-14 18:30:00", "North", "admitted"], ["G0007264", "T0008873", "E028", "2026-08-14 18:30:03", "East", "admitted"], ["G0007265", "T0012495", "E028", "2026-08-14 18:30:03", "South", "admitted"], ["G0007366", "T0009353", "E028", "2026-08-14 18:47:59", "North", "duplicate"], ["G0007412", "T0009717", "E028", "2026-08-14 18:59:07", "South", "duplicate"], ["G0007473", "T0009051", "E028", "2026-08-14 19:09:54", "East", "duplicate"]]}, "payments": {"cols": ["payment_id", "order_id", "paid_at", "method", "card_brand", "card_last4", "card_fingerprint", "device_id", "amount"], "rows": [["P000001", "O000001", "2025-06-06 15:48:50", "card", "Mastercard", "3056", "8d08ae6135500ad0", "6ebbc0c6f9f788ef", 51.75], ["P000003", "O000003", "2025-06-06 19:13:41", "apple_pay", "Visa", "5167", "11245f7dce0554ef", "d9c8be7572d46d5d", 51.75], ["P000006", "O000006", "2025-06-07 15:11:07", "paypal", null, null, null, "a1ae7158ffb341ed", 27.85], ["P000010", "O000010", "2025-06-07 19:44:54", "google_pay", "Visa", "1106", "33fdf20cb4577752", "0136d5ea141233fb", 27.85], ["P000282", "O000282", "2025-06-27 18:48:24", "cash", null, null, null, null, 48.5], ["P003680", "O003765", "2026-07-03 15:00:10", "card", "Visa", "5869", "403e79ebe62bfa6d", "3b84f42cd0f890c5", 1093.79], ["P003691", "O003776", "2026-07-03 15:03:01", "card", "Visa", "5869", "403e79ebe62bfa6d", "3b84f42cd0f890c5", 830.51], ["P003693", "O003778", "2026-07-03 15:03:33", "card", "Visa", "5869", "403e79ebe62bfa6d", "3b84f42cd0f890c5", 1377.07], ["P003707", "O003792", "2026-07-03 15:06:23", "card", "Visa", "5869", "403e79ebe62bfa6d", "3b84f42cd0f890c5", 1243.43], ["P003711", "O003796", "2026-07-03 15:07:11", "card", "Visa", "5869", "403e79ebe62bfa6d", "3b84f42cd0f890c5", 1362.03]]}, "artists": {"cols": ["artist_id", "artist_name", "genre", "home_town"], "rows": [["A01", "The Grumpy Moose", "indie rock", "Port Mallory"], ["A02", "DJ Spreadsheet", "electronic", "Little Hampden"], ["A03", "Auntie Synth", "synth-pop", "Port Mallory"], ["A04", "The Unpaid Interns", "punk", "Little Hampden"], ["A05", "Mild Salsa", "latin", "Port Mallory"], ["A06", "Kevin From Accounting", "comedy", "Port Mallory"], ["A07", "Velvet Thunder", "metal", "Little Hampden"], ["A08", "Lullaby Riot", "pop", "Port Mallory"], ["A09", "The Quiet Carriage", "folk", "Little Hampden"], ["A10", "Big Tuesday", "hip hop", "Port Mallory"], ["A11", "Saxophone Steve", "jazz", "Little Hampden"], ["A12", "Glitter Hazard", "pop", "Little Hampden"], ["A13", "The Late Fees", "ska", "Port Mallory"], ["A14", "The Orchestra of Mild Inconvenience", "classical", "Port Mallory"], ["A15", "Nana Beats", "electronic", "Little Hampden"], ["A16", "Cardboard Castle", "kids", "Port Mallory"], ["A99", "QA Test Act", "test", "Port Mallory"]]}}, "saved": {"take": {"label": "Take rate by month", "owner": "Finance", "sql": "WITH ticket_fees AS (\n  SELECT t.order_id, SUM(t.face_value) AS face,\n         SUM(t.service_fee + t.facility_fee + t.demand_fee) AS ticket_fees\n  FROM tix.tickets t\n  WHERE t.ticket_type = 'primary'\n  GROUP BY t.order_id\n)\nSELECT substr(o.order_ts, 1, 7) AS order_month,\n       SUM(f.ticket_fees + o.order_processing_fee + o.delivery_fee) / SUM(f.face) AS take_rate\nFROM ticket_fees f\nJOIN tix.orders o ON o.order_id = f.order_id\nJOIN tix.events e ON e.event_id = o.event_id\nWHERE o.status <> 'chargeback' AND e.venue_id <> 'V99'\nGROUP BY 1\nORDER BY 1", "cols": ["order_month", "take_rate"], "rows": [["2026-03", 0.24481752777886587], ["2026-04", 0.24101233134483727], ["2026-05", 0.23860804131316857], ["2026-06", 0.2418908407703147], ["2026-07", 0.31664471705601477], ["2026-08", 0.25471820577083737], ["2026-09", 0.32378312955745014], ["2026-10", 0.2560359080595837]], "runs": 31, "users": 2}, "share": {"label": "Fee share of what fans paid", "owner": "Press office", "sql": "WITH paid AS (\n  SELECT o.order_id,\n         substr(o.order_ts, 1, 4) || '-Q' || ((CAST(substr(o.order_ts, 6, 2) AS INTEGER) + 2) / 3) AS order_quarter,\n         SUM(t.face_value) AS face,\n         SUM(t.service_fee + t.facility_fee + t.demand_fee) + MAX(o.order_processing_fee + o.delivery_fee) AS fees\n  FROM tix.tickets t\n  JOIN tix.orders o ON o.order_id = t.order_id\n  JOIN tix.events e ON e.event_id = t.event_id\n  WHERE t.ticket_type = 'primary' AND o.status <> 'chargeback' AND e.venue_id <> 'V99'\n  GROUP BY o.order_id, order_quarter\n)\nSELECT order_quarter, SUM(fees) / SUM(face + fees) AS fee_share_of_total_paid\nFROM paid\nGROUP BY 1\nORDER BY 1", "cols": ["order_quarter", "fee_share_of_total_paid"], "rows": [["2025-Q2", 0.1949197669566614], ["2025-Q3", 0.18763366063715797], ["2025-Q4", 0.1810630703000646], ["2026-Q1", 0.191124117280566], ["2026-Q2", 0.19416125695857428], ["2026-Q3", 0.23769665542277965], ["2026-Q4", 0.2038444175175905]], "runs": 8, "users": 1}, "sold": {"label": "Tickets sold by show", "owner": "Marketing", "sql": "SELECT e.event_name, e.event_date, COUNT(t.ticket_id) AS tickets_sold\nFROM tix.tickets t\nJOIN tix.events e ON e.event_id = t.event_id\nWHERE e.status <> 'cancelled'\nGROUP BY 1, 2\nORDER BY 2 DESC", "cols": ["event_name", "event_date", "tickets_sold"], "rows": [["Cardboard Castle: The Big Box Tour", "2026-12-19", 84], ["Glitter Hazard: Hi-Vis Tour", "2026-12-11", 425], ["The Grumpy Moose: Antler Tour", "2026-12-05", 832], ["Saxophone Steve Live", "2026-12-04", 20], ["Velvet Thunder: Loud Library Tour", "2026-11-27", 148], ["Kevin From Accounting: The Reconciliation Tour", "2026-11-20", 194], ["The Late Fees: Overdue Tour", "2026-11-13", 58], ["Auntie Synth Live", "2026-10-30", 78], ["The Orchestra of Mild Inconvenience: Mostly Brahms", "2026-10-17", 191], ["Nana Beats Live", "2026-10-09", 47]], "runs": 22, "users": 2}, "recog": {"label": "Fee revenue by show month", "owner": "Finance", "sql": "WITH fees AS (\n  SELECT o.event_id, SUM(t.service_fee + t.demand_fee + t.seller_fee) AS amount\n  FROM tix.tickets t\n  JOIN tix.orders o ON o.order_id = t.order_id\n  GROUP BY o.event_id\n  UNION ALL\n  SELECT o.event_id, SUM(o.order_processing_fee + o.delivery_fee)\n  FROM tix.orders o\n  GROUP BY o.event_id\n  UNION ALL\n  SELECT o.event_id, -SUM(r.service_fee_refunded + r.demand_fee_refunded + r.order_fees_refunded)\n  FROM tix.refunds r\n  JOIN tix.orders o ON o.order_id = r.order_id\n  GROUP BY o.event_id\n)\nSELECT substr(e.event_date, 1, 7) AS event_month, SUM(f.amount) AS recognised_fee_revenue\nFROM fees f\nJOIN tix.events e ON e.event_id = f.event_id\nWHERE e.status = 'completed' AND e.venue_id <> 'V99'\nGROUP BY 1\nORDER BY 1", "cols": ["event_month", "recognised_fee_revenue"], "rows": [["2026-03", 6718.2], ["2026-04", 14614.939999999999], ["2026-05", 10789.75], ["2026-06", 10987.32], ["2026-07", 14632.9], ["2026-08", 61298.32000000001], ["2026-09", 63396.29], ["2026-10", 6706.06]], "runs": 24, "users": 2}}, "history": [{"status": "FINISHED", "sql": "SELECT e.event_name, SUM(t.service_fee + t.facility_fee + t.demand_fee) / SUM(t.face_value + t.service_fee + t", "user": "press.office", "source": "Databricks SQL Editor", "ms": 1210, "start": "2026-10-31 15:46", "type": "SELECT"}, {"status": "FINISHED", "sql": "SELECT \"Custom SQL Query\".\"fee_type\" AS \"none:fee_type:nk\", SUM(\"Custom SQL Query\".\"amount\") AS \"sum:amount:ok", "user": "svc-tableau", "source": "Tableau", "ms": 4696, "start": "2026-10-31 06:00", "type": "SELECT"}, {"status": "FINISHED", "sql": "SELECT p.card_fingerprint, COUNT(DISTINCT o.customer_id) AS accounts, COUNT(*) AS orders FROM tix.payments p J", "user": "jo.adeyemi", "source": "Databricks SQL Editor", "ms": 1589, "start": "2026-10-30 21:47", "type": "SELECT"}, {"status": "FINISHED", "sql": "WITH paid AS ( SELECT o.order_id, substr(o.order_ts, 1, 4) || '-Q' || ((CAST(substr(o.order_ts, 6, 2) AS INTEG", "user": "press.office", "source": "Databricks SQL Editor", "ms": 2159, "start": "2026-10-30 19:39", "type": "SELECT"}, {"status": "FINISHED", "sql": "SELECT COUNT(*) FROM tix.scans", "user": "priya.nair", "source": "Databricks SQL Editor", "ms": 2543, "start": "2026-10-30 18:28", "type": "SELECT"}, {"status": "FINISHED", "sql": "WITH paid AS ( SELECT o.order_id, substr(o.order_ts, 1, 4) || '-Q' || ((CAST(substr(o.order_ts, 6, 2) AS INTEG", "user": "press.office", "source": "Databricks SQL Editor", "ms": 745, "start": "2026-10-29 22:31", "type": "SELECT"}, {"status": "FINISHED", "sql": "WITH paid AS ( SELECT o.order_id, substr(o.order_ts, 1, 4) || '-Q' || ((CAST(substr(o.order_ts, 6, 2) AS INTEG", "user": "press.office", "source": "Databricks SQL Editor", "ms": 1983, "start": "2026-10-29 20:59", "type": "SELECT"}, {"status": "FINISHED", "sql": "WITH ticket_fees AS ( SELECT t.order_id, SUM(t.face_value) AS face, SUM(t.service_fee + t.facility_fee + t.dem", "user": "maya.okafor", "source": "Databricks SQL Editor", "ms": 2810, "start": "2026-10-29 20:48", "type": "SELECT"}, {"status": "FINISHED", "sql": "SELECT e.event_name, COUNT(*) AS tickets, SUM(t.demand_fee) AS demand_fees, AVG(t.demand_fee) AS avg_demand_fe", "user": "press.office", "source": "Databricks SQL Editor", "ms": 2968, "start": "2026-10-29 20:05", "type": "SELECT"}, {"status": "FINISHED", "sql": "WITH fees AS ( SELECT o.event_id, SUM(t.service_fee + t.demand_fee + t.seller_fee) AS amount FROM tix.tickets ", "user": "maya.okafor", "source": "Databricks SQL Editor", "ms": 2251, "start": "2026-10-29 18:31", "type": "SELECT"}, {"status": "FAILED", "sql": "SELEC * FROM tix.events", "user": "ana.silva", "source": "Databricks SQL Editor", "ms": 49, "start": "2026-10-15 20:35", "type": "SELECT"}], "histStats": {"runs": 756, "shapes": 75, "failed": 6, "tableau": 368}, "facts": {"scans": 10760, "ringAccounts": 13, "tickets": 15327, "shows": 45, "resale": 878, "comps": 432, "refundsBack": 94016.58}};
+(function(){
+var esc=function(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')};
+var usd=function(n,dp){return (n<0?'-':'')+'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:dp||0,maximumFractionDigits:dp||0})};
+var pct=function(v,dp){return (v*100).toFixed(dp==null?1:dp)+'%'};
+var el=function(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+var $=function(id){return document.getElementById(id)};
+var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+/* tabs */
+var VIEWS=['firm','databricks','tableau','agent'];
+function go(v){
+  if(VIEWS.indexOf(v)<0)v='firm';
+  VIEWS.forEach(function(x){$('v-'+x).hidden=x!==v;$('tab-'+x).setAttribute('aria-selected',x===v?'true':'false')});
+  if(location.hash!=='#'+v){try{history.replaceState(null,'','#'+v)}catch(e){}}
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-v]').forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-v'))})});
+document.querySelectorAll('[data-go]').forEach(function(b){b.addEventListener('click',function(){go(b.getAttribute('data-go'))})});
+window.addEventListener('hashchange',function(){go(location.hash.slice(1))});
+
+/* ---------- the firm ---------- */
+$('stats').innerHTML=[[D.facts.shows,'shows, Jul 2025 to Dec 2026'],[D.venues.length,'venues in two towns'],[D.facts.tickets.toLocaleString('en-US'),'tickets, resales included'],['$'+(D.tiles.gross/1e6).toFixed(2)+'M','of ticket sales']].map(function(s){return '<div><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'}).join('');
+var CHIP={'Sold out':'sold','Played':'played','Cancelled':'cx','Postponed':'pp','On sale':'on','On sale soon':'soon'};
+var showBtns=[];
+(function(){
+  var s=$('season'),last='';
+  D.shows.forEach(function(sh,i){
+    var m=sh.date.slice(0,7);
+    if(m!==last){s.appendChild(el('div','mon',MON[+m.slice(5)-1]+' '+m.slice(0,4)));last=m}
+    var dd=new Date(sh.date+'T12:00:00Z'),dow=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dd.getUTCDay()];
+    var b=el('button','show','<span class="day">'+(+sh.date.slice(8))+'<small>'+dow+'</small></span><span class="who"><b>'+esc(sh.act)+(sh.hd?'<span class="hd">HIGH DEMAND</span>':'')+'</b><span>'+esc(sh.venue)+'</span></span><span class="chip '+CHIP[sh.label]+'">'+sh.label+'</span>');
+    b.id='show-'+sh.id;b.addEventListener('click',function(){stub(i)});showBtns.push(b);s.appendChild(b);
+  });
+})();
+var FEECOL={face:'#14161B',service:'#E8433A',facility:'#2F6DB5',demand:'#FFC83D',order:'#9AA3AE'};
+function stub(i){
+  var sh=D.shows[i];showBtns.forEach(function(b,x){b.setAttribute('aria-pressed',x===i?'true':'false')});
+  var dd=new Date(sh.date+'T12:00:00Z'),when=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dd.getUTCDay()]+' '+(+sh.date.slice(8))+' '+MON[+sh.date.slice(5,7)-1]+' '+sh.date.slice(0,4);
+  var title=sh.name.indexOf(': ')>0?sh.name.split(': ')[1]:'Live';
+  var h='<div class="stub-top"><span class="eyebrow">'+sh.id+' · '+esc(sh.vtype)+'</span><h3>'+esc(sh.act)+'</h3><p>'+esc(title)+' · '+esc(sh.venue)+' · '+when+'</p><span class="stamp '+CHIP[sh.label]+'">'+sh.label+'</span></div><div class="perf"></div><div class="stub-body">';
+  var t=sh.ticket;
+  if(t){
+    var parts=[['face','Face value','the act and promoter',t.face],['service','Service fee','Gatewhistle',t.service],['facility','Facility fee','the venue',t.facility],['demand','Demand fee','Gatewhistle',t.demand],['order','Share of the order fee','Gatewhistle',t.order]].filter(function(p){return p[3]>0});
+    var tot=parts.reduce(function(a,p){return a+p[3]},0),fees=tot-t.face;
+    h+='<div class="paid"><div><span class="eyebrow">One '+esc(t.tier)+' ticket, bought online</span><br><b>'+usd(tot,2)+'</b></div><em>'+usd(fees,2)+' of it is fees</em></div>';
+    h+='<div class="stack" role="img" aria-label="Where the money went">'+parts.map(function(p){return '<span title="'+p[1]+'" style="width:'+(p[3]/tot*100).toFixed(2)+'%;background:'+FEECOL[p[0]]+'"></span>'}).join('')+'</div>';
+    h+='<div class="legend2">'+parts.map(function(p){return '<div><i style="background:'+FEECOL[p[0]]+'"></i><span>'+p[1]+' <small>to '+p[2]+'</small></span><span class="num">'+usd(p[3],2)+'</span></div>'}).join('')+'</div>';
+    h+='<div class="feeshare"><span>Fees as a share of what this fan paid</span><b>'+pct(fees/tot)+'</b></div>';
+  }
+  var issued=sh.issued||0;
+  h+='<div><div style="display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:4px"><span>'+(sh.status==='scheduled'?'Sold so far':'Tickets issued')+'</span><span class="num">'+issued+' of '+sh.cap+'</span></div><div class="bar2"><span style="width:'+Math.min(100,issued/sh.cap*100).toFixed(1)+'%;background:'+(sh.label==='Cancelled'?'#B8BCC2':'')+'"></span></div></div>';
+  if(sh.status==='completed'&&sh.attended){
+    h+='<div><div style="display:flex;justify-content:space-between;font-size:.84rem;margin-bottom:4px"><span>Turned up at the gate</span><span class="num">'+sh.attended+' of '+issued+'</span></div><div class="bar2"><span style="width:'+Math.min(100,sh.attended/sh.cap*100).toFixed(1)+'%;background:var(--blue)"></span></div>'+((sh.dupes||sh.invalid)?'<p style="font-size:.78rem;color:var(--muted);margin-top:4px">Turned away: '+(sh.dupes?sh.dupes+' copied barcode'+(sh.dupes>1?'s':''):'')+(sh.dupes&&sh.invalid?', ':'')+(sh.invalid?sh.invalid+' void ticket'+(sh.invalid>1?'s':''):'')+'</p>':'')+'</div>';
+  }
+  var kv=[['On sale',sh.onsale]];
+  if(sh.weather)kv.push(['Weather',sh.weather]);
+  if(sh.orig)kv.push(['Moved from',sh.orig]);
+  if(sh.label==='Cancelled')kv.push(['What happened','Cancelled. Every order was refunded except the order processing fee.']);
+  if(sh.resale)kv.push(['Resold',sh.resale+' tickets, up to '+sh.markup+'x face value']);
+  if(sh.hd)kv.push(['High demand','Online orders from 1 July 2026 pay a 10% demand fee']);
+  h+='<dl class="kv">'+kv.map(function(k){return '<dt>'+k[0]+'</dt><dd>'+esc(k[1])+'</dd>'}).join('')+'</dl></div>';
+  $('stub').innerHTML=h;
+}
+stub(D.shows.findIndex(function(s){return s.id==='E028'}));
+D.venues.forEach(function(v){$('venues').appendChild(el('div','ven','<b>'+esc(v.name)+'</b><span>'+esc(v.city)+' · '+v.type+'</span><span class="cap">'+v.cap.toLocaleString('en-US')+'</span><span>capacity</span>'))});
+(function(){
+  var big=['A01','A08','A12','A10'],mid=['A06','A07','A02','A05','A14','A03'];
+  var name=function(id){return esc(D.acts.find(function(a){return a.id===id}).name)};
+  var rest=D.acts.filter(function(a){return big.indexOf(a.id)<0&&mid.indexOf(a.id)<0}).map(function(a){return a.id});
+  $('poster').innerHTML='<small>Gatewhistle presents · Port Mallory &amp; Little Hampden · 2025–26</small>'+
+    '<div class="ln l1">'+big.map(function(i){return '<span>'+name(i)+'</span>'}).join('')+'</div>'+
+    '<div class="ln l2">'+mid.map(function(i){return '<span>'+name(i)+'</span>'}).join('')+'</div>'+
+    '<div class="ln l3">'+rest.map(function(i){return '<span>'+name(i)+'</span>'}).join('')+'</div>'+
+    '<small>Fees apply. Many fees.</small>';
+})();
+
+/* ---------- Databricks ---------- */
+var KW=/^(SELECT|FROM|WHERE|AND|OR|NOT|IN|IS|NULL|AS|JOIN|LEFT|ON|GROUP|BY|ORDER|DESC|ASC|LIMIT|WITH|CASE|WHEN|THEN|ELSE|END|SUM|COUNT|CAST|INTEGER|COALESCE|UNION|ALL|MAX|AVG|DISTINCT)$/i;
+function hl(sql){return sql.split('\n').map(function(line){var ci=line.indexOf('--'),code=ci>=0?line.slice(0,ci):line,cm=ci>=0?line.slice(ci):'';
+  return code.replace(/('(?:[^']|'')*')|(\b\d+(?:\.\d+)?\b)|([A-Za-z_]+)|([^'A-Za-z_\d]+)/g,function(m,s,n,w,o){if(s)return '<span class="s">'+esc(s)+'</span>';if(n)return '<span class="d">'+n+'</span>';if(w)return KW.test(w)?'<span class="k">'+w+'</span>':esc(w);return esc(o)})+(cm?'<span class="cm">'+esc(cm)+'</span>':'')}).join('\n')}
+var MASKED={email:1,phone:1,full_name:1,card_last4:1,card_fingerprint:1,device_id:1};
+function gridHtml(cols,rows,mask){
+  return '<table><thead><tr><th></th>'+cols.map(function(c){return '<th>'+esc(c)+'</th>'}).join('')+'</tr></thead><tbody>'+rows.map(function(r,i){
+    return '<tr><td>'+(i+1)+'</td>'+r.map(function(v,j){
+      if(mask&&MASKED[cols[j]])return '<td class="mask">********</td>';
+      if(v===null)return '<td class="null">null</td>';
+      var n=typeof v==='number';
+      return '<td class="'+(n?'n':'')+'">'+esc(n&&!Number.isInteger(v)?(Math.abs(v)<1&&cols[j].indexOf('rate')<0&&cols[j].indexOf('share')<0?v.toFixed(2):(cols[j].match(/rate|share/)?v.toFixed(4):v.toFixed(2))):v)+'</td>'}).join('')+'</tr>'}).join('')+'</tbody></table>';
+}
+var NOTES={
+  events:'One show has a smaller seated capacity than its venue. One was moved, two were cancelled, and E999 is a test event.',
+  orders:'Channels before October 2025 are spelled App, Web and BOX OFFICE. Order fees live here, once per order.',
+  tickets:'A resold seat appears twice: the original ticket and its resale. Guest-list comps have no face value.',
+  refunds:'Four reasons, four rules: cancellations keep the order fee, fan requests keep every fee, chargebacks reverse everything.',
+  fee_schedule:'The demand fee starts on 1 July 2026. Facility fees are paid to the venue, not to Gatewhistle.',
+  customers:'Name, email and phone are masked for analysts by a column policy.',
+  venues:'QA Hall is where the checkout load test ran.',
+  scans:'Grumpy Moose night 1 at the gates: copied barcodes tried at a second gate, and tickets from charged-back orders turned away.',
+  payments:'Card, device and fingerprint are masked for analysts. Trust and safety can see them, and that is how the ring gets found.',
+  artists:'QA Test Act played QA Hall. Nobody went.'
+};
+var SQLT={events:'SELECT event_id, event_name, venue_id, event_date, on_sale_date, capacity, high_demand, status, original_event_date\nFROM box_office.tix.events\nWHERE event_id IN (\'E017\', \'E022\', \'E026\', \'E028\', \'E029\', \'E031\', \'E032\', \'E033\', \'E034\', \'E999\')\nORDER BY event_date;',
+  orders:'-- the first order of each channel and status\nSELECT * FROM box_office.tix.orders\nWHERE order_id IN (SELECT MIN(order_id) FROM box_office.tix.orders GROUP BY channel, status)\nORDER BY order_id;',
+  tickets:'-- one ticket of each kind\nSELECT * FROM box_office.tix.tickets\nWHERE ticket_id IN (SELECT MIN(ticket_id) FROM box_office.tix.tickets\n                    GROUP BY ticket_type, is_comp, demand_fee > 0);',
+  refunds:'-- the first refund of each reason\nSELECT * FROM box_office.tix.refunds\nWHERE refund_id IN (SELECT MIN(refund_id) FROM box_office.tix.refunds GROUP BY reason);',
+  fee_schedule:'SELECT fee_code, applies_to, basis, rate, effective_from, paid_to\nFROM box_office.tix.fee_schedule;',
+  customers:'SELECT customer_id, full_name, email, phone, home_city, account_status\nFROM box_office.tix.customers\nWHERE customer_id IN (\'C00001\', \'C00002\', \'C00003\', \'C02401\', \'C02402\', \'C90000\');',
+  venues:'SELECT * FROM box_office.tix.venues;',
+  scans:'-- one scan of each gate and result, Grumpy Moose night 1\nSELECT * FROM box_office.tix.scans\nWHERE event_id = \'E028\'\n  AND scan_id IN (SELECT MIN(scan_id) FROM box_office.tix.scans\n                  WHERE event_id = \'E028\' GROUP BY gate, result)\nORDER BY scanned_at;',
+  payments:'-- one payment of each method, and two accounts worth a look\nSELECT p.* FROM box_office.tix.payments p\nJOIN box_office.tix.orders o ON o.order_id = p.order_id\nWHERE p.payment_id IN (SELECT MIN(payment_id) FROM box_office.tix.payments GROUP BY method)\n   OR o.customer_id IN (\'C02403\', \'C02414\');',artists:'SELECT * FROM box_office.tix.artists;'};
+var cur='events',tb={};
+function openQ(key){
+  cur=key;Object.keys(tb).forEach(function(k){tb[k].setAttribute('aria-pressed',k===key?'true':'false')});
+  var sv=D.saved[key],sql,cols,rows,note,label,meta;
+  if(sv){sql=sv.sql;cols=sv.cols;rows=sv.rows;label=sv.label;note='<b>'+sv.owner+'.</b> Run '+sv.runs+' times by '+sv.users+(sv.users>1?' people':' person')+' in the history. '+({take:'Fees over face value: matches the dashboard tile.',share:'Fees over everything the fan paid: a different denominator, same word.',sold:'Counts every ticket row, so a resold seat counts twice.',recog:'Dates fee revenue by the month of the show, not the order.'})[key];meta=rows.length+' rows shown'}
+  else{var s=D.samples[key];sql=SQLT[key];cols=s.cols;rows=s.rows;label=key;note=NOTES[key];meta=rows.length+' rows · table has '+D.counts[key].toLocaleString('en-US')}
+  var n=sql.split('\n').length,ln='';for(var i=1;i<=n;i++)ln+=i+'\n';
+  $('ln').textContent=ln;$('sql').innerHTML=hl(sql);$('dbtab').textContent=label;
+  $('grid').innerHTML=gridHtml(cols,rows,key==='customers'||key==='payments');$('tip').innerHTML=note;
+  $('resmeta').textContent=meta+' · '+(120+(key.length*53)%400)+' ms';
+}
+(function(){
+  var t=$('tree'),ic={cat:'<svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="2" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="9" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/><rect x="9" y="9" width="5" height="5" fill="none" stroke="currentColor" stroke-width="1.3"/></svg>',
+   sch:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M1 3h4l1 1.5h6V11H1z" fill="none" stroke="currentColor"/></svg>',
+   tbl:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><rect x="1" y="2" width="11" height="9" fill="none" stroke="currentColor"/><path d="M1 5h11M5 5v6" stroke="currentColor"/></svg>',
+   q:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M2 1h6l3 3v8H2z" fill="none" stroke="currentColor"/><path d="M4 7h5M4 9.5h5" stroke="currentColor"/></svg>'};
+  var add=function(key,icon,cls,label,c){var b=el('button','tn '+cls,icon+'<span>'+label+'</span>'+(c!=null?'<span class="c">'+c.toLocaleString('en-US')+'</span>':''));b.id='db-'+key;b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){openQ(key)});tb[key]=b;t.appendChild(b)};
+  t.appendChild(el('div','tn',ic.cat+'<b>box_office</b>'));
+  t.appendChild(el('div','tn l1',ic.sch+'tix'));
+  ['events','orders','tickets','refunds','payments','scans','fee_schedule','customers','venues','artists'].forEach(function(k){add(k,ic.tbl,'l2',k,D.counts[k])});
+  t.appendChild(el('div','tn',ic.cat+'<b>system</b>'));
+  t.appendChild(el('div','tn l1',ic.sch+'query.history'));
+  t.appendChild(el('div','tn','<span style="font-weight:600;color:var(--db-muted);font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding-top:8px">Saved queries</span>'));
+  [['take','Take rate by month'],['share','Fee share of what fans paid'],['recog','Fee revenue by show month'],['sold','Tickets sold by show']].forEach(function(a){add(a[0],ic.q,'',a[1])});
+  $('run').addEventListener('click',function(){var w=$('dbwork');w.classList.add('loading');setTimeout(function(){openQ(cur);w.classList.remove('loading')},reduce?0:300)});
+  openQ('events');
+  $('qhgrid').innerHTML='<table><thead><tr><th></th><th>Status</th><th>Query</th><th>Started at</th><th>Duration</th><th>Source</th><th>User</th></tr></thead><tbody>'+D.history.map(function(h,i){
+    return '<tr><td>'+(i+1)+'</td><td class="'+(h.status==='FINISHED'?'st-ok':'st-x')+'">'+(h.status==='FINISHED'?'&#10003; Finished':'&#10005; Failed')+'</td><td style="font-family:var(--mono);font-size:11.5px">'+esc(h.sql)+'</td><td>'+h.start+'</td><td class="n">'+(h.ms/1000).toFixed(1)+' s</td><td>'+esc(h.source)+'</td><td>'+esc(h.user)+'</td></tr>'}).join('')+'</tbody></table>';
+  $('qhtip').innerHTML='<b>'+D.histStats.runs+' statements</b> across '+D.histStats.shapes+' distinct queries. '+D.histStats.tableau+' are the dashboard refreshing itself, and '+D.histStats.failed+' failed. Finance, the press office, marketing and venue operations each measure fees their own way here.';
+  document.querySelectorAll('[data-db]').forEach(function(b){b.addEventListener('click',function(){var v=b.getAttribute('data-db');
+    document.querySelectorAll('[data-db]').forEach(function(x){if(x===b)x.setAttribute('aria-current','page');else x.removeAttribute('aria-current')});
+    $('db-ed').style.display=v==='ed'?'flex':'none';$('db-qh').hidden=v!=='qh'})});
+})();
+
+/* ---------- Tableau ---------- */
+var DS={
+ 'Box Office':{dims:['channel','event_date','event_name','event_status','order_date','tier','venue_name','venue_type'],meas:['demand_fee','face_value','facility_fee','is_comp','order_fees_allocated','service_fee'],calcs:['Avg Ticket Price','Fee Take Rate','Gross Sales','Tickets per Order','Total Fees']},
+ 'Fee Ledger':{dims:['entry_date','event_id','fee_type','order_id'],meas:['amount'],calcs:['Net Fee Revenue']},
+ 'Event Sales':{dims:['event_date','event_id','event_name','status','venue_name','venue_type'],meas:['capacity','comps','tickets_issued'],calcs:['Sell-Through']}};
+var CALC={
+ 'Gross Sales':{ds:'Box Office',f:'SUM([face_value]) + SUM([service_fee]) + SUM([facility_fee])\n  + SUM([demand_fee]) + SUM([order_fees_allocated])',d:'Everything fans paid for primary tickets at the time of purchase: face value plus every fee, order fees shared across the tickets in the order. Before refunds. Chargebacks, resale and test events are left out.'},
+ 'Total Fees':{ds:'Box Office',f:'SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee])\n  + SUM([order_fees_allocated])',d:"Every fee on primary tickets, the venue's facility fee included."},
+ 'Fee Take Rate':{ds:'Box Office',f:'(SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee])\n  + SUM([order_fees_allocated])) / SUM([face_value])',d:'All fees divided by face value: the take rate finance reports to venues and promoters.',warn:'The tile is titled "Fees as % of what fans paid", but this divides by face value only. Share of what fans paid would divide by face value plus fees.'},
+ 'Avg Ticket Price':{ds:'Box Office',f:'SUM(IIF([is_comp] = 0, [face_value], 0))\n  / SUM(IIF([is_comp] = 0, 1, 0))',d:'Average face value of a paid ticket. Guest-list comps are left out.'},
+ 'Tickets per Order':{ds:'Box Office',f:'AVG({FIXED [order_id] : COUNT([ticket_id])})',d:'Tickets in an order, averaged over orders. A level-of-detail expression: the plugin holds these rather than guess at them.'},
+ 'Net Fee Revenue':{ds:'Fee Ledger',f:'SUM([amount])',d:"Gatewhistle's own fee income: service, demand, order processing and delivery fees, and both resale fees, less any of those refunded. Facility fees are collected for the venue and are not ours."},
+ 'Sell-Through':{ds:'Event Sales',f:'SUM([tickets_issued]) / SUM([capacity])',d:"Primary tickets issued, guest-list comps included, against the event's own capacity.",note:'The sheet filters status = completed. The rule lives in the filter, not in the formula.'}};
+var curDS='Box Office',openCalc='Fee Take Rate',sheet=null;
+function hbar(items,o){
+  o=o||{};var W=560,rh=o.rh||24,lw=o.lw||150,fmt=o.fmt;
+  var vals=items.map(function(d){return d[1]}),mn=Math.min(0,Math.min.apply(null,vals)),mx=Math.max(0,Math.max.apply(null,vals));
+  var pw=W-lw-64,x=function(v){return lw+(v-mn)/(mx-mn||1)*pw},H=items.length*rh+6,s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+esc(o.aria)+'">';
+  items.forEach(function(d,i){var y=i*rh+3,a=x(0),b=x(d[1]);
+    s+='<text class="c-lbl" x="'+(lw-8)+'" y="'+(y+rh/2+4)+'" text-anchor="end">'+esc(d[0])+'</text><rect x="'+Math.min(a,b).toFixed(1)+'" y="'+(y+3)+'" width="'+Math.max(1,Math.abs(b-a)).toFixed(1)+'" height="'+(rh-8)+'" fill="'+(d[1]<0?'#E15759':(o.color||'#4E79A7'))+'"/>'+
+       '<text class="c-val" x="'+((d[1]<0?a:b)+5).toFixed(1)+'" y="'+(y+rh/2+4)+'">'+esc(fmt(d[1]))+'</text>'});
+  if(mn<0)s+='<line class="c-zero" x1="'+x(0)+'" x2="'+x(0)+'" y1="0" y2="'+H+'"/>';
+  return s+'</svg>';
+}
+function line(pts){
+  var W=560,H=200,l=40,b=24,t=12,mx=Math.max.apply(null,pts.map(function(p){return p[1]})),n=pts.length;
+  var X=function(i){return l+i*(W-l-10)/(n-1)},Y=function(v){return H-b-v/mx*(H-b-t)};
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Gross sales by month">';
+  [0,.5,1].forEach(function(f){var y=Y(mx*f);s+='<line class="c-axis" x1="'+l+'" x2="'+W+'" y1="'+y+'" y2="'+y+'"/><text class="c-lbl" x="'+(l-6)+'" y="'+(y+4)+'" text-anchor="end">$'+Math.round(mx*f/1000)+'K</text>'});
+  s+='<path d="M'+pts.map(function(p,i){return X(i).toFixed(1)+' '+Y(p[1]).toFixed(1)}).join(' L')+'" fill="none" stroke="#4E79A7" stroke-width="2.2"/>';
+  pts.forEach(function(p,i){if(i%3===0||i===n-1)s+='<text class="c-lbl" x="'+X(i)+'" y="'+(H-6)+'" text-anchor="middle">'+MON[+p[0].slice(5)-1]+' '+p[0].slice(2,4)+'</text>';s+='<circle cx="'+X(i)+'" cy="'+Y(p[1])+'" r="2.5" fill="#4E79A7"/>'});
+  return s+'</svg>';
+}
+function tbFields(){
+  $('tbds').innerHTML=Object.keys(DS).map(function(n){return '<button data-ds="'+n+'" aria-pressed="'+(n===curDS)+'"><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2" fill="none" stroke="#4E79A7" stroke-width="1.4"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4" fill="none" stroke="#4E79A7" stroke-width="1.4"/></svg>'+n+'</button>'}).join('');
+  var d=DS[curDS];
+  $('tbfields').innerHTML='<div class="tb-fh">Dimensions</div>'+d.dims.map(function(f){return '<div class="tf dim"><span class="ic">'+(f.indexOf('date')>=0?'&#9638;':'Abc')+'</span>'+f+'</div>'}).join('')+
+    '<div class="tb-fh">Measures</div>'+d.calcs.map(function(c){return '<button class="tf mea" data-calc="'+c+'" aria-pressed="'+(c===openCalc)+'"><span class="ic">=#</span>'+c+'</button>'}).join('')+d.meas.map(function(f){return '<div class="tf mea"><span class="ic">#</span>'+f+'</div>'}).join('');
+  $('tbds').querySelectorAll('[data-ds]').forEach(function(b){b.addEventListener('click',function(){curDS=b.getAttribute('data-ds');tbFields()})});
+  $('tbfields').querySelectorAll('[data-calc]').forEach(function(b){b.addEventListener('click',function(){pick(b.getAttribute('data-calc'),null)})});
+}
+var TILES=[['gross','Gross Sales','Gross Sales',usd(D.tiles.gross)],['take','Fee Take Rate','Fees as % of what fans paid',pct(D.tiles.take)],['nfr','Net Fee Revenue','Net Fee Revenue',usd(D.tiles.nfr)],['st','Sell-Through','Sell-Through',pct(D.tiles.st,0)]];
+function renderDash(){
+  var h='<div class="dash"><div class="dash-t"><b>Box Office Pulse</b><span>Gatewhistle, all venues, US dollars. Refreshed daily at 06:00 UTC.</span></div>';
+  TILES.forEach(function(t){h+='<button class="kpi" data-m="'+t[1]+'" data-sheet="'+t[1]+'">'+(t[0]==='take'?'<span class="flag" aria-label="Title and measure disagree">!</span>':'')+'<span class="t">'+esc(t[2])+'</span><span class="v">'+t[3]+'</span></button>'});
+  h+='<button class="viz w2" data-m="Gross Sales" data-sheet="Gross Sales by Month"><span class="vt">Gross Sales by Month</span>'+line(D.monthly)+'</button>';
+  h+='<button class="viz w2" data-m="Net Fee Revenue" data-sheet="Fee Income by Type"><span class="vt">Fee Income by Type</span>'+hbar(D.feetype,{fmt:function(v){return (v<0?'-':'')+'$'+(Math.abs(v)/1000).toFixed(1)+'K'},lw:120,aria:'Fee income by type'})+'</button>';
+  h+='<button class="viz w4" data-m="Sell-Through" data-sheet="Sell-Through by Event"><span class="vt">Sell-Through by Event (completed)</span>'+hbar(D.stEvent,{fmt:function(v){return Math.round(v*100)+'%'},lw:290,rh:22,color:'#59A14F',aria:'Sell-through by event'})+'</button>';
+  h+='</div><div class="calc" id="calc"></div>';
+  $('tbstage').innerHTML=h;
+  $('tbstage').querySelectorAll('[data-m]').forEach(function(b){b.addEventListener('click',function(){pick(b.getAttribute('data-m'),b.getAttribute('data-sheet'))})});
+}
+function pick(name,sh){
+  openCalc=name;sheet=sh;var c=CALC[name];curDS=c.ds;tbFields();
+  document.querySelectorAll('#tbstage [data-m]').forEach(function(b){b.setAttribute('aria-pressed',(b.getAttribute('data-sheet')===sh)?'true':'false')});
+  var box=$('calc');box.hidden=false;
+  box.innerHTML='<div class="calc-h"><span>'+esc(c.ds)+'</span><button id="calcx" aria-label="Close">&#10005;</button></div><div class="calc-n">'+esc(name)+'</div><pre>'+esc(c.f)+'</pre><p>'+esc(c.d)+'</p><div class="ok"><span>The calculation is valid.</span><span>Apply · OK</span></div>';
+  $('calcx').addEventListener('click',function(){box.hidden=true});
+  var title=sh&&sh!==name?sh:(name==='Fee Take Rate'?'Fee Take Rate':name);
+  $('shelf').innerHTML='<span>Sheet</span><span>'+esc(sh||name)+'</span><span>Columns</span><span>'+(sh==='Gross Sales by Month'?'<span class="pill m">MONTH(order_date)</span>':sh==='Fee Income by Type'||sh==='Sell-Through by Event'?'<span class="pill m">AGG('+esc(name)+')</span>':'')+'</span><span>Rows</span><span>'+(sh==='Gross Sales by Month'?'<span class="pill m">AGG(Gross Sales)</span>':sh==='Fee Income by Type'?'<span class="pill d">fee_type</span>':sh==='Sell-Through by Event'?'<span class="pill d">event_name</span>':'<span class="pill m">AGG('+esc(name)+')</span>')+'</span>'+(name==='Sell-Through'?'<span>Filters</span><span><span class="pill d">status: completed</span></span>':'');
+  var n=$('tbnote');n.className='rule'+(c.warn?' warn':'');
+  n.innerHTML='<b>'+(c.warn?'Trap:':name+':')+'</b><span>'+esc(c.warn||c.note||c.d)+'</span>';
+}
+renderDash();pick('Fee Take Rate','Fee Take Rate');
+
+/* ---------- agent: answers from a real run ---------- */
+var QA=[
+ {q:'How much of what fans paid last quarter went on fees, and why did it go up?',a:'In Q3 2026, 23.8% of what fans paid went on fees, up from 19.4% in Q2. Almost all of the rise is the new dynamic demand fee.',
+  body:'<div class="tw"><table><thead><tr><th>Fee, as a share of what fans paid</th><th class="n">Q2 2026</th><th class="n">Q3 2026</th><th class="n">Change</th></tr></thead><tbody><tr><td>Dynamic demand fee</td><td class="n">0.0%</td><td class="n">6.7%</td><td class="n">+6.7 pts</td></tr><tr><td>Service fee</td><td class="n">13.3%</td><td class="n">12.9%</td><td class="n">−0.4 pts</td></tr><tr><td>Facility fee</td><td class="n">4.2%</td><td class="n">3.0%</td><td class="n">−1.2 pts</td></tr><tr><td>Order and delivery fees</td><td class="n">1.9%</td><td class="n">1.2%</td><td class="n">−0.8 pts</td></tr><tr class="tot"><td>Total</td><td class="n">19.4%</td><td class="n">23.8%</td><td class="n">+4.3 pts</td></tr></tbody></table></div><p>The demand fee brought in $50,458 in Q3, and the Grumpy Moose arena shows alone account for 72% of it. Without it, Q3 would have been about 18.3%, slightly below Q2: tickets got pricier, so the flat fees became a smaller part of each sale.</p>',
+  meta:'Fee Share of Amount Paid: fees ÷ (face value + fees), primary tickets, chargebacks and the test venue excluded. The dashboard tile divides by face value only and shows 31.2%.'},
+ {q:'How many tickets did The Grumpy Moose sell for the 14 August show?',a:'It sold out: 700 primary tickets against 700 seats.',
+  body:'<div class="tw"><table><thead><tr><th>Primary tickets for 14 Aug</th><th class="n">Count</th></tr></thead><tbody><tr><td>Sold to fans</td><td class="n">679</td></tr><tr><td>of which later refunded</td><td class="n">3</td></tr><tr><td>Complimentary</td><td class="n">21</td></tr><tr class="tot"><td>Issued in total</td><td class="n">700</td></tr></tbody></table></div><p>Another 109 tickets changed hands on resale. They are existing seats sold again, so it left them out.</p>',
+  meta:"Dashboard's Event Sales rule: primary tickets only, chargeback orders excluded."},
+ {q:'How many people actually turned up to that show?',a:'643 people got in.',
+  body:'<div class="tw"><table><thead><tr><th>Ticket holder</th><th class="n">Valid</th><th class="n">Admitted</th><th class="n">Turned up</th></tr></thead><tbody><tr><td>Original buyers</td><td class="n">567</td><td class="n">521</td><td class="n">92%</td></tr><tr><td>Resale buyers</td><td class="n">109</td><td class="n">108</td><td class="n">99%</td></tr><tr><td>Comps</td><td class="n">21</td><td class="n">14</td><td class="n">67%</td></tr><tr class="tot"><td>Total</td><td class="n">697</td><td class="n">643</td><td class="n">92.3%</td></tr></tbody></table></div><p>54 no-shows. 26 more scans were copied barcodes presented again, and it did not count them as people.</p>',
+  meta:'Gate scans, each admitted ticket counted once. Marketing’s query in the history counts every scan.'},
+ {q:'How many Grumpy Moose tickets did scalpers get?',miss:true,a:'It said 288: the six accounts trust and safety flagged.',
+  body:'<p>The right answer is about 400. After the August purge the ring came back as nine ordinary-looking accounts on the same cards and laptops, and took 112 seats on the third night alone. The agent reported 0 for that night.</p><p>It did warn that the history holds shared-card checks it had not applied, so the true count could be higher. There is no definition of a scalper anywhere in the sources, so it used the narrowest one it found.</p>',
+  meta:'The fix is context, not a smarter model: a governed definition of a linked account, from trust and safety, that the agent can use.'},
+ {q:'What was sell-through for the Orchestra of Mild Inconvenience at Mallory Arena in March?',a:'71.1%: 320 tickets issued against a 450-seat setup.',
+  body:'<p>The show used a seated layout for 450, not the arena’s 700. Against the full arena it would be 45.7%. Counting paid tickets only, it is 68.0%.</p>',
+  meta:"Dashboard's Sell-Through rule: primary tickets, chargeback orders excluded, over the show's own capacity."},
+ {q:'How much fee revenue did we make in September 2026?',a:'Net fee revenue was $40,371, about double August.',
+  body:'<p>September carried $14,433 of demand fees from the third Grumpy Moose night going on sale, less $8,459 of refunded fees, mostly from the cancelled Mild Salsa show. Counted by the month the show happened instead, finance’s query gives $63,396.</p>',
+  meta:'Net Fee Revenue as the dashboard defines it: facility fees excluded, dated by order, refunds by refund date. Its all-time total matches the dashboard to the cent.'},
+ {q:'Which show sold out fastest?',a:'The Grumpy Moose on 14 August: every seat on sale went within 57 hours.',
+  body:'<div class="tw"><table><thead><tr><th>Show</th><th class="n">Sold out after</th></tr></thead><tbody><tr><td>Grumpy Moose, 14 Aug, Mallory Arena</td><td class="n">57 hours</td></tr><tr><td>Grumpy Moose, 15 Aug, Mallory Arena</td><td class="n">6.4 days</td></tr></tbody></table></div><p>The flagged bot accounts took 84 seats on each night in the first ten minutes. Guest-list comps were issued later, so counting them would make this look like a five-week sell-out.</p>',
+  meta:'Paid primary tickets, chargebacks excluded, reaching capacity minus comps.'}
+];
+var qb=[];
+function ask(i){
+  qb.forEach(function(b,x){b.setAttribute('aria-pressed',x===i?'true':'false')});var q=QA[i];
+  $('thread').innerHTML='<div class="bub">'+esc(q.q)+'</div><div class="reply"><span class="av2">GW</span><div class="rbody">'+(q.miss?'<span class="real miss">Missed: the trap it fell for</span>':'<span class="real">From a real plugin run</span>')+'<p class="big">'+esc(q.a)+'</p>'+q.body+'<p class="meta">'+esc(q.meta)+'</p></div></div>';
+}
+QA.forEach(function(q,i){var b=el('button','q',esc(q.q));b.id='q-'+i;b.addEventListener('click',function(){ask(i)});qb.push(b);$('qs').appendChild(b)});
+ask(0);
+
+go(location.hash.slice(1));
+})();
+</script>
+
+</body>
+</html>
