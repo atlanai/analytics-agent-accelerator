@@ -45,11 +45,15 @@ https://github.com/atlanai/analytics-agent-accelerator
 ```
 
 The plugin finds the workbook, the CSVs and the query history, loads the data into SQLite,
-previews the metrics and SQL, and asks where to publish them. It installs nothing. For the week-one score, ask next:
+previews the metrics and SQL, and asks where to publish them. It installs nothing. For the
+week-one score, ask next:
 
 ```text
 Build an eval set for these metrics, run a baseline with a fresh agent per question, and show me the score.
 ```
+
+It writes eval questions and keeps their answers on your laptop, registers your agent, and runs
+the baseline.
 
 ## The question to finish on
 
@@ -70,7 +74,7 @@ Build an eval set for these metrics, run a baseline with a fresh agent per quest
 | `tix.refunds` | 509 | money paid back on an order |
 | `tix.scans` | 10,760 | one barcode scanned at a venue gate, and whether it got in |
 | `query.history` | 756 | one statement run on the SQL warehouse, August to October 2026 |
-| `atlan.query_shapes` | 68 | one distinct finished SELECT, with its run and user counts |
+| `query.query_shapes` (view) | 68 | one distinct finished SELECT, with its run and user counts |
 
 The dashboard, *Box Office Pulse*, has four tiles (gross sales, fees as a share of what fans
 paid, net fee revenue and sell-through) and three charts. Its three data sources are custom
@@ -80,8 +84,9 @@ The query history is laid out the way Databricks keeps `system.query.history`: o
 statement, with who ran it, from which tool, whether it finished, and how long it took. Finance,
 the press office, marketing, venue operations, trust and safety, data engineering and the
 dashboard's own refreshes all appear. `history/query_history.jsonl` is the export; `q.py` loads it as
-`query.history` and groups it as `atlan.query_shapes`, the way the Atlan plugin's one-time admin
-view does.
+`query.history` and groups it as `query.query_shapes`, the way the Atlan plugin's one-time admin
+view does. Unlike the yard's `querylog.jsonl`, which keeps one line per distinct query with its run
+and user counts, this export keeps one line per run, as Databricks does.
 
 `customers` holds names, email addresses, phone numbers and dates of birth, and `payments` holds
 card details and device IDs. They are made up (every address is on an `example` domain, every

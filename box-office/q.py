@@ -2,7 +2,7 @@
 
 Tables are tix.* (from box-office/tix.sqlite, built by load.py). The query history is loaded in
 memory the way Databricks keeps it: query.history has one row per statement with the columns of
-system.query.history (compute flattened to compute_warehouse_id), and atlan.query_shapes groups
+system.query.history (compute flattened to compute_warehouse_id), and query.query_shapes groups
 the finished SELECTs the way the Atlan plugin's one-time admin view does. Prints columns and up
 to 50 rows as JSON.
 """
@@ -37,11 +37,10 @@ con.execute("ATTACH DATABASE ':memory:' AS query")
 con.execute("CREATE TABLE query.history (" + ", ".join(COLUMNS) + ")")
 con.executemany(f"INSERT INTO query.history VALUES ({', '.join('?' * len(COLUMNS))})", history_rows())
 # The same grouping as the plugin's one-time admin view, without a rolling window: the history is fixed.
-con.execute("ATTACH DATABASE ':memory:' AS atlan")
-con.execute("""CREATE TABLE atlan.query_shapes AS
+con.execute("""CREATE VIEW query.query_shapes AS
     SELECT statement_text AS sql, COUNT(*) AS exec, COUNT(DISTINCT executed_by_user_id) AS users,
            MAX(start_time) AS last_run
-    FROM query.history
+    FROM history
     WHERE execution_status = 'FINISHED' AND statement_type = 'SELECT'
     GROUP BY statement_text""")
 con.execute("PRAGMA query_only = ON")
