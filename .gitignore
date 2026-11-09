@@ -101,6 +101,7 @@ atlan-readiness-report.md
 .dev/
 
 # The builder's yard is built locally; eval answers and agent files from a run never ship.
-yard/fixit.duckdb
+yard/site.sqlite
+.atlan-metrics/
 .atlan-analytics/
 .claude/agents/

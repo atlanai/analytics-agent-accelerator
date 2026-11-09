@@ -1,16 +1,15 @@
 ---
 name: builders-yard
-description: Sets up the accelerator's practice estate, the builder's yard (Fixit & Co., a small made-up building firm), on the participant's laptop - builds its DuckDB from CSV, shows the Power BI dashboard it starts from, and answers questions on it read-only. Use when the user asks to set up or try the builder's yard, the practice data, Fixit, or wants to try the accelerator steps before using their own data.
-compatibility: Any coding agent with a shell and Python 3.10+. Needs the duckdb Python package (uv run --with duckdb, or pip install duckdb after a yes).
+description: Sets up the accelerator's practice estate, the builder's yard (Fixit & Co., a small made-up building firm), on the participant's laptop - builds its SQLite database from CSV, shows the Power BI dashboard it starts from, and answers questions on it read-only. Use when the user asks to set up or try the builder's yard, the practice data, Fixit, or wants to try the accelerator steps before using their own data.
+compatibility: Any coding agent with a shell and Python 3.10+. Uses the built-in sqlite3 module; installs nothing.
 ---
 
 # The builder's yard
 
 Everything lives in `yard/` (read `yard/README.md` first). Nothing leaves the laptop.
 
-1. **Build the yard.** If `yard/fixit.duckdb` is missing, run `python yard/load.py`. If `duckdb`
-   is not importable, ask once, then use `uv run --with duckdb python yard/load.py` (or
-   `pip install duckdb`). Show the row counts.
+1. **Build the yard.** If `yard/site.sqlite` is missing, run `python yard/load.py`. It needs no
+   packages. Show the row counts.
 2. **Show the dashboard.** Read the measures in `yard/powerbi/model.bim`. List the four tiles,
    each with its measure and value, computed with `python yard/q.py` from the measure's
    definition and the table's SQL in `yard/powerbi/rowsets.json`. One line per tile.

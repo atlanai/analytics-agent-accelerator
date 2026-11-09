@@ -1,6 +1,6 @@
 {
  "JOB_LEDGER": {
-  "sql": "SELECT p.project_id, p.project_name, 'contract' AS entry_type, p.contract_value_gbp AS amount_gbp\nFROM fixit.site.projects p WHERE p.status <> 'cancelled'\nUNION ALL\nSELECT p.project_id, p.project_name, 'labour', -SUM(w.hours * c.hourly_rate_gbp)\nFROM fixit.site.work_logs w JOIN fixit.site.crew c ON c.crew_id = w.crew_id JOIN fixit.site.projects p ON p.project_id = w.project_id\nWHERE p.status <> 'cancelled' GROUP BY p.project_id, p.project_name\nUNION ALL\nSELECT p.project_id, p.project_name, 'materials', -SUM(o.quantity * o.unit_cost_gbp)\nFROM fixit.site.material_orders o JOIN fixit.site.projects p ON p.project_id = o.project_id\nWHERE o.order_status = 'delivered' AND p.status <> 'cancelled' GROUP BY p.project_id, p.project_name",
+  "sql": "SELECT p.project_id, p.project_name, 'contract' AS entry_type, p.contract_value_gbp AS amount_gbp\nFROM site.projects p WHERE p.status <> 'cancelled'\nUNION ALL\nSELECT p.project_id, p.project_name, 'labour', -SUM(w.hours * c.hourly_rate_gbp)\nFROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id JOIN site.projects p ON p.project_id = w.project_id\nWHERE p.status <> 'cancelled' GROUP BY p.project_id, p.project_name\nUNION ALL\nSELECT p.project_id, p.project_name, 'materials', -SUM(o.quantity * o.unit_cost_gbp)\nFROM site.material_orders o JOIN site.projects p ON p.project_id = o.project_id\nWHERE o.order_status = 'delivered' AND p.status <> 'cancelled' GROUP BY p.project_id, p.project_name",
   "columns": [
    [
     "project_id",
@@ -21,7 +21,7 @@
   ]
  },
  "WORK_COST": {
-  "sql": "SELECT w.log_id, w.project_id, w.work_date, w.task_type, c.crew_name, c.crew_type, w.hours,\n       w.hours * c.hourly_rate_gbp AS cost_gbp\nFROM fixit.site.work_logs w JOIN fixit.site.crew c ON c.crew_id = w.crew_id",
+  "sql": "SELECT w.log_id, w.project_id, w.work_date, w.task_type, c.crew_name, c.crew_type, w.hours,\n       w.hours * c.hourly_rate_gbp AS cost_gbp\nFROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id",
   "columns": [
    [
     "log_id",
@@ -58,7 +58,7 @@
   ]
  },
  "DELIVERED_MATERIALS": {
-  "sql": "SELECT o.order_id, o.project_id, o.material, o.supplier, o.order_date,\n       o.quantity * o.unit_cost_gbp AS delivered_value_gbp, o.wasted_quantity * o.unit_cost_gbp AS wasted_value_gbp\nFROM fixit.site.material_orders o WHERE o.order_status = 'delivered'",
+  "sql": "SELECT o.order_id, o.project_id, o.material, o.supplier, o.order_date,\n       o.quantity * o.unit_cost_gbp AS delivered_value_gbp, o.wasted_quantity * o.unit_cost_gbp AS wasted_value_gbp\nFROM site.material_orders o WHERE o.order_status = 'delivered'",
   "columns": [
    [
     "order_id",
@@ -91,7 +91,7 @@
   ]
  },
  "JOBS": {
-  "sql": "SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,\n       CASE WHEN date_diff('day', p.planned_end_date, p.actual_end_date) > 7 THEN 'late' ELSE 'on_time' END AS delivery\nFROM fixit.site.projects p WHERE p.status = 'complete'",
+  "sql": "SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,\n       CASE WHEN CAST(julianday(p.actual_end_date) - julianday(p.planned_end_date) AS INTEGER) > 7 THEN 'late' ELSE 'on_time' END AS delivery\nFROM site.projects p WHERE p.status = 'complete'",
   "columns": [
    [
     "project_id",

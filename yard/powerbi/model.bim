@@ -45,7 +45,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, 'contract' AS entry_type, p.contract_value_gbp AS amount_gbp FROM fixit.site.projects p WHERE p.status <> 'cancelled' UNION ALL SELECT p.project_id, p.project_name, 'labour', -SUM(w.hours * c.hourly_rate_gbp) FROM fixit.site.work_logs w JOIN fixit.site.crew c ON c.crew_id = w.crew_id JOIN fixit.site.projects p ON p.project_id = w.project_id WHERE p.status <> 'cancelled' GROUP BY p.project_id, p.project_name UNION ALL SELECT p.project_id, p.project_name, 'materials', -SUM(o.quantity * o.unit_cost_gbp) FROM fixit.site.material_orders o JOIN fixit.site.projects p ON p.project_id = o.project_id WHERE o.order_status = 'delivered' AND p.status <> 'cancelled' GROUP BY p.project_id, p.project_name\")",
+                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, 'contract' AS entry_type, p.contract_value_gbp AS amount_gbp FROM site.projects p WHERE p.status <> 'cancelled' UNION ALL SELECT p.project_id, p.project_name, 'labour', -SUM(w.hours * c.hourly_rate_gbp) FROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id JOIN site.projects p ON p.project_id = w.project_id WHERE p.status <> 'cancelled' GROUP BY p.project_id, p.project_name UNION ALL SELECT p.project_id, p.project_name, 'materials', -SUM(o.quantity * o.unit_cost_gbp) FROM site.material_orders o JOIN site.projects p ON p.project_id = o.project_id WHERE o.order_status = 'delivered' AND p.status <> 'cancelled' GROUP BY p.project_id, p.project_name\")",
                 "in",
                 "    Source"
               ]
@@ -113,7 +113,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT w.log_id, w.project_id, w.work_date, w.task_type, c.crew_name, c.crew_type, w.hours,        w.hours * c.hourly_rate_gbp AS cost_gbp FROM fixit.site.work_logs w JOIN fixit.site.crew c ON c.crew_id = w.crew_id\")",
+                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT w.log_id, w.project_id, w.work_date, w.task_type, c.crew_name, c.crew_type, w.hours,        w.hours * c.hourly_rate_gbp AS cost_gbp FROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id\")",
                 "in",
                 "    Source"
               ]
@@ -176,7 +176,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT o.order_id, o.project_id, o.material, o.supplier, o.order_date,        o.quantity * o.unit_cost_gbp AS delivered_value_gbp, o.wasted_quantity * o.unit_cost_gbp AS wasted_value_gbp FROM fixit.site.material_orders o WHERE o.order_status = 'delivered'\")",
+                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT o.order_id, o.project_id, o.material, o.supplier, o.order_date,        o.quantity * o.unit_cost_gbp AS delivered_value_gbp, o.wasted_quantity * o.unit_cost_gbp AS wasted_value_gbp FROM site.material_orders o WHERE o.order_status = 'delivered'\")",
                 "in",
                 "    Source"
               ]
@@ -229,7 +229,7 @@
               "type": "m",
               "expression": [
                 "let",
-                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,        CASE WHEN date_diff('day', p.planned_end_date, p.actual_end_date) > 7 THEN 'late' ELSE 'on_time' END AS delivery FROM fixit.site.projects p WHERE p.status = 'complete'\")",
+                "    Source = Value.NativeQuery(Snowflake.Databases(\"fixit.snowflakecomputing.com\", \"YARD_WH\"){[Name=\"FIXIT\"]}[Data], \"SELECT p.project_id, p.project_name, p.project_type, p.actual_end_date,        CASE WHEN CAST(julianday(p.actual_end_date) - julianday(p.planned_end_date) AS INTEGER) > 7 THEN 'late' ELSE 'on_time' END AS delivery FROM site.projects p WHERE p.status = 'complete'\")",
                 "in",
                 "    Source"
               ]
