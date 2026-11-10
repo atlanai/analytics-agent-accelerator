@@ -81,6 +81,10 @@ The dashboard, *Box Office Pulse*, has four tiles (gross sales, fees as a share 
 paid, net fee revenue and sell-through) and three charts. Its three data sources are custom
 SQL on the SQLite database, `tix.sqlite`.
 
+The fee-share tile divides total fees by gross sales (face value plus fees): 21.3% across
+the demo data. The separate Fee Take Rate measure divides fees by face value: 27.1%.
+Both use the same primary-ticket population, excluding chargebacks, resale and test events.
+
 The query history has one row per statement, with who ran it, from which tool, whether it finished,
 and how long it took. Finance, the press office, marketing, venue operations, trust and safety,
 data engineering and the dashboard's own refreshes all appear. `history/query_history.jsonl` is the
