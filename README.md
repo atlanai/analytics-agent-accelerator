@@ -36,9 +36,9 @@ sends the report.
 No warehouse connected yet? Two made-up firms let you try the week-one steps on your laptop:
 
 - The [builder's yard](yard/): a small building firm with five tables, a Power BI dashboard and
-  a Snowflake-style query history. Paste: `Set up the builder's yard and show me its dashboard`.
+  a query history, all in SQLite. Paste: `Set up the builder's yard and show me its dashboard`.
 - The [box office](box-office/): a ticketing firm with ten tables, a Tableau dashboard and a
-  Databricks-style query history, with more to untangle. Paste:
+  query history, all in SQLite, with more to untangle. Paste:
   `Set up the box office and show me its dashboard`.
 
 To look round either firm first, take its [tour](https://atlanai.github.io/analytics-agent-accelerator/).
@@ -117,7 +117,7 @@ skills/accelerator-readiness/
 skills/builders-yard/SKILL.md   set up the practice yard and show its dashboard
 skills/box-office/SKILL.md      set up the practice box office and show its dashboard
 yard/                           the builder's yard: data, dashboard, query history
-box-office/                     the box office: data, Tableau workbook, Databricks query history
+box-office/                     the box office: data, Tableau workbook, query history
 ```
 
 ## Contact us

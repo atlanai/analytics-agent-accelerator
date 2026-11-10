@@ -7,11 +7,11 @@
 <datasource caption="Box Office" inline='true' name="federated.0box_office" version='18.1'>
 <connection class='federated'>
 <named-connections>
-<named-connection caption="tf-workspace.example.cloud.databricks.com" name="databricks.0tf_sql_warehouse">
-<connection authentication='oauth' class='databricks' schema='tix' port='443' server="tf-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
+<named-connection caption="tix.sqlite" name="genericodbc.0tix_sqlite">
+<connection class='genericodbc' dbname='tix.sqlite' odbc-connect-string-extras='' odbc-dbms-name='SQLite' odbc-driver='SQLite3 ODBC Driver' odbc-dsn='' schema='tix' server='' />
 </named-connection>
 </named-connections>
-<relation connection="databricks.0tf_sql_warehouse" name='Custom SQL Query' type='text'>SELECT t.ticket_id, t.order_id, t.event_id, e.event_name, e.event_date, e.status AS event_status,
+<relation connection="genericodbc.0tix_sqlite" name='Custom SQL Query' type='text'>SELECT t.ticket_id, t.order_id, t.event_id, e.event_name, e.event_date, e.status AS event_status,
        v.venue_name, v.venue_type, o.order_ts, substr(o.order_ts, 1, 10) AS order_date,
        lower(replace(o.channel, ' ', '_')) AS channel, t.tier, t.is_comp,
        t.face_value, t.service_fee, t.facility_fee, t.demand_fee,
@@ -90,11 +90,11 @@ WHERE t.ticket_type = 'primary'
 <datasource caption="Fee Ledger" inline='true' name="federated.0fee_ledger" version='18.1'>
 <connection class='federated'>
 <named-connections>
-<named-connection caption="tf-workspace.example.cloud.databricks.com" name="databricks.0tf_sql_warehouse">
-<connection authentication='oauth' class='databricks' schema='tix' port='443' server="tf-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
+<named-connection caption="tix.sqlite" name="genericodbc.0tix_sqlite">
+<connection class='genericodbc' dbname='tix.sqlite' odbc-connect-string-extras='' odbc-dbms-name='SQLite' odbc-driver='SQLite3 ODBC Driver' odbc-dsn='' schema='tix' server='' />
 </named-connection>
 </named-connections>
-<relation connection="databricks.0tf_sql_warehouse" name='Custom SQL Query' type='text'>SELECT o.order_id, substr(o.order_ts, 1, 10) AS entry_date, o.event_id,
+<relation connection="genericodbc.0tix_sqlite" name='Custom SQL Query' type='text'>SELECT o.order_id, substr(o.order_ts, 1, 10) AS entry_date, o.event_id,
        CASE WHEN t.ticket_type = 'resale' THEN 'resale_buyer' ELSE 'service' END AS fee_type,
        t.service_fee AS amount
 FROM tix.tickets t
@@ -154,11 +154,11 @@ WHERE e.venue_id &lt;&gt; 'V99'
 <datasource caption="Event Sales" inline='true' name="federated.0event_sales" version='18.1'>
 <connection class='federated'>
 <named-connections>
-<named-connection caption="tf-workspace.example.cloud.databricks.com" name="databricks.0tf_sql_warehouse">
-<connection authentication='oauth' class='databricks' schema='tix' port='443' server="tf-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
+<named-connection caption="tix.sqlite" name="genericodbc.0tix_sqlite">
+<connection class='genericodbc' dbname='tix.sqlite' odbc-connect-string-extras='' odbc-dbms-name='SQLite' odbc-driver='SQLite3 ODBC Driver' odbc-dsn='' schema='tix' server='' />
 </named-connection>
 </named-connections>
-<relation connection="databricks.0tf_sql_warehouse" name='Custom SQL Query' type='text'>SELECT e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue_type, e.capacity,
+<relation connection="genericodbc.0tix_sqlite" name='Custom SQL Query' type='text'>SELECT e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue_type, e.capacity,
        COUNT(t.ticket_id) AS tickets_issued, COALESCE(SUM(t.is_comp), 0) AS comps
 FROM tix.events e
 JOIN tix.venues v ON v.venue_id = e.venue_id

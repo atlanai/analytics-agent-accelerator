@@ -10,7 +10,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Stencil+One&family=Work+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-/* Layout: one light app shell. A slim site header with four tabs; each tab is one screen. Two tabs are faithful light-mode mock-ups of a warehouse worksheet and a BI report so participants recognise them. Single light theme on purpose. */
+/* Layout: one light app shell. A slim site header with four tabs; each tab is one screen. Two tabs are faithful light-mode mock-ups of a SQL worksheet and a BI report so participants recognise them. Single light theme on purpose. */
 :root{
   color-scheme:light;
   --page:#F4F5F1; --card:#FFFFFF; --ink:#1D2023; --muted:#5F656B; --line:#D9DCD4;
@@ -146,7 +146,7 @@ main .wrap{padding-block:20px 40px}
 @media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}.crew{grid-template-columns:repeat(2,minmax(0,1fr))}.route{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:560px){.crew{grid-template-columns:minmax(0,1fr)}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-/* ===== Snowflake-style worksheet ===== */
+/* ===== SQLite worksheet ===== */
 .sf{background:#fff;border:1px solid var(--sf-line);border-radius:10px;overflow:hidden;font-family:var(--sf-font);font-size:13px;color:var(--sf-ink);display:grid;grid-template-columns:196px minmax(0,1fr);min-height:600px;box-shadow:0 2px 10px rgba(30,37,47,.06)}
 .sf-nav{background:var(--sf-nav);border-right:1px solid var(--sf-line);padding:12px 10px;display:flex;flex-direction:column;gap:2px}
 .sf-acct{display:flex;align-items:center;gap:8px;padding:4px 6px 12px;font-weight:600}
@@ -360,7 +360,7 @@ details.sql pre{margin:0;padding:10px 12px;font-family:var(--mono);font-size:12p
     <div class="brand"><b>Fixit &amp; Co.</b><span>Practice data for the Analytics Agent Accelerator</span></div>
     <nav class="tabs" role="tablist" aria-label="Sections">
       <button role="tab" id="tab-firm" data-v="firm" aria-selected="true"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14V7l6-4 6 4v7H2zM6 14V9h4v5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>The firm</button>
-      <button role="tab" id="tab-snowflake" data-v="snowflake" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="3.5" rx="5.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 3.5v9c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2v-9M2.5 8c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Snowflake</button>
+      <button role="tab" id="tab-sqlite" data-v="sqlite" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="3.5" rx="5.5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 3.5v9c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2v-9M2.5 8c0 1.1 2.5 2 5.5 2s5.5-.9 5.5-2" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>SQLite</button>
       <button role="tab" id="tab-powerbi" data-v="powerbi" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 14V9M7 14V5M11 14V2" stroke="currentColor" stroke-width="2.6"/></svg>Power BI</button>
       <button role="tab" id="tab-agent" data-v="agent" aria-selected="false"><svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 3h12v8H7l-3 3v-3H2z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>The agent</button>
     </nav>
@@ -397,33 +397,24 @@ details.sql pre{margin:0;padding:10px 12px;font-family:var(--mono);font-size:12p
   <div class="crew" id="crew"></div>
   <h2 class="sec">Your route</h2>
   <div class="route">
-    <button class="rc" data-go="snowflake"><span class="no">1</span><b>The data</b><small>Five tables and the query history in Snowflake</small><span class="ar">&#8594;</span></button>
+    <button class="rc" data-go="sqlite"><span class="no">1</span><b>The data</b><small>Five tables and the query history in SQLite</small><span class="ar">&#8594;</span></button>
     <button class="rc" data-go="powerbi"><span class="no">2</span><b>The dashboard</b><small>Four tiles in Power BI, and the rules behind them</small><span class="ar">&#8594;</span></button>
     <button class="rc" data-go="agent"><span class="no">3</span><b>The agent</b><small>What it answers, and how it shows its working</small><span class="ar">&#8594;</span></button>
   </div>
 </section>
 
-<!-- SNOWFLAKE -->
-<section id="v-snowflake" role="tabpanel" aria-labelledby="tab-snowflake" hidden>
+<!-- SQLITE -->
+<section id="v-sqlite" role="tabpanel" aria-labelledby="tab-sqlite" hidden>
   <div class="intro">
     <p>Five tables and four months of query history. Click a table or a worksheet.</p>
     <button class="next" data-go="powerbi">See the dashboard in Power BI &#8594;</button>
   </div>
   <div class="sf">
-    <aside class="sf-nav" aria-label="Snowflake navigation">
-      <div class="sf-acct"><i>F</i>FIXIT</div>
-      <div class="sf-create"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6"/></svg>Create</div>
-      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.4"/></svg>Search</div>
-      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 14V7l6-4.5L14 7v7z" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Home</div>
-      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 6h6M5 9h6M5 12h3" stroke="currentColor" stroke-width="1.4"/></svg>Projects</div>
-      <button class="sf-ni sub" data-sf="ws" aria-current="page">Worksheets</button>
-      <div class="sf-ni sub">Notebooks</div>
-      <div class="sf-ni sub">Dashboards</div>
-      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Data</div>
-      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M1 9h3l2-5 3 9 2-6 1 2h3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Monitoring</div>
-      <button class="sf-ni sub" data-sf="qh">Query History</button>
-      <div class="sf-ni"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="2.2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4" stroke="currentColor" stroke-width="1.4"/></svg>Admin</div>
-      <div class="sf-user"><i>Y</i><div>YARD_OFFICE<small>ANALYST</small></div></div>
+    <aside class="sf-nav" aria-label="Database navigation">
+      <div class="sf-acct"><i>S</i>site.sqlite</div>
+      <button class="sf-ni" data-sf="ws" aria-current="page">Worksheets</button>
+      <button class="sf-ni" data-sf="qh">Query History</button>
+      <div class="sf-user"><i>Y</i><div>YARD_OFFICE<small>read-only</small></div></div>
     </aside>
     <div class="sf-main">
       <!-- worksheet -->
@@ -431,7 +422,7 @@ details.sql pre{margin:0;padding:10px 12px;font-family:var(--mono);font-size:12p
         <div class="sf-top">
           <div class="sf-title"><span id="wsname">yard-tour</span><small>Edited Nov 9, 2026</small></div>
           <div class="sf-ctl">
-            <span class="sf-ctx"><b>ANALYST</b>&middot; YARD_WH <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
+            <span class="sf-ctx"><b>site.sqlite</b>&middot; read-only <svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M1 3l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></span>
             <span class="sf-share">Share</span>
             <button class="sf-run" id="run" aria-label="Run"><svg width="11" height="11" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 0.5l7.5 4.5L2 9.5z" fill="currentColor"/></svg></button>
           </div>
@@ -443,7 +434,7 @@ details.sql pre{margin:0;padding:10px 12px;font-family:var(--mono);font-size:12p
             <div class="sf-tree" id="tree"></div>
           </div>
           <div class="sf-edit" id="sfedit">
-            <div class="sf-ctxbar"><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><b>FIXIT</b>.<b>SITE</b></div>
+            <div class="sf-ctxbar"><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><ellipse cx="8" cy="4" rx="5" ry="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg><b>site</b></div>
             <div class="code"><div class="ln" id="ln"></div><pre id="sql"></pre></div>
             <div class="sf-res">
               <div class="sf-resgrid">
@@ -543,7 +534,7 @@ var $=function(id){return document.getElementById(id)};
 var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---- tabs ---- */
-var VIEWS=['firm','snowflake','powerbi','agent'];
+var VIEWS=['firm','sqlite','powerbi','agent'];
 function go(v){
   if(VIEWS.indexOf(v)<0)v='firm';
   VIEWS.forEach(function(x){$('v-'+x).hidden=x!==v;$('tab-'+x).setAttribute('aria-selected',x===v?'true':'false')});
@@ -682,27 +673,27 @@ var ART={
   show(2);
 })();
 
-/* ---- Snowflake ---- */
+/* ---- SQLite ---- */
 var HMB="Hammerton Builders' Merchant";
 var W={
- projects:{rows:10,sql:"SELECT *\nFROM site.projects\nLIMIT 10;",cols:['PROJECT_ID','PROJECT_NAME','CLIENT_NAME','SITE_TOWN','PROJECT_TYPE','CONTRACT_VALUE_GBP','START_DATE','PLANNED_END_DATE','ACTUAL_END_DATE','STATUS'],
+ projects:{rows:10,sql:"SELECT *\nFROM site.projects\nLIMIT 10;",cols:['project_id','project_name','client_name','site_town','project_type','contract_value_gbp','start_date','planned_end_date','actual_end_date','status'],
   data:jobs.map(function(j){return [j.id,j.n,j.c,j.t,j.ty,j.cv.toFixed(2),j.s,j.p,j.e,j.st]}),note:'One job is cancelled, two are still open.'},
- crew:{rows:8,sql:"SELECT *\nFROM site.crew;",cols:['CREW_ID','CREW_NAME','CREW_TYPE','ROLE','HOURLY_RATE_GBP','CATCHPHRASE'],
+ crew:{rows:8,sql:"SELECT *\nFROM site.crew;",cols:['crew_id','crew_name','crew_type','role','hourly_rate_gbp','catchphrase'],
   data:crew.map(function(c){return [c[0],c[1],c[2],c[3],c[4].toFixed(2),c[5]]}),note:'No cost column anywhere. Cost = hours × this rate.'},
- work_logs:{rows:746,sql:"SELECT *\nFROM site.work_logs\nWHERE log_id IN ('W0001', 'W0002', 'W0003', 'W0004',\n                 'W0391', 'W0392', 'W0477', 'W0723', 'W0724');",cols:['LOG_ID','CREW_ID','PROJECT_ID','WORK_DATE','TASK_TYPE','HOURS'],
+ work_logs:{rows:746,sql:"SELECT *\nFROM site.work_logs\nWHERE log_id IN ('W0001', 'W0002', 'W0003', 'W0004',\n                 'W0391', 'W0392', 'W0477', 'W0723', 'W0724');",cols:['log_id','crew_id','project_id','work_date','task_type','hours'],
   data:[['W0001','C01','P01','2026-07-06','supervise','6.00'],['W0002','C02','P01','2026-07-07','build','6.00'],['W0003','C02','P01','2026-07-07','tea_break','0.50'],['W0004','C06','P01','2026-07-08','mix','7.00'],['W0391','C02','P03','2026-08-13','rework','8.00'],['W0392','C06','P03','2026-08-13','rework','8.00'],['W0477','C03','P04','2026-08-03','sprout_helping','3.00'],['W0723','C01',null,'2026-07-03','yard_tidy','2.00'],['W0724','C03',null,'2026-07-03','yard_tidy','3.00']],
   note:'Rework is never billed. Yard tidying has no job.'},
- material_orders:{rows:51,sql:"SELECT *\nFROM site.material_orders\nLIMIT 10;",cols:['ORDER_ID','PROJECT_ID','MATERIAL','UNIT','QUANTITY','UNIT_COST_GBP','SUPPLIER','ORDER_DATE','ORDER_STATUS','WASTED_QUANTITY'],
+ material_orders:{rows:51,sql:"SELECT *\nFROM site.material_orders\nLIMIT 10;",cols:['order_id','project_id','material','unit','quantity','unit_cost_gbp','supplier','order_date','order_status','wasted_quantity'],
   data:[['M001','P01','timber','m3','3.00','520.00',HMB,'2026-07-14','delivered','0.10'],['M002','P01','timber','m3','2.00','520.00',HMB,'2026-07-11','delivered','0.10'],['M003','P01','paint','tin','3.00','28.00',HMB,'2026-07-10','delivered','0.20'],['M004','P01','paint','tin','2.00','28.00',HMB,'2026-07-13','delivered','0.10'],['M005','P01','paint','tin','3.00','28.00',HMB,'2026-07-11','delivered','0.20'],['M006','P01','nails','box','2.00','9.00',HMB,'2026-07-06','delivered','0.20'],['M007','P01','nails','box','2.00','9.00',HMB,'2026-07-15','delivered','0.20'],['M008','P01','nails','box','2.00','9.00',HMB,'2026-07-08','delivered','0.20'],['M009','P02','bricks','pallet','8.00','380.00',HMB,'2026-07-22','delivered','0.30'],['M010','P02','bricks','pallet','14.00','380.00',HMB,'2026-07-07','cancelled','0.00']],
   note:'Cancelled orders (like M010) never arrived. Leave them out.'},
- site_snags:{rows:11,sql:"SELECT *\nFROM site.site_snags;",cols:['SNAG_ID','PROJECT_ID','REPORTED_DATE','CAUSED_BY','DESCRIPTION','SEVERITY'],
+ site_snags:{rows:11,sql:"SELECT *\nFROM site.site_snags;",cols:['snag_id','project_id','reported_date','caused_by','description','severity'],
   data:[['S01','P03','2026-08-12','KIPPER','Kipper sat in the wet turbine-base concrete. Paw prints set overnight.','high'],['S02','P03','2026-08-27','C06','Whirl over-mixed batch 14. It came out as soup.','medium'],['S03','P03','2026-09-16','KIPPER','Kipper sat in the wet concrete again. Same spot. Same paws.','high'],['S04','P03','2026-09-30','C08','Lanky lowered the turbine base mould two feet left of the pegs.','high'],['S05','P04','2026-08-18','C03','Sprout built the scarecrow a door. On the roof.','medium'],['S06','P04','2026-08-25','C03',"Sprout 'improved' the paint colour to turnip.",'low'],['S07','P02','2026-08-04','WEATHER','Rain washed out the barn footings.','medium'],['S08','P05','2026-09-08','C07','Flatt rolled the half-pipe flat. It is now a quarter-pipe.','low'],['S09','P10','2026-10-21','C01','Cat flap fitted upside down. Kipper unimpressed.','low'],['S10','P09','2026-10-07','WEATHER','Wind blew the shelter roof panels into the duck pond.','low'],['S11','P08','2026-10-14','C05','Tipper delivered the office carpet to the farm.','low']],
   note:'CAUSED_BY mixes crew ids with WEATHER and KIPPER.'},
- q_margin:{label:'gross-margin-by-job',sql:"WITH labour AS (\n  SELECT w.project_id, SUM(w.hours * c.hourly_rate_gbp) AS labour_cost\n  FROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id\n  WHERE w.project_id IS NOT NULL\n  GROUP BY w.project_id\n), mats AS (\n  SELECT project_id, SUM(quantity * unit_cost_gbp) AS materials_cost\n  FROM site.material_orders\n  WHERE order_status = 'delivered'\n  GROUP BY project_id\n)\nSELECT p.project_name,\n       p.contract_value_gbp - COALESCE(l.labour_cost, 0)\n         - COALESCE(m.materials_cost, 0) AS gross_margin_gbp\nFROM site.projects p\nLEFT JOIN labour l ON l.project_id = p.project_id\nLEFT JOIN mats m ON m.project_id = p.project_id\nWHERE p.status <> 'cancelled'\nORDER BY gross_margin_gbp;",cols:['PROJECT_NAME','GROSS_MARGIN_GBP'],
+ q_margin:{label:'gross-margin-by-job',sql:"WITH labour AS (\n  SELECT w.project_id, SUM(w.hours * c.hourly_rate_gbp) AS labour_cost\n  FROM site.work_logs w JOIN site.crew c ON c.crew_id = w.crew_id\n  WHERE w.project_id IS NOT NULL\n  GROUP BY w.project_id\n), mats AS (\n  SELECT project_id, SUM(quantity * unit_cost_gbp) AS materials_cost\n  FROM site.material_orders\n  WHERE order_status = 'delivered'\n  GROUP BY project_id\n)\nSELECT p.project_name,\n       p.contract_value_gbp - COALESCE(l.labour_cost, 0)\n         - COALESCE(m.materials_cost, 0) AS gross_margin_gbp\nFROM site.projects p\nLEFT JOIN labour l ON l.project_id = p.project_id\nLEFT JOIN mats m ON m.project_id = p.project_id\nWHERE p.status <> 'cancelled'\nORDER BY gross_margin_gbp;",cols:['project_name','gross_margin_gbp'],
   data:jobs.filter(function(j){return j.st!=='cancelled'}).sort(function(a,b){return a.m-b.m}).map(function(j){return [j.n,j.m.toFixed(2)]}),note:'Run 34 times by all five analysts.'},
- q_rework:{label:'rework-by-job',sql:"SELECT p.project_name,\n       SUM(w.hours * c.hourly_rate_gbp) AS rework_cost_gbp\nFROM site.work_logs w\nJOIN site.crew c ON c.crew_id = w.crew_id\nJOIN site.projects p ON p.project_id = w.project_id\nWHERE w.task_type = 'rework'\nGROUP BY 1\nORDER BY 2 DESC;",cols:['PROJECT_NAME','REWORK_COST_GBP'],
+ q_rework:{label:'rework-by-job',sql:"SELECT p.project_name,\n       SUM(w.hours * c.hourly_rate_gbp) AS rework_cost_gbp\nFROM site.work_logs w\nJOIN site.crew c ON c.crew_id = w.crew_id\nJOIN site.projects p ON p.project_id = w.project_id\nWHERE w.task_type = 'rework'\nGROUP BY 1\nORDER BY 2 DESC;",cols:['project_name','rework_cost_gbp'],
   data:[['Buttercup Vale Wind Turbine Base','30084.00'],["Sprout's Scarecrow Workshop",'1596.00'],["Farmer Marrow's Barn Extension",'1200.00'],["Kipper's Cat Flap",'405.00'],['Buttercup Vale Bus Shelter','180.00'],['Hammerton Skate Park','175.00'],["Mr Bramley's Office Refit",'160.00']],note:'89% of all rework is one job.'},
- q_ontime:{label:'on-time-rate',sql:"SELECT COUNT(CASE WHEN CAST(julianday(actual_end_date)\n                 - julianday(planned_end_date) AS INTEGER) <= 7\n             THEN 1 END) * 1.0 / COUNT(*) AS on_time_rate\nFROM site.projects\nWHERE status = 'complete';",cols:['ON_TIME_RATE'],data:[['0.7142857142857143']],note:'The most-run query (36 times). Not on the dashboard.'}
+ q_ontime:{label:'on-time-rate',sql:"SELECT COUNT(CASE WHEN CAST(julianday(actual_end_date)\n                 - julianday(planned_end_date) AS INTEGER) <= 7\n             THEN 1 END) * 1.0 / COUNT(*) AS on_time_rate\nFROM site.projects\nWHERE status = 'complete';",cols:['on_time_rate'],data:[['0.7142857142857143']],note:'The most-run query (36 times). Not on the dashboard.'}
 };
 var KW=/^(SELECT|FROM|WHERE|AND|OR|NOT|IN|IS|NULL|AS|JOIN|LEFT|ON|GROUP|BY|ORDER|DESC|ASC|LIMIT|WITH|CASE|WHEN|THEN|ELSE|END|SUM|COUNT|CAST|INTEGER|COALESCE|UNION|ALL)$/i;
 function hl(sql){return sql.split('\n').map(function(line){var ci=line.indexOf('--'),code=ci>=0?line.slice(0,ci):line,cm=ci>=0?line.slice(ci):'';
@@ -720,7 +711,7 @@ function openW(key){
   $('ln').textContent=ln;$('sql').innerHTML=hl(q.sql);
   $('whgrid').innerHTML=gridHtml(q.cols,q.data);$('whnote').textContent=q.note;
   var ms=60+((key.length*37+q.data.length*11)%180);
-  $('sfdet').innerHTML='<h4>Query Details</h4><dl><dt>Status</dt><dd><span class="sf-ok">&#10003; Success</span></dd><dt>Duration</dt><dd>'+ms+'ms</dd><dt>Rows</dt><dd>'+q.data.length+'</dd>'+(q.rows?'<dt>Table rows</dt><dd>'+q.rows+'</dd>':'')+'<dt>Warehouse</dt><dd>YARD_WH</dd></dl>';
+  $('sfdet').innerHTML='<h4>Query Details</h4><dl><dt>Status</dt><dd><span class="sf-ok">&#10003; Success</span></dd><dt>Duration</dt><dd>'+ms+'ms</dd><dt>Rows</dt><dd>'+q.data.length+'</dd>'+(q.rows?'<dt>Table rows</dt><dd>'+q.rows+'</dd>':'')+'</dl>';
 }
 function tree(){
   var t=$('tree');t.innerHTML='';tb={};
@@ -729,13 +720,12 @@ function tree(){
    tb:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><rect x="1" y="2" width="11" height="9" fill="none" stroke="currentColor"/><path d="M1 5h11M5 5v6" stroke="currentColor"/></svg>',
    ws:'<svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true"><path d="M2 1h6l3 3v8H2z" fill="none" stroke="currentColor"/><path d="M4 7h5M4 9.5h5" stroke="currentColor"/></svg>',
    ch:'<svg width="9" height="9" viewBox="0 0 10 10" aria-hidden="true"><path d="M3 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" transform="rotate(90 5 5)"/></svg>'};
-  var add=function(key,icon,cls,label){var q=W[key],b=el('button','tn '+cls,icon+'<span>'+(label||key.toUpperCase())+'</span>'+(q.rows?'<span class="c">'+q.rows+'</span>':''));b.id='sf-'+key;b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){openW(key)});tb[key]=b;t.appendChild(b)};
+  var add=function(key,icon,cls,label){var q=W[key],b=el('button','tn '+cls,icon+'<span>'+(label||key)+'</span>'+(q.rows?'<span class="c">'+q.rows+'</span>':''));b.id='sf-'+key;b.setAttribute('aria-pressed','false');b.addEventListener('click',function(){openW(key)});tb[key]=b;t.appendChild(b)};
   if(objTab==='db'){
-    t.appendChild(el('div','tn',ic.ch+ic.db+'<b>FIXIT</b>'));
-    t.appendChild(el('div','tn l1',ic.ch+ic.sc+'SITE'));
+    t.appendChild(el('div','tn',ic.ch+ic.db+'<b>site.sqlite</b>'));
+    t.appendChild(el('div','tn l1',ic.ch+ic.sc+'site'));
     t.appendChild(el('div','tn l2',ic.ch+'Tables'));
     ['projects','crew','work_logs','material_orders','site_snags'].forEach(function(k){add(k,ic.tb,'l3')});
-    t.appendChild(el('div','tn',ic.db+'<b>SNOWFLAKE</b>'));
   }else{
     [['q_margin','Gross margin by job'],['q_rework','Rework cost by job'],['q_ontime','On-time rate']].forEach(function(a){add(a[0],ic.ws,'',a[1])});
   }
@@ -750,7 +740,7 @@ var shapes=[["SELECT COUNT(CASE WHEN … <= 7 THEN 1 END) * 1.0 / COUNT(*) AS on
 function qh(grp){
   $('qh-runs').setAttribute('aria-pressed',!grp);$('qh-grp').setAttribute('aria-pressed',!!grp);
   if(grp){$('qhgrid').innerHTML=gridHtml(['SQL TEXT','RUNS','USERS'],shapes);$('qhnote').textContent='110 distinct queries. On-time rate is asked most, and it is not on the dashboard.'}
-  else{$('qhgrid').innerHTML=gridHtml(['STATUS','SQL TEXT','USER','WAREHOUSE','DURATION','STARTED'],runs.map(function(r){return ['✓ Success',r[3],r[1],'YARD_WH',r[2],r[0]]}));$('qhnote').textContent='417 runs by 5 analysts. The agent learns what the office really asks from here.'}
+  else{$('qhgrid').innerHTML=gridHtml(['STATUS','SQL TEXT','USER','DURATION','STARTED'],runs.map(function(r){return ['✓ Success',r[3],r[1],r[2],r[0]]}));$('qhnote').textContent='417 runs by 5 analysts. The agent learns what the office really asks from here.'}
 }
 $('qh-runs').addEventListener('click',function(){qh(false)});$('qh-grp').addEventListener('click',function(){qh(true)});qh(false);
 document.querySelectorAll('[data-sf]').forEach(function(b){b.addEventListener('click',function(){var v=b.getAttribute('data-sf');
@@ -812,7 +802,7 @@ function render(){
     s.innerHTML='<div class="tv"><div class="tv-pick">'+Object.keys(T).map(function(n){return '<button data-t="'+n+'" aria-pressed="'+(n===selT)+'">'+n+'</button>'}).join('')+'</div><div class="grid" style="max-height:250px">'+gridHtml(t.cols,t.data)+'</div><span class="cnt">Table: '+selT+' ('+t.rows+' rows)</span><pre class="src">'+hl(t.sql)+'</pre></div>';
     s.querySelectorAll('[data-t]').forEach(function(b){b.addEventListener('click',function(){selT=b.getAttribute('data-t');render()})});
     $('fx').innerHTML='<i>1</i>'+selT;
-    $('pbnote').className='rule';$('pbnote').innerHTML='<b>'+selT+':</b><span>Each table is built from SQL against Snowflake. Pick another in the Data pane.</span>';
+    $('pbnote').className='rule';$('pbnote').innerHTML='<b>'+selT+':</b><span>Each table is built from SQL against SQLite. Pick another in the Data pane.</span>';
   }else{
     s.innerHTML='<div class="mv">'+Object.keys(T).map(function(n){var m=M.filter(function(x){return x.tbl===n})[0];return '<div class="mbox"><h4>'+n+'</h4><ul><li class="m">'+m.name+'</li>'+T[n].cols.map(function(c){return '<li>'+c+'</li>'}).join('')+'</ul></div>'}).join('')+'<p class="mv-note">No relationships between the tables.</p></div>';
     $('fx').innerHTML='<i>1</i>Model';

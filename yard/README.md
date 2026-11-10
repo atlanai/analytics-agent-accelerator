@@ -68,16 +68,15 @@ the baseline. On the yard that takes about 20 minutes.
 | `site.work_logs` | 746 | one crew member, one job, one day, one task |
 | `site.material_orders` | 51 | an order |
 | `site.site_snags` | 11 | something that went wrong |
-| `account_usage.query_history` | 417 | one query an analyst ran, July to October 2026 |
-| `account_usage.query_shapes` (view) | 110 | one distinct query, with its run and user counts |
+| `query.history` | 417 | one query an analyst ran, July to October 2026 |
+| `query.query_shapes` (view) | 110 | one distinct query, with its run and user counts |
 
 The dashboard, *Hard Hat Area: Site Performance*, has four tiles: gross margin, rework cost,
 material waste and late jobs. It ships as a Power BI template,
 `powerbi/hard-hat-area-site-performance.pbit` (report page and model, no data). `powerbi/model.bim` is the same
 model as readable JSON, and `powerbi/rowsets.json` holds the SQL each table is built from.
 
-The query history is laid out the way Snowflake keeps it. `account_usage.query_history` has one
-row per run with Snowflake's column names, and `account_usage.query_shapes` groups it the way the
-Atlan plugin's one-time admin view does. `q.py` builds both from `history/querylog.jsonl`: the
-110 queries the yard's analysts ran, with how often and by how many people. The SQL in the
-history and the dashboard is written for SQLite.
+The query history sits beside the data in SQLite. `query.history` has one row per run, and
+`query.query_shapes` groups it the way the Atlan plugin's one-time admin view does. `q.py` builds
+both from `history/querylog.jsonl`: the 110 queries the yard's analysts ran, with how often and by
+how many people. The SQL in the history and the dashboard is written for SQLite.
