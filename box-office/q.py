@@ -1,10 +1,9 @@
 """Read-only SQL on the box office: python box-office/q.py "SELECT ..."  (standard library only).
 
 Tables are tix.* (from box-office/tix.sqlite, built by load.py). The query history is loaded in
-memory the way Databricks keeps it: query.history has one row per statement with the columns of
-system.query.history (compute flattened to compute_warehouse_id), and query.query_shapes groups
-the finished SELECTs the way the Atlan plugin's one-time admin view does. Prints columns and up
-to 50 rows as JSON.
+memory beside them: query.history has one row per statement, and query.query_shapes groups the
+finished SELECTs the way the Atlan plugin's one-time admin view does. Prints columns and up to 50
+rows as JSON.
 """
 import json
 import pathlib
@@ -13,16 +12,14 @@ import sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 DB = HERE / "tix.sqlite"
-COLUMNS = ("workspace_id", "statement_id", "executed_by", "executed_by_user_id", "execution_status",
-           "statement_type", "statement_text", "error_message", "client_application",
-           "compute_warehouse_id", "start_time", "end_time", "total_duration_ms", "read_rows",
-           "produced_rows")
+COLUMNS = ("statement_id", "executed_by", "executed_by_user_id", "execution_status", "statement_type",
+           "statement_text", "error_message", "client_application", "start_time", "end_time",
+           "total_duration_ms", "read_rows", "produced_rows")
 
 
 def history_rows():
     for line in (HERE / "history" / "query_history.jsonl").open():
         r = json.loads(line)
-        r["compute_warehouse_id"] = (r.pop("compute", None) or {}).get("warehouse_id")
         yield tuple(r.get(c) for c in COLUMNS)
 
 

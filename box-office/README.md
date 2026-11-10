@@ -1,8 +1,9 @@
 # The box office
 
 A second made-up company to practise on, with more going on than the builder's yard: a ticketing
-firm, a Tableau dashboard, and a Databricks-style query history. You take the same week-one
-steps: start from the dashboard, generate metrics and evals, run your agent, and see the score.
+firm, a Tableau dashboard, and a query history kept beside the data in SQLite. You take the same
+week-one steps: start from the dashboard, generate metrics and evals, run your agent, and see the
+score.
 Take the [box office tour](https://atlanai.github.io/analytics-agent-accelerator/box-office-tour/)
 first for a look round.
 
@@ -73,20 +74,19 @@ the baseline. On the box office the setup and the baseline together take about 1
 | `tix.tickets` | 15,327 | one ticket in an order |
 | `tix.refunds` | 509 | money paid back on an order |
 | `tix.scans` | 10,760 | one barcode scanned at a venue gate, and whether it got in |
-| `query.history` | 756 | one statement run on the SQL warehouse, August to October 2026 |
+| `query.history` | 756 | one statement run on the database, August to October 2026 |
 | `query.query_shapes` (view) | 68 | one distinct finished SELECT, with its run and user counts |
 
 The dashboard, *Box Office Pulse*, has four tiles (gross sales, fees as a share of what fans
 paid, net fee revenue and sell-through) and three charts. Its three data sources are custom
-SQL on a Databricks SQL warehouse.
+SQL on the SQLite database, `tix.sqlite`.
 
-The query history is laid out the way Databricks keeps `system.query.history`: one row per
-statement, with who ran it, from which tool, whether it finished, and how long it took. Finance,
-the press office, marketing, venue operations, trust and safety, data engineering and the
-dashboard's own refreshes all appear. `history/query_history.jsonl` is the export; `q.py` loads it as
-`query.history` and groups it as `query.query_shapes`, the way the Atlan plugin's one-time admin
-view does. Unlike the yard's `querylog.jsonl`, which keeps one line per distinct query with its run
-and user counts, this export keeps one line per run, as Databricks does.
+The query history has one row per statement, with who ran it, from which tool, whether it finished,
+and how long it took. Finance, the press office, marketing, venue operations, trust and safety,
+data engineering and the dashboard's own refreshes all appear. `history/query_history.jsonl` is the
+export; `q.py` loads it as `query.history` and groups it as `query.query_shapes`, the way the Atlan
+plugin's one-time admin view does. Unlike the yard's `querylog.jsonl`, which keeps one line per
+distinct query with its run and user counts, this export keeps one line per run.
 
 `customers` holds names, email addresses, phone numbers and dates of birth, and `payments` holds
 card details and device IDs. They are made up (every address is on an `example` domain, every
