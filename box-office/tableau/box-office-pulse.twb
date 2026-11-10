@@ -7,11 +7,11 @@
 <datasource caption="Box Office" inline='true' name="federated.0box_office" version='18.1'>
 <connection class='federated'>
 <named-connections>
-<named-connection caption="gw-workspace.example.cloud.databricks.com" name="databricks.0gw_sql_warehouse">
-<connection authentication='oauth' class='databricks' schema='tix' port='443' server="gw-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
+<named-connection caption="tf-workspace.example.cloud.databricks.com" name="databricks.0tf_sql_warehouse">
+<connection authentication='oauth' class='databricks' schema='tix' port='443' server="tf-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
 </named-connection>
 </named-connections>
-<relation connection="databricks.0gw_sql_warehouse" name='Custom SQL Query' type='text'>SELECT t.ticket_id, t.order_id, t.event_id, e.event_name, e.event_date, e.status AS event_status,
+<relation connection="databricks.0tf_sql_warehouse" name='Custom SQL Query' type='text'>SELECT t.ticket_id, t.order_id, t.event_id, e.event_name, e.event_date, e.status AS event_status,
        v.venue_name, v.venue_type, o.order_ts, substr(o.order_ts, 1, 10) AS order_date,
        lower(replace(o.channel, ' ', '_')) AS channel, t.tier, t.is_comp,
        t.face_value, t.service_fee, t.facility_fee, t.demand_fee,
@@ -90,11 +90,11 @@ WHERE t.ticket_type = 'primary'
 <datasource caption="Fee Ledger" inline='true' name="federated.0fee_ledger" version='18.1'>
 <connection class='federated'>
 <named-connections>
-<named-connection caption="gw-workspace.example.cloud.databricks.com" name="databricks.0gw_sql_warehouse">
-<connection authentication='oauth' class='databricks' schema='tix' port='443' server="gw-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
+<named-connection caption="tf-workspace.example.cloud.databricks.com" name="databricks.0tf_sql_warehouse">
+<connection authentication='oauth' class='databricks' schema='tix' port='443' server="tf-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
 </named-connection>
 </named-connections>
-<relation connection="databricks.0gw_sql_warehouse" name='Custom SQL Query' type='text'>SELECT o.order_id, substr(o.order_ts, 1, 10) AS entry_date, o.event_id,
+<relation connection="databricks.0tf_sql_warehouse" name='Custom SQL Query' type='text'>SELECT o.order_id, substr(o.order_ts, 1, 10) AS entry_date, o.event_id,
        CASE WHEN t.ticket_type = 'resale' THEN 'resale_buyer' ELSE 'service' END AS fee_type,
        t.service_fee AS amount
 FROM tix.tickets t
@@ -147,18 +147,18 @@ WHERE e.venue_id &lt;&gt; 'V99'
 <column datatype="real" name="[amount]" role="measure" type="quantitative" />
 <column caption="Net Fee Revenue" datatype="real" default-format='c"$"#,##0;-"$"#,##0' name="[Calculation_4417101]" role='measure' type='quantitative'>
   <calculation class='tableau' formula="SUM([amount])" />
-  <desc><formatted-text><run>Gatewhistle's own fee income: service, demand, order processing and delivery fees, and both resale fees, less any of those refunded. Facility fees are collected for the venue and are not ours. Dated by order; refunds by the day they were paid.</run></formatted-text></desc>
+  <desc><formatted-text><run>Ticketfuddle's own fee income: service, demand, order processing and delivery fees, and both resale fees, less any of those refunded. Facility fees are collected for the venue and are not ours. Dated by order; refunds by the day they were paid.</run></formatted-text></desc>
 </column>
 <layout dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' />
 </datasource>
 <datasource caption="Event Sales" inline='true' name="federated.0event_sales" version='18.1'>
 <connection class='federated'>
 <named-connections>
-<named-connection caption="gw-workspace.example.cloud.databricks.com" name="databricks.0gw_sql_warehouse">
-<connection authentication='oauth' class='databricks' schema='tix' port='443' server="gw-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
+<named-connection caption="tf-workspace.example.cloud.databricks.com" name="databricks.0tf_sql_warehouse">
+<connection authentication='oauth' class='databricks' schema='tix' port='443' server="tf-workspace.example.cloud.databricks.com" v-http-path='/sql/1.0/warehouses/b7e3c90a51d4f2e6' />
 </named-connection>
 </named-connections>
-<relation connection="databricks.0gw_sql_warehouse" name='Custom SQL Query' type='text'>SELECT e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue_type, e.capacity,
+<relation connection="databricks.0tf_sql_warehouse" name='Custom SQL Query' type='text'>SELECT e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue_type, e.capacity,
        COUNT(t.ticket_id) AS tickets_issued, COALESCE(SUM(t.is_comp), 0) AS comps
 FROM tix.events e
 JOIN tix.venues v ON v.venue_id = e.venue_id
@@ -345,7 +345,7 @@ GROUP BY e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue
 <size maxheight='1000' maxwidth='1400' minheight='1000' minwidth='1400' sizing-mode='fixed' />
 <zones>
 <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
-<zone h='8000' id='2' type-v2='text' w='100000' x='0' y='0'><formatted-text><run>Box Office Pulse. Gatewhistle, all venues, US dollars. Refreshed daily at 06:00 UTC.</run></formatted-text></zone>
+<zone h='8000' id='2' type-v2='text' w='100000' x='0' y='0'><formatted-text><run>Box Office Pulse. Ticketfuddle, all venues, US dollars. Refreshed daily at 06:00 UTC.</run></formatted-text></zone>
 <zone h='18000' id='3' name="Gross Sales" w='25000' x='0' y='8000' />
 <zone h='18000' id='4' name="Fee Take Rate" w='25000' x='25000' y='8000' />
 <zone h='18000' id='5' name="Net Fee Revenue" w='25000' x='50000' y='8000' />

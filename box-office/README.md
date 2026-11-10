@@ -8,7 +8,7 @@ first for a look round.
 
 ## The firm
 
-Gatewhistle sells tickets for six venues in Port Mallory and Little Hampden, from a 60-seat
+Ticketfuddle sells tickets for six venues in Port Mallory and Little Hampden, from a 60-seat
 basement club to a 1,000-capacity field by the river. Sixteen acts play 45 shows between July
 2025 and December 2026: The Grumpy Moose sell out the arena so fast they add a third night, it
 rains on their field show, Kevin From Accounting gets postponed, and Velvet Thunder's singer loses
@@ -67,7 +67,7 @@ the baseline. On the box office the setup and the baseline together take about 1
 | `tix.artists` | 17 | an act |
 | `tix.events` | 46 | a show, and the weather for the outdoor ones |
 | `tix.fee_schedule` | 16 | a fee rule, with when it applies and who keeps it |
-| `tix.customers` | 2,418 | a Gatewhistle account |
+| `tix.customers` | 2,418 | a Ticketfuddle account |
 | `tix.orders` | 6,911 | one checkout: primary, resale or box office |
 | `tix.payments` | 6,783 | how an order was paid: method, card and device |
 | `tix.tickets` | 15,327 | one ticket in an order |
