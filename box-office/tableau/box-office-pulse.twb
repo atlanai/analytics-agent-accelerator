@@ -77,6 +77,10 @@ WHERE t.ticket_type = 'primary'
   <calculation class='tableau' formula="(SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee]) + SUM([order_fees_allocated])) / SUM([face_value])" />
   <desc><formatted-text><run>All fees divided by face value: the take rate finance reports to venues and promoters. Guest-list comps have no face value and no fees, so they do not move it.</run></formatted-text></desc>
 </column>
+<column caption="Fee Share" datatype="real" default-format="p0.0%" name="[Calculation_4417006]" role='measure' type='quantitative'>
+  <calculation class='tableau' formula="(SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee]) + SUM([order_fees_allocated])) / (SUM([face_value]) + SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee]) + SUM([order_fees_allocated]))" />
+  <desc><formatted-text><run>All fees divided by everything fans paid for primary tickets: face value plus every fee, before refunds. Chargebacks, resale and test events are left out.</run></formatted-text></desc>
+</column>
 <column caption="Avg Ticket Price" datatype="real" default-format='c"$"#,##0.00' name="[Calculation_4417004]" role='measure' type='quantitative'>
   <calculation class='tableau' formula="SUM(IIF([is_comp] = 0, [face_value], 0)) / SUM(IIF([is_comp] = 0, 1, 0))" />
   <desc><formatted-text><run>Average face value of a paid ticket. Guest-list comps are left out.</run></formatted-text></desc>
@@ -215,20 +219,20 @@ GROUP BY e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue
 </table>
 <simple-id uuid="{0E687AC4-F5F3-AE64-B8E2-DEEF66DD1FB6}" />
 </worksheet>
-<worksheet name="Fee Take Rate">
+<worksheet name="Fee Share">
 <layout-options><title><formatted-text><run>Fees as % of what fans paid</run></formatted-text></title></layout-options>
 <table>
 <view>
 <datasources><datasource caption="Box Office" name="federated.0box_office" /></datasources>
 <datasource-dependencies datasource="federated.0box_office">
-<column caption="Fee Take Rate" datatype="real" default-format="p0.0%" name="[Calculation_4417003]" role='measure' type='quantitative'><calculation class='tableau' formula="(SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee]) + SUM([order_fees_allocated])) / SUM([face_value])" /></column>
+<column caption="Fee Share" datatype="real" default-format="p0.0%" name="[Calculation_4417006]" role='measure' type='quantitative'><calculation class='tableau' formula="(SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee]) + SUM([order_fees_allocated])) / (SUM([face_value]) + SUM([service_fee]) + SUM([facility_fee]) + SUM([demand_fee]) + SUM([order_fees_allocated]))" /></column>
 
-<column-instance column="[Calculation_4417003]" derivation='User' name="[usr:Calculation_4417003:qk]" pivot='key' type='quantitative' />
+<column-instance column="[Calculation_4417006]" derivation='User' name="[usr:Calculation_4417006:qk]" pivot='key' type='quantitative' />
 </datasource-dependencies>
 <aggregation value='true' />
 </view>
-<style><style-rule element='cell'><format attr='text-format' field="[federated.0box_office].[usr:Calculation_4417003:qk]" value="p0.0%" /></style-rule></style>
-<panes><pane selection-relaxation-option='selection-relaxation-allow'><view><breakdown value='auto' /></view><mark class="Text" /><encodings><text column="[federated.0box_office].[usr:Calculation_4417003:qk]" /></encodings></pane></panes>
+<style><style-rule element='cell'><format attr='text-format' field="[federated.0box_office].[usr:Calculation_4417006:qk]" value="p0.0%" /></style-rule></style>
+<panes><pane selection-relaxation-option='selection-relaxation-allow'><view><breakdown value='auto' /></view><mark class="Text" /><encodings><text column="[federated.0box_office].[usr:Calculation_4417006:qk]" /></encodings></pane></panes>
 <rows></rows>
 <cols></cols>
 </table>
@@ -347,7 +351,7 @@ GROUP BY e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue
 <zone h='100000' id='1' type-v2='layout-basic' w='100000' x='0' y='0'>
 <zone h='8000' id='2' type-v2='text' w='100000' x='0' y='0'><formatted-text><run>Box Office Pulse. Ticketfuddle, all venues, US dollars. Refreshed daily at 06:00 UTC.</run></formatted-text></zone>
 <zone h='18000' id='3' name="Gross Sales" w='25000' x='0' y='8000' />
-<zone h='18000' id='4' name="Fee Take Rate" w='25000' x='25000' y='8000' />
+<zone h='18000' id='4' name="Fee Share" w='25000' x='25000' y='8000' />
 <zone h='18000' id='5' name="Net Fee Revenue" w='25000' x='50000' y='8000' />
 <zone h='18000' id='6' name="Sell-Through" w='25000' x='75000' y='8000' />
 <zone h='37000' id='7' name="Gross Sales by Month" w='50000' x='0' y='26000' />
@@ -359,7 +363,7 @@ GROUP BY e.event_id, e.event_name, e.event_date, e.status, v.venue_name, v.venue
 </dashboards>
 <windows source-height='30'>
 <window class='worksheet' name="Gross Sales"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge></cards></window>
-<window class='worksheet' name="Fee Take Rate"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge></cards></window>
+<window class='worksheet' name="Fee Share"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge></cards></window>
 <window class='worksheet' name="Net Fee Revenue"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge></cards></window>
 <window class='worksheet' name="Sell-Through"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge></cards></window>
 <window class='worksheet' name="Gross Sales by Month"><cards><edge name='left'><strip size='160'><card type='pages' /><card type='filters' /><card type='marks' /></strip></edge></cards></window>
